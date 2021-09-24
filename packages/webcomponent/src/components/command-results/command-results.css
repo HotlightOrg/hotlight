@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+.hit {
+  border-radius: 3px;
+  margin: 3px 5px;
+}
+.active {
+  background: pink;
+  color: white;
+}

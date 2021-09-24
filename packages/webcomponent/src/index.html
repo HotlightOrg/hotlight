@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/commandk.esm.js"></script>
+    <script nomodule src="/build/commandk.js"></script>
+
+    <script>
+      document.addEventListener('commandk:trigger', (e) => {
+        const trigger = e.detail;
+        console.log(trigger);
+      })
+    </script>
+  </head>
+  <body>
+    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+
+    <h1>CommandK</h1>
+
+    <p>
+      The only cmd+k you need for your saas or whatever...
+    </p>
+
+    <h2>Open the command prompt</h2>
+    <pre>
+      <code>
+        let open = new Event('commandk:open');
+        window.dispatchEvent(open);
+      </code>
+    </pre>
+
+    Or just press <strong>CMD+K</strong> and use the same keyboard combination for closing it again. 
+
+    <h2>Listen to triggers</h2>
+    <pre>
+      <code>
+        document.addEventListener('commandk:trigger', (e) => {
+          const trigger = e.detail;
+          console.log(trigger);
+        })
+      </code>
+    </pre>
+
+    <h2>Framework support</h2>
+    <p>Use commandk in any framework. At its core, commandk is a web component that comes with helper packages for different frameworks so that you'll easily integrate it anywhere. Any framework specific contribution is greatly appreciated.</p>
+
+    
+
+    <h2>Features</h2>
+    <h3>Actions</h3>
+    <p>Predefine any action in your app or page. An action is triggered by searching for it and then pressing enter. Listen to triggers to hook on to actions as described above.</p>
+    <h3>Hot Keys</h3>
+    <p>Actions can be performed with hot keys or simply by searching for its name. Hot keys are configurable with ease in one central place.</p>
+    <h3>Objects</h3>
+    <p>Define objects to be able to interact with them and display them as results in commandk.</p>
+    <p>Example: You run a CRM and the user wants to be able to search contacts. Define objects so that they will be found when searching for them. An object can adhere from any source, such as a third party API or your own API's.</p>
+    <h3>Pages</h3>
+    <p>If a query matches a page title or description, the user can quickly hit enter to go to that page. This is a great feature for apps with documentation and faqs.</p>
+    <h3>Integrations</h3>
+    <p>Do something with x. Integrations are a powerful way to serve the user with the ability to find or manipulate data from third party API's. One example would be the ability to attach information from a third party to an object. Like, if you run a crm and an email list you could integrate with the email list provider so that your users can search it to find if it's there.</p>
+    <h3>Sources</h3>
+    <p>Define multiple sources that are included in the search results. May it be your backend or some special entity you want the user to quickly access.</p>
+    <h3>Analytics</h3>
+    <p>Know what users are looking for and curate the results based on that and what the intents look like.</p>
+  </body>
+</html>

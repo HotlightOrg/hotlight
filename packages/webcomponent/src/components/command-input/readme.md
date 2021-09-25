@@ -5,14 +5,26 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Events
 
-| Property | Attribute | Description     | Type     | Default     |
-| -------- | --------- | --------------- | -------- | ----------- |
-| `first`  | `first`   | The first name  | `string` | `undefined` |
-| `last`   | `last`    | The last name   | `string` | `undefined` |
-| `middle` | `middle`  | The middle name | `string` | `undefined` |
+| Event            | Description | Type                  |
+| ---------------- | ----------- | --------------------- |
+| `commandk:close` |             | `CustomEvent<any>`    |
+| `commandk:query` |             | `CustomEvent<string>` |
 
+
+## Dependencies
+
+### Used by
+
+ - [command-modal](../command-modal)
+
+### Graph
+```mermaid
+graph TD;
+  command-modal --> command-input
+  style command-input fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

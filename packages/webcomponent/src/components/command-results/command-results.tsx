@@ -1,13 +1,5 @@
-import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
-import engine, { sources, docs, buildQuery } from "../../utils/lunr";
-
-/*
-type Doc = {
-  title: string;
-  alias: string;
-  category: string;
-}
- */
+import { Component, Listen, Event, EventEmitter, State, h } from '@stencil/core';
+import engine, { Hit, docs, buildQuery } from "../../utils/lunr";
 
 @Component({
   tag: 'command-results',
@@ -33,7 +25,7 @@ export class CommandResults {
   @Listen("keydown", {
     target: "document"
   })
-  handleArrows(e) {
+  handleArrows(e: KeyboardEvent) {
     if(e.key === "Enter") {
       const doc = docs[this.hits[this.index].ref];
       this.trigger.emit(doc);
@@ -60,17 +52,18 @@ export class CommandResults {
       this.hits = [];
       this.grouped = {};
     } else {
-      const hits = this.idx.search(query);
+      const hits: Hit[] = this.idx.search(query);
 
-      const objects = hits.map((key, i) => ({
-        i,
-        ...docs[key.ref],
-        meta: key
-      }));
+      const objects = hits
+        .map((hit, i: number) => ({
+          i,
+          ...docs[hit.ref],
+          meta: hit
+        }));
 
       const grouped = objects.reduce((prev, curr) => {
-        const score = curr.meta.score;
-        const p = prev[curr.category];
+        //const score = curr.meta.score;
+        //const p = prev[curr.category];
         return {
           ...prev,
           [curr.category]: {

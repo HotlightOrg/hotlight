@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
+import { Component, Event, EventEmitter, h } from '@stencil/core';
 //import { format } from '../../utils/utils';
 
 @Component({
@@ -16,7 +16,7 @@ export class MyComponent {
     return (
       <div>
         <command-modal />
-        <button onClick={e => {
+        <button onClick={() => {
           this.open.emit() //.emit.bind(this)
         }}>Open!</button>
       </div>

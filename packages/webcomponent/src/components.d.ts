@@ -9,18 +9,6 @@ export namespace Components {
     interface CommandInput {
     }
     interface CommandModal {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
     }
     interface CommandResults {
     }
@@ -65,18 +53,6 @@ declare namespace LocalJSX {
         "onCommandk:query"?: (event: CustomEvent<string>) => void;
     }
     interface CommandModal {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
     }
     interface CommandResults {
         "onCommandk:trigger"?: (event: CustomEvent<{}>) => void;

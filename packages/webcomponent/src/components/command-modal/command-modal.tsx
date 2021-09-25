@@ -1,5 +1,4 @@
-import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { Component, Listen, State, h } from '@stencil/core';
 
 @Component({
   tag: 'command-modal',
@@ -11,40 +10,7 @@ export class MyComponent {
   @State() pressing: string[] = [];
   private container?: HTMLDivElement;
 
-  /**
-   * The first name
-   */
-  @Prop() first: string;
-
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  // Event called 'todoCompleted' that is "composed", "cancellable" and it will bubble up!
   /*
-  @Event({
-    eventName: 'todoCompleted',
-    bubbles: true,
-  }) todoCompleted: EventEmitter<Todo>;
-
-  todoCompletedHandler(todo: Todo) {
-    const event = this.todoCompleted.emit(todo);
-    if(!event.defaultPrevented) {
-      // if not prevented, do some default handling code
-    }
-  }
-
-  @Listen('todoCompleted')
-  todoCompletedHandler(event: CustomEvent<Todo>) {
-    console.log('Received the custom todoCompleted event: ', event.detail);
-  }
-   */
   private press(key): void {
     this.pressing = this.pressing.concat(key);
   }
@@ -52,9 +18,10 @@ export class MyComponent {
   private unpress(key): void {
     this.pressing = [...this.pressing.filter(_key => _key !== key)];
   }
+   */
 
   @Listen('keydown', { target: 'window' })
-  handleOpen(e) {
+  handleOpen(e: KeyboardEvent) {
     if(e.key === "k" && e.metaKey) {
       this.toggle();
       e.preventDefault();
@@ -79,11 +46,11 @@ export class MyComponent {
   }
 
   @Listen('close')
-  handleClose(e) {
+  handleClose() {
     this.close();
   }
 
-  handleClick(e) {
+  handleClick(e: MouseEvent) {
     if(e.target === this.container) {
       this.close();
     }

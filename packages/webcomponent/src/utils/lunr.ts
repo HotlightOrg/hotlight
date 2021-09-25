@@ -1,6 +1,28 @@
 import lunr from "lunr";
-import config from "./config";
+//import config from "./config";
 
+export type Hit = {
+  ref: string;
+  meta: {
+    score: number;
+  }
+}
+
+export type IDX = {
+  search: (query: string) => Hit[];
+}
+
+export type Doc = {
+  title: string;
+  alias: string;
+  category: string;
+  meta?: {
+    ref: string;
+    score: number;
+  }
+}
+
+/*
 const transformAll = (config) => {
   return Object
     .keys(config)
@@ -16,6 +38,8 @@ const transformed = (section) => {
     "category": section[key].category
   }));
 }
+
+*/
 
 const source = {
   category: "pull requests",
@@ -106,7 +130,7 @@ export const buildQuery = (value: string): string | null => {
   }
 
   const words = value.split(" ");
-  const avgLength = value.replace(" ", "").length / words.length;
+  //const avgLength = value.replace(" ", "").length / words.length;
   //const fuzz = Math.round(avgLength / 3);
 
   return words.map(word => `*${word}~1*`).join(" ");

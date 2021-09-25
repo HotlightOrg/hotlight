@@ -5,14 +5,27 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Events
 
-| Property | Attribute | Description     | Type     | Default     |
-| -------- | --------- | --------------- | -------- | ----------- |
-| `first`  | `first`   | The first name  | `string` | `undefined` |
-| `last`   | `last`    | The last name   | `string` | `undefined` |
-| `middle` | `middle`  | The middle name | `string` | `undefined` |
+| Event           | Description | Type              |
+| --------------- | ----------- | ----------------- |
+| `commandk:open` |             | `CustomEvent<{}>` |
 
+
+## Dependencies
+
+### Depends on
+
+- [command-modal](../command-modal)
+
+### Graph
+```mermaid
+graph TD;
+  my-component --> command-modal
+  command-modal --> command-input
+  command-modal --> command-results
+  style my-component fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+:root {
+  --font-s: 40px;
+}
+
+.text-input {
+  font-size: var(--font-s);
+  color: var(--font-color-dimmed);
+  padding: 10px;
+  border: none;
+  background: transparent;
+
+  &:placeholder {
+    color: var(--font-color-dimmed);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+

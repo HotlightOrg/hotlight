@@ -1,3 +1,21 @@
+//import { F } from "./fuzzy/search";
+
+/*
+const actions = [{
+  title: "find",
+}, {
+  title: "you"
+}];
+
+describe("Engine", () => {
+  it("returns hits", () => {
+    const engine = F(actions, ["title"]);
+    expect(engine.search("f").length).toEqual(1);
+  })
+})
+*/
+
+/*
 import { format } from './utils';
 
 describe('format', () => {
@@ -17,3 +35,4 @@ describe('format', () => {
     expect(format('Joseph', 'Quincy', 'Publique')).toEqual('Joseph Quincy Publique');
   });
 });
+*/

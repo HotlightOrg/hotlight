@@ -5,14 +5,25 @@
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Dependencies
 
-| Property | Attribute | Description     | Type     | Default     |
-| -------- | --------- | --------------- | -------- | ----------- |
-| `first`  | `first`   | The first name  | `string` | `undefined` |
-| `last`   | `last`    | The last name   | `string` | `undefined` |
-| `middle` | `middle`  | The middle name | `string` | `undefined` |
+### Used by
 
+ - [my-component](../my-component)
+
+### Depends on
+
+- [command-input](../command-input)
+- [command-results](../command-results)
+
+### Graph
+```mermaid
+graph TD;
+  command-modal --> command-input
+  command-modal --> command-results
+  my-component --> command-modal
+  style command-modal fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

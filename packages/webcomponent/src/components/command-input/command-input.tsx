@@ -1,12 +1,11 @@
-import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
+import { Component, Listen, Event, EventEmitter, h } from '@stencil/core';
 
 @Component({
   tag: 'command-input',
-  styleUrl: 'command-input.css',
-  shadow: true,
+  styleUrl: 'command-input.scss',
+  shadow: false,
 })
 export class CommandInput {
-  @State() value: string;
   private textInput?: HTMLInputElement;
 
   @Event({
@@ -25,35 +24,33 @@ export class CommandInput {
   }
 
   @Listen("keyup", { target: "window" })
-  handleEscape(e) {
-    console.log("keyx", e.key);
+  handleEscape(e: KeyboardEvent) {
     if(e.key === "Escape") {
-      if(this.value === "") {
+      if(this.textInput.value === "") {
         this.close.emit();
       } else {
         this.query.emit("");
-        this.value = "";
+        this.textInput.value = "";
       }
     }
   }
 
-  skip(e) {
+  skip(e: KeyboardEvent) {
     const skip = ["ArrowUp", "ArrowDown", "Enter"];
     if(skip.includes(e.key)) {
       e.preventDefault();
     }
   }
 
-  blur(e) {
-    //console.log(e, 'blur');
-  }
-
-  doQuery(e) {
+  doQuery(e: KeyboardEvent) {
+    if(e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      return
+    }
     const skip = ["ArrowUp", "ArrowDown", "Enter"];
     if(skip.includes(e.key)) {
       e.preventDefault();
     } else {
-      this.query.emit(e.target.value.trim());
+      this.query.emit(this.textInput.value.trim());
     }
   }
 
@@ -62,11 +59,10 @@ export class CommandInput {
       <input
         class="text-input"
         type="text"
-        value={this.value}
+        placeholder="What do you need?"
         ref={el => this.textInput = el as HTMLInputElement}
         onKeyUp={this.doQuery.bind(this)}
         onKeyDown={this.skip.bind(this)}
-        onBlur={this.blur.bind(this)}
       />
     )
   }

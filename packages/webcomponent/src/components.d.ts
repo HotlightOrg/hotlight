@@ -5,26 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Config } from "./components/my-component/my-component";
 export namespace Components {
     interface CommandInput {
     }
     interface CommandModal {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
     }
     interface CommandResults {
     }
     interface MyComponent {
+        "config": Config;
     }
 }
 declare global {
@@ -65,23 +55,12 @@ declare namespace LocalJSX {
         "onCommandk:query"?: (event: CustomEvent<string>) => void;
     }
     interface CommandModal {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
     }
     interface CommandResults {
         "onCommandk:trigger"?: (event: CustomEvent<{}>) => void;
     }
     interface MyComponent {
+        "config"?: Config;
         "onCommandk:open"?: (event: CustomEvent<{}>) => void;
     }
     interface IntrinsicElements {

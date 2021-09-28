@@ -11,12 +11,19 @@
   right: 0;
   bottom: 0;
   z-index: 50;
+
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
+  -ms-transition: opacity 0.2s ease;
+  -o-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+.backdrop.hidden {
+  pointer-events: none;
+  opacity: 0;
 }
 
 .modal-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   top: 0;
   right: 0;
@@ -26,9 +33,24 @@
 }
 
 .modal {
-  max-width: 768px;
+  margin: 10% auto;
+  width: 100%;
+  max-width: 576px;
   border: 1px solid #eee;
   border-radius: 5px;
   background: black;
   color: white;
+
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11),
+    0 32px 32px rgba(0, 0, 0, 0.11);
+
+  opacity: 1;
+  transform: translateY(30px);
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.modal.hidden {
+  opacity: 0;
+  transform: scale(2);
+  transform: translateY(0);
 }

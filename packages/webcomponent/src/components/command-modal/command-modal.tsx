@@ -1,5 +1,4 @@
-import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { Component, Listen, State, h } from '@stencil/core';
 
 @Component({
   tag: 'command-modal',
@@ -10,41 +9,22 @@ export class MyComponent {
   @State() opened: boolean;
   @State() pressing: string[] = [];
   private container?: HTMLDivElement;
+  private backdrop?: HTMLDivElement;
 
-  /**
-   * The first name
-   */
-  @Prop() first: string;
-
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  // Event called 'todoCompleted' that is "composed", "cancellable" and it will bubble up!
-  /*
-  @Event({
-    eventName: 'todoCompleted',
-    bubbles: true,
-  }) todoCompleted: EventEmitter<Todo>;
-
-  todoCompletedHandler(todo: Todo) {
-    const event = this.todoCompleted.emit(todo);
-    if(!event.defaultPrevented) {
-      // if not prevented, do some default handling code
+  componentWillRender() {
+    if(!this.opened && this.backdrop) {
+      this.backdrop.classList.add("hidden");
+      this.container.classList.add("hidden");
+    }
+  }
+  componentDidRender() {
+    if(this.opened) {
+      this.backdrop.classList.remove("hidden");
+      this.container.classList.remove("hidden");
     }
   }
 
-  @Listen('todoCompleted')
-  todoCompletedHandler(event: CustomEvent<Todo>) {
-    console.log('Received the custom todoCompleted event: ', event.detail);
-  }
-   */
+  /*
   private press(key): void {
     this.pressing = this.pressing.concat(key);
   }
@@ -52,10 +32,11 @@ export class MyComponent {
   private unpress(key): void {
     this.pressing = [...this.pressing.filter(_key => _key !== key)];
   }
+   */
 
   @Listen('keydown', { target: 'window' })
-  handleOpen(e) {
-    if(e.key === "k" && e.metaKey) {
+  handleOpen(e: KeyboardEvent) {
+    if(e.key === "k" && e.metaKey) { // cmd/ctrl + k
       this.toggle();
       e.preventDefault();
     }
@@ -79,11 +60,11 @@ export class MyComponent {
   }
 
   @Listen('close')
-  handleClose(e) {
+  handleClose() {
     this.close();
   }
 
-  handleClick(e) {
+  handleClick(e: MouseEvent) {
     if(e.target === this.container) {
       this.close();
     }
@@ -101,14 +82,14 @@ export class MyComponent {
     this.opened = false;
   }
 
-  render() {
+  renderModal() {
     if(!this.opened) {
       return null;
     }
 
-    return [
+    return (
       <div
-        class="modal-container"
+        class="modal-container hidden"
         ref={el => this.container = el as HTMLDivElement}
         onClick={this.handleClick.bind(this)}
       >
@@ -126,9 +107,16 @@ export class MyComponent {
             CommandK
           </a>
         </div>
-      </div>,
+      </div>
+    )
+  }
+
+  render() {
+    return [
+      this.renderModal(),
       <div
-        class="backdrop"
+        class="backdrop hidden"
+        ref={el => this.backdrop = el as HTMLDivElement}
         onClick={this.close.bind(this)}
       />
     ];

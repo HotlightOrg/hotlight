@@ -9,6 +9,20 @@ export class MyComponent {
   @State() opened: boolean;
   @State() pressing: string[] = [];
   private container?: HTMLDivElement;
+  private backdrop?: HTMLDivElement;
+
+  componentWillRender() {
+    if(!this.opened && this.backdrop) {
+      this.backdrop.classList.add("hidden");
+      this.container.classList.add("hidden");
+    }
+  }
+  componentDidRender() {
+    if(this.opened) {
+      this.backdrop.classList.remove("hidden");
+      this.container.classList.remove("hidden");
+    }
+  }
 
   /*
   private press(key): void {
@@ -22,7 +36,7 @@ export class MyComponent {
 
   @Listen('keydown', { target: 'window' })
   handleOpen(e: KeyboardEvent) {
-    if(e.key === "k" && e.metaKey) {
+    if(e.key === "k" && e.metaKey) { // cmd/ctrl + k
       this.toggle();
       e.preventDefault();
     }
@@ -68,14 +82,14 @@ export class MyComponent {
     this.opened = false;
   }
 
-  render() {
+  renderModal() {
     if(!this.opened) {
       return null;
     }
 
-    return [
+    return (
       <div
-        class="modal-container"
+        class="modal-container hidden"
         ref={el => this.container = el as HTMLDivElement}
         onClick={this.handleClick.bind(this)}
       >
@@ -93,9 +107,16 @@ export class MyComponent {
             CommandK
           </a>
         </div>
-      </div>,
+      </div>
+    )
+  }
+
+  render() {
+    return [
+      this.renderModal(),
       <div
-        class="backdrop"
+        class="backdrop hidden"
+        ref={el => this.backdrop = el as HTMLDivElement}
         onClick={this.close.bind(this)}
       />
     ];

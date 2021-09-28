@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property | Attribute | Description | Type                                                                        | Default     |
+| -------- | --------- | ----------- | --------------------------------------------------------------------------- | ----------- |
+| `config` | --        |             | `{ launch: string; token?: string; sources: { [name: string]: Source; }; }` | `undefined` |
+
+
 ## Events
 
 | Event           | Description | Type              |

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Stencil Component Starter</title>
 
+    <!--  <link rel="stylesheet" href="/build/commandk.css" />-->
     <script type="module" src="/build/commandk.esm.js"></script>
     <script nomodule src="/build/commandk.js"></script>
 
@@ -13,10 +14,29 @@
         const trigger = e.detail;
         console.log(trigger);
       })
+
     </script>
   </head>
   <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <my-component></my-component>
+  <script>
+const config = {
+  sources: {
+    greets: (query) => { // perhaps option to throttle
+      const hits = [{
+        title: "jonte"          
+      },{
+        title: "jon",
+        hotkeys: "jo"
+      }];
+
+      return new Promise((res) => setTimeout(() => res(hits), 500));
+    }
+  }
+}
+const c = document.querySelector('my-component');
+c.config = config;
+  </script>
 
     <h1>CommandK</h1>
 
@@ -65,5 +85,7 @@
     <p>Define multiple sources that are included in the search results. May it be your backend or some special entity you want the user to quickly access.</p>
     <h3>Analytics</h3>
     <p>Know what users are looking for and curate the results based on that and what the intents look like.</p>
+
+    <p style="height: 400px">Make page longer</p> 
   </body>
 </html>

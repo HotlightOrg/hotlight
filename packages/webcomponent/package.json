@@ -23,8 +23,7 @@
   },
   "dependencies": {
     "@stencil/core": "^2.7.0",
-    "@types/lunr": "^2.3.4",
-    "lunr": "^2.3.9"
+    "@stencil/sass": "^1.4.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

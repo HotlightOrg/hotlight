@@ -45,24 +45,10 @@ export class MyComponent {
   }
    */
 
-    /*
-  @Listen('commandk:query', {
-    target: "window"
-  })
-  async handleQuery({ detail }) {
-    console.log(this.config.sources);
-    if(detail !== "") {
-      for (let [name, cb] of Object.entries(this.config.sources)) {
-        const res = await cb(detail);
-      }
-    }
-  }
-     */
-
   render() {
     return (
       <div>
-        <command-modal />
+        <hotlight-modal />
         <button onClick={() => {
           this.open.emit() //.emit.bind(this)
         }}>Open!</button>

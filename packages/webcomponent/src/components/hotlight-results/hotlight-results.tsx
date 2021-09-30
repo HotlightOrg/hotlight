@@ -1,19 +1,21 @@
-import { Component, Listen, Event, EventEmitter, State, h } from '@stencil/core';
+import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
 import engine, { Hit } from "../../utils/fuzzy";
+import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
 
 @Component({
-  tag: 'command-results',
-  styleUrl: 'command-results.css',
+  tag: 'hotlight-results',
+  styleUrl: 'hotlight-results.css',
   shadow: false,
 })
-export class CommandResults {
+export class HotlightResults {
+  @Prop() config: HotlightConfig = {};
   @State() hits: any[] = [];
   @State() index: number = 0;
   private engine: any;
   private activeHit: HTMLDivElement;
   private results: HTMLDivElement;
 
-  componentWillLoad() {
+  constructor() {
     this.engine = engine;
   }
 
@@ -67,7 +69,11 @@ export class CommandResults {
       this.hits = [];
     } else {
       const hits: Hit[] = this.engine.search(query);
-      this.hits = hits;
+      if(this.config.maxHits) {
+        this.hits = hits.filter((_, index) => index < this.config.maxHits);
+      } else {
+        this.hits = hits;
+      }
     }
     this.index = 0;
     this.moveActiveHit(this.index);
@@ -84,36 +90,25 @@ export class CommandResults {
   }
 
   moveActiveHit(index: number) {
+    if(!this.results) {
+      return; // happens if a query is triggered from ie initialState before ref is there
+    }
+
     const { top: resultsTop, height: resultsHeight } = this.results.getBoundingClientRect();
     const child = this.results.children[index];
-    
-
-    /*
-    var childPos = obj.offset();
-    var parentPos = obj.parent().offset();
-    var childOffset = {
-      top: childPos.top - parentPos.top,
-      left: childPos.left - parentPos.left
-    }
-     */
 
     if(child) {
-      //(child as HTMLInputElement).focus();
-      const { height, top } = child.getBoundingClientRect();
+      //const { height, top } = child.getBoundingClientRect();
+      const { top } = child.getBoundingClientRect();
+      const height = 32;
 
       const offset = resultsTop - top;
-      console.log(child.scrollTop, height * index);
 
       if(top > resultsTop + resultsHeight) {
         this.results.scrollTo({ top: (height*index), behavior: "auto" });
       } else if(offset > 0) {
-        //console.log('top is less than resultstop', top, resultsTop);
-        //console.log(offset, resultsTop - offset);
         this.results.scrollTo({ top: (height*index), behavior: "auto" });
-        //this.results.scrollTo({ top: resultsTop - offset, behavior: "auto" });
       }
-      //
-  //*/
 
       if(this.activeHit) {
         this.activeHit.style.transform = `translateY(${height*index}px)`;

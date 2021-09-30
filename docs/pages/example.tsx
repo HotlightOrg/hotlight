@@ -1,13 +1,6 @@
-import 'tailwindcss/tailwind.css'
-import "prismjs/themes/prism-okaidia.css";
-import "styles/global.css";
+import CommandK from 'components/CommandK';
 
-import type { AppProps } from 'next/app'
-
-//import CommandK from 'components/CommandK';
-
-function MyApp({ Component, pageProps }: AppProps) {
-  /*
+const Example = () => {
   const config = {
     token: "token",
     // manual hotkeys, nested commands etc
@@ -24,13 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     }
   }
-      <CommandK config={config} />
-      */
   return (
-    <>
-      <Component {...pageProps} />
-    </>
+    <div style={{ background: "black", height: "100vh" }}>
+      <CommandK config={config} />
+    </div>
   )
 }
 
-export default MyApp
+export default Example;

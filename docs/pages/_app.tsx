@@ -2,9 +2,10 @@ import 'tailwindcss/tailwind.css'
 import "prismjs/themes/prism-tomorrow.css";
 import type { AppProps } from 'next/app'
 
-import CommandK from 'components/CommandK';
+//import CommandK from 'components/CommandK';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  /*
   const config = {
     token: "token",
     // manual hotkeys, nested commands etc
@@ -21,9 +22,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     }
   }
+   */
   return (
     <>
-      <CommandK config={config} />
+      {/*<CommandK config={config} />*/}
       <Component {...pageProps} />
     </>
   )

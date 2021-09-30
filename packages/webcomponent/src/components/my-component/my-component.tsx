@@ -1,4 +1,4 @@
-import { Listen, Component, Prop, Watch, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 //yo
 //import { debounce } from '../../utils/utils';
 
@@ -29,7 +29,7 @@ export class MyComponent {
 
   componentWillLoad() {
     console.log('will load')
-    this.parseConfig(this.config);
+    //this.parseConfig(this.config);
   }
 
   @Event({
@@ -37,13 +37,15 @@ export class MyComponent {
     bubbles: true
   }) open: EventEmitter<{}>;
   
+  /*
   @Watch('config')
   parseConfig(newValue: Config) {
-    
-    console.log(typeof newValue, newValue);
+    //console.log(typeof newValue, newValue);
     //if (newValue) this.myInnerObject = JSON.parse(newValue);
   }
+   */
 
+    /*
   @Listen('commandk:query', {
     target: "window"
   })
@@ -55,6 +57,7 @@ export class MyComponent {
       }
     }
   }
+     */
 
   render() {
     return (

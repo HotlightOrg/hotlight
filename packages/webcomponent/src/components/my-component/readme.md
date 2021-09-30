@@ -23,14 +23,14 @@
 
 ### Depends on
 
-- [command-modal](../command-modal)
+- [hotlight-modal](../hotlight-modal)
 
 ### Graph
 ```mermaid
 graph TD;
-  my-component --> command-modal
-  command-modal --> command-input
-  command-modal --> command-results
+  my-component --> hotlight-modal
+  hotlight-modal --> hotlight-input
+  hotlight-modal --> hotlight-results
   style my-component fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

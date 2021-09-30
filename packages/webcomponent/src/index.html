@@ -18,9 +18,14 @@
     </script>
   </head>
   <body>
-    <my-component></my-component>
+    <hotlight-modal></hotlight-modal>
   <script>
 const config = {
+  opened: true,
+  stayOpened: true,
+
+  query: "a",
+  //maxHits: 2,
   sources: {
     greets: (query) => { // perhaps option to throttle
       const hits = [{
@@ -34,7 +39,7 @@ const config = {
     }
   }
 }
-const c = document.querySelector('my-component');
+const c = document.querySelector('hotlight-modal');
 c.config = config;
   </script>
 

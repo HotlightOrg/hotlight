@@ -1,11 +1,13 @@
-import { Component, Listen, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Prop, Listen, Event, EventEmitter, h } from '@stencil/core';
+import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
 
 @Component({
-  tag: 'command-input',
-  styleUrl: 'command-input.scss',
+  tag: 'hotlight-input',
+  styleUrl: 'hotlight-input.scss',
   shadow: false,
 })
 export class CommandInput {
+  @Prop() config: HotlightConfig = {};
   private textInput?: HTMLInputElement;
 
   @Event({
@@ -19,8 +21,14 @@ export class CommandInput {
     bubbles: true
   }) close: EventEmitter;
 
-  componentDidLoad() {
-    this.textInput.focus();
+  componentDidRender() {
+    if(this.config.query) {
+      this.textInput.value = this.config.query;
+      this.query.emit(this.config.query);
+    }
+    if(!this.config.stayOpened) {
+      this.textInput.focus();
+    }
   }
 
   @Listen("keyup", { target: "window" })
@@ -56,14 +64,16 @@ export class CommandInput {
 
   render() {
     return (
-      <input
-        class="text-input"
-        type="text"
-        placeholder="What do you need?"
-        ref={el => this.textInput = el as HTMLInputElement}
-        onKeyUp={this.doQuery.bind(this)}
-        onKeyDown={this.skip.bind(this)}
-      />
+      <form role="search" novalidate>
+        <input
+          class="text-input"
+          type="text"
+          placeholder="What do you need?"
+          ref={el => this.textInput = el as HTMLInputElement}
+          onKeyUp={this.doQuery.bind(this)}
+          onKeyDown={this.skip.bind(this)}
+        />
+      </form>
     )
   }
 }

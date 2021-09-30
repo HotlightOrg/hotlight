@@ -109,6 +109,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { content, data: frontMatter } = matter(fileSource)
 
+  // this slugs doc
   const source = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [html, prism],
@@ -117,6 +118,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     scope: frontMatter,
   })
 
+  // all docs
   const docs = docFilePaths.map((docPath: string) => {
     const source = fs.readFileSync(path.join(DOCS_PATH, docPath))
     const { content, data } = matter(source)

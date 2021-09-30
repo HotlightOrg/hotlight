@@ -5,36 +5,41 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { HotlightConfig } from "./components/hotlight-modal/hotlight-modal";
+import { HotlightConfig as HotlightConfig1 } from "./components/hotlight-modal/hotlight-modal";
 import { Config } from "./components/my-component/my-component";
 export namespace Components {
-    interface CommandInput {
+    interface HotlightInput {
+        "config": HotlightConfig;
     }
-    interface CommandModal {
+    interface HotlightModal {
+        "config": HotlightConfig;
     }
-    interface CommandResults {
+    interface HotlightResults {
+        "config": HotlightConfig;
     }
     interface MyComponent {
         "config": Config;
     }
 }
 declare global {
-    interface HTMLCommandInputElement extends Components.CommandInput, HTMLStencilElement {
+    interface HTMLHotlightInputElement extends Components.HotlightInput, HTMLStencilElement {
     }
-    var HTMLCommandInputElement: {
-        prototype: HTMLCommandInputElement;
-        new (): HTMLCommandInputElement;
+    var HTMLHotlightInputElement: {
+        prototype: HTMLHotlightInputElement;
+        new (): HTMLHotlightInputElement;
     };
-    interface HTMLCommandModalElement extends Components.CommandModal, HTMLStencilElement {
+    interface HTMLHotlightModalElement extends Components.HotlightModal, HTMLStencilElement {
     }
-    var HTMLCommandModalElement: {
-        prototype: HTMLCommandModalElement;
-        new (): HTMLCommandModalElement;
+    var HTMLHotlightModalElement: {
+        prototype: HTMLHotlightModalElement;
+        new (): HTMLHotlightModalElement;
     };
-    interface HTMLCommandResultsElement extends Components.CommandResults, HTMLStencilElement {
+    interface HTMLHotlightResultsElement extends Components.HotlightResults, HTMLStencilElement {
     }
-    var HTMLCommandResultsElement: {
-        prototype: HTMLCommandResultsElement;
-        new (): HTMLCommandResultsElement;
+    var HTMLHotlightResultsElement: {
+        prototype: HTMLHotlightResultsElement;
+        new (): HTMLHotlightResultsElement;
     };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
@@ -43,20 +48,23 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
-        "command-input": HTMLCommandInputElement;
-        "command-modal": HTMLCommandModalElement;
-        "command-results": HTMLCommandResultsElement;
+        "hotlight-input": HTMLHotlightInputElement;
+        "hotlight-modal": HTMLHotlightModalElement;
+        "hotlight-results": HTMLHotlightResultsElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
-    interface CommandInput {
+    interface HotlightInput {
+        "config"?: HotlightConfig;
         "onCommandk:close"?: (event: CustomEvent<any>) => void;
         "onCommandk:query"?: (event: CustomEvent<string>) => void;
     }
-    interface CommandModal {
+    interface HotlightModal {
+        "config"?: HotlightConfig;
     }
-    interface CommandResults {
+    interface HotlightResults {
+        "config"?: HotlightConfig;
         "onCommandk:trigger"?: (event: CustomEvent<{}>) => void;
     }
     interface MyComponent {
@@ -64,9 +72,9 @@ declare namespace LocalJSX {
         "onCommandk:open"?: (event: CustomEvent<{}>) => void;
     }
     interface IntrinsicElements {
-        "command-input": CommandInput;
-        "command-modal": CommandModal;
-        "command-results": CommandResults;
+        "hotlight-input": HotlightInput;
+        "hotlight-modal": HotlightModal;
+        "hotlight-results": HotlightResults;
         "my-component": MyComponent;
     }
 }
@@ -74,9 +82,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "command-input": LocalJSX.CommandInput & JSXBase.HTMLAttributes<HTMLCommandInputElement>;
-            "command-modal": LocalJSX.CommandModal & JSXBase.HTMLAttributes<HTMLCommandModalElement>;
-            "command-results": LocalJSX.CommandResults & JSXBase.HTMLAttributes<HTMLCommandResultsElement>;
+            "hotlight-input": LocalJSX.HotlightInput & JSXBase.HTMLAttributes<HTMLHotlightInputElement>;
+            "hotlight-modal": LocalJSX.HotlightModal & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+            "hotlight-results": LocalJSX.HotlightResults & JSXBase.HTMLAttributes<HTMLHotlightResultsElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }

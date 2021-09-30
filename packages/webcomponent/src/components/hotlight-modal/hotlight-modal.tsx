@@ -1,26 +1,55 @@
-import { Component, Listen, State, h } from '@stencil/core';
+import { Component, Listen, State, Prop, h } from '@stencil/core';
+import { Hit } from "../../utils/fuzzy";
+
+
+export type Source = (query: string) => Promise<Hit[]>;
+  
+
+export type HotlightConfig = {
+  opened?: boolean;
+  stayOpened?: boolean;
+  query?: string;
+  maxHits?: number;
+
+  sources?: {
+    [name: string]: Source;
+  }
+
+  //log?: boolean;
+
+  //token?: string;
+}
 
 @Component({
-  tag: 'command-modal',
-  styleUrl: 'command-modal.css',
+  tag: 'hotlight-modal',
+  styleUrl: 'hotlight-modal.css',
   shadow: true,
 })
-export class MyComponent {
+export class HotlightModal {
+  @Prop() config: HotlightConfig = {};
   @State() opened: boolean;
   @State() pressing: string[] = [];
   private container?: HTMLDivElement;
+  private modal?: HTMLDivElement;
   private backdrop?: HTMLDivElement;
 
   componentWillRender() {
     if(!this.opened && this.backdrop) {
       this.backdrop.classList.add("hidden");
-      this.container.classList.add("hidden");
+      this.modal.classList.add("hidden");
     }
   }
+
   componentDidRender() {
     if(this.opened) {
       this.backdrop.classList.remove("hidden");
-      this.container.classList.remove("hidden");
+      this.modal.classList.remove("hidden");
+    }
+  }
+
+  componentWillLoad() {
+    if(this.config.opened) {
+      this.open();
     }
   }
 
@@ -71,7 +100,11 @@ export class MyComponent {
   }
 
   private toggle(): void {
-    this.opened = !this.opened;
+    if(this.opened) {
+      this.close();
+    } else {
+      this.open();
+    }
   }
 
   private open(): void {
@@ -79,32 +112,42 @@ export class MyComponent {
   }
 
   private close(): void {
+    if(this.config.stayOpened) {
+      setTimeout(() => {
+        this.open();
+      }, 1000);
+    }
+
     this.opened = false;
   }
 
   renderModal() {
-    if(!this.opened) {
+    /*
+    if(!this.opened ) {
       return null;
     }
+     */
 
     return (
       <div
-        class="modal-container hidden"
+        class="modal-container"
         ref={el => this.container = el as HTMLDivElement}
         onClick={this.handleClick.bind(this)}
       >
         <div
-          class="modal"
+          class="modal hidden"
+          ref={el => this.modal = el as HTMLDivElement}
           aria-modal="true"
         >
-          <command-input />
-          <command-results />
+          <hotlight-input config={this.config} />
+          <hotlight-results config={this.config} />
           <a
-            href="https://commandk"
+            class="hotlight-logo"
+            href="https://hotlight.dev"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer" 
           >
-            CommandK
+            Hotlight
           </a>
         </div>
       </div>

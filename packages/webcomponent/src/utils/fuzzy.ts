@@ -193,7 +193,11 @@ const hotkeysFirst = (found, query) => {
 }
 
 const idx = {
-  search: (str) => {
+  engine: (actions) => {
+    const engine = F(actions, ['title', 'alias', 'hotkey'])
+    return engine;
+  },
+  search: (str: string) => {
     const engine = F(actions, ['title', 'alias', 'hotkey'])
     const search = engine.search(str);
 

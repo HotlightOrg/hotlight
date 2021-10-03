@@ -1,6 +1,6 @@
 import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
 import engine, { Hit } from "../../utils/fuzzy";
-import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
+import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal";
 
 @Component({
   tag: 'hotlight-results',
@@ -9,6 +9,7 @@ import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
 })
 export class HotlightResults {
   @Prop() config: HotlightConfig = {};
+  @Prop() actions: HotlightAction[] = [];
   @State() hits: any[] = [];
   @State() index: number = 0;
   private engine: any;
@@ -16,7 +17,7 @@ export class HotlightResults {
   private results: HTMLDivElement;
 
   constructor() {
-    this.engine = engine;
+    this.engine = engine.engine(this.actions);
   }
 
   componentWillRender() {

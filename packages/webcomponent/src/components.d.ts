@@ -5,17 +5,19 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HotlightConfig } from "./components/hotlight-modal/hotlight-modal";
-import { HotlightConfig as HotlightConfig1 } from "./components/hotlight-modal/hotlight-modal";
+import { HotlightAction as HotlightAction1, HotlightConfig } from "./components/hotlight-modal/hotlight-modal";
+import { HotlightAction, HotlightConfig as HotlightConfig1 } from "./components/hotlight-modal/hotlight-modal";
 import { Config } from "./components/my-component/my-component";
 export namespace Components {
     interface HotlightInput {
         "config": HotlightConfig;
     }
     interface HotlightModal {
+        "actions": HotlightAction[];
         "config": HotlightConfig;
     }
     interface HotlightResults {
+        "actions": HotlightAction[];
         "config": HotlightConfig;
     }
     interface MyComponent {
@@ -61,9 +63,11 @@ declare namespace LocalJSX {
         "onCommandk:query"?: (event: CustomEvent<string>) => void;
     }
     interface HotlightModal {
+        "actions"?: HotlightAction[];
         "config"?: HotlightConfig;
     }
     interface HotlightResults {
+        "actions"?: HotlightAction[];
         "config"?: HotlightConfig;
         "onCommandk:trigger"?: (event: CustomEvent<{}>) => void;
     }

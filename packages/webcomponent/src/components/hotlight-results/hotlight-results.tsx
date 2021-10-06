@@ -1,6 +1,8 @@
-import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
-import engine, { Hit } from "../../utils/fuzzy";
+import { Component, Watch, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
+import engine, { HotlightContext } from "../../utils/fuzzy";
+import { underscore, triggerIcon } from "../../utils/utils";
 import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal";
+import {ResultLocation} from './ResultLocation';
 
 @Component({
   tag: 'hotlight-results',
@@ -10,15 +12,25 @@ import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal
 export class HotlightResults {
   @Prop() config: HotlightConfig = {};
   @Prop() actions: HotlightAction[] = [];
-  @State() hits: any[] = [];
+  @State() hits: HotlightAction[] = [];
+  @State() context: HotlightContext = { level: 0, parents: [], actions: [] };
   @State() index: number = 0;
+  @State() query: string = "";
   private engine: any;
   private activeHit: HTMLDivElement;
   private results: HTMLDivElement;
 
   constructor() {
-    this.engine = engine.engine(this.actions);
+    this.engine = engine(this.actions);
   }
+
+    /*
+  @Watch('actions')
+  setEngine(actions: HotlightAction[], prev: HotlightAction[]) {
+    console.log('new actions', actions, 'prev', prev)
+    this.engine = engine(actions);
+  }
+     */
 
   componentWillRender() {
     if(this.activeHit) {
@@ -36,13 +48,17 @@ export class HotlightResults {
     composed: true //bubbles through shadow dom
   }) trigger: EventEmitter<{}>;
 
+  @Event({
+    eventName: "commandk:clear",
+    bubbles: true
+  }) clearInput: EventEmitter<HotlightContext>;
+
   @Listen("keydown", {
     target: "document"
   })
   handleArrows(e: KeyboardEvent) {
     if(e.key === "Enter") {
-      const doc = this.hits[this.index];
-      this.trigger.emit(doc);
+      this.doTrigger();
     }
     if(e.key === "ArrowUp") {
       if(this.index > 0) {
@@ -66,23 +82,61 @@ export class HotlightResults {
   handleQuery({ detail }) {
     const query = detail;
 
-    if(query === "") {
+    if(query === "" && this.context.level === 0) {
       this.hits = [];
     } else {
-      const hits: Hit[] = this.engine.search(query);
+      const hits: HotlightAction[] = this.engine.search(query);
       if(this.config.maxHits) {
         this.hits = hits.filter((_, index) => index < this.config.maxHits);
       } else {
         this.hits = hits;
       }
     }
+
+    this.query = query;
     this.index = 0;
     this.moveActiveHit(this.index);
   }
 
-  click() {
+  @Listen("goUp", {
+    target: "window"
+  })
+  handleGoUp() {
+    const { context } = this.engine.back();
+    this.context = context;
+    this.clear();
+  }
+
+  doTrigger() {
     const doc = this.hits[this.index]; 
-    this.trigger.emit(doc);
+    if(!doc) {
+      return
+    }
+
+    const { keepOpen, levelHits, context } = this.engine.pick(doc, this.query); // check if supposed to close?
+
+    this.context = context;
+
+    this.clear();
+    if(!keepOpen) {
+      this.trigger.emit(doc);
+    }
+    if(levelHits) {
+      this.hits = levelHits;
+      this.query = "";
+      this.index = 0;
+      this.moveActiveHit(this.index);
+    }
+  }
+
+  clear() {
+    this.index = 0;
+    this.hits = [];
+    this.clearInput.emit(this.context);
+  }
+
+  click() {
+    this.doTrigger();
   }
 
   hoverHit(index: number) {
@@ -127,14 +181,15 @@ export class HotlightResults {
       >
         {this
           .hits
-          .map(({ title, alias, category, hotkey }, i) => (
+          .map(({ title, alias, category, hotkeys, trigger }, i) => (
             <div
               tabindex="0"
               class={`hit ${this.index === i ? "active" : ""}`}
               onMouseOver={this.hoverHit.bind(this, i)} 
               onClick={this.click.bind(this)}
             >
-              {title} {alias} {category} {hotkey}
+              <div innerHTML={underscore(this.query, title)} /> {alias} <span class="category">{category}</span> {hotkeys}
+              <ResultLocation trigger={trigger} />
             </div>
           ))}
         <div

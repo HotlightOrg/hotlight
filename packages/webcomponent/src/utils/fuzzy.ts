@@ -1,4 +1,6 @@
 import { F } from "./engine/search";
+import { HotlightAction } from "../components/hotlight-modal/hotlight-modal";
+import { validURLOrPathname } from "./utils";
 
 const levenshteinDistance = (str1 = '', str2 = '') => {
   const track = Array(str2.length + 1)
@@ -8,9 +10,11 @@ const levenshteinDistance = (str1 = '', str2 = '') => {
   for (let i = 0; i <= str1.length; i += 1) {
     track[0][i] = i;
   }
+
   for (let j = 0; j <= str2.length; j += 1) {
     track[j][0] = j;
   }
+
   for (let j = 1; j <= str2.length; j += 1) {
     for (let i = 1; i <= str1.length; i += 1) {
       const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
@@ -24,27 +28,6 @@ const levenshteinDistance = (str1 = '', str2 = '') => {
 
   return track[str2.length][str1.length];
 };
-
-export type Hit = {
-  ref: string;
-  meta: {
-    score: number;
-  }
-}
-
-export type IDX = {
-  search: (query: string) => Hit[];
-}
-
-export type Doc = {
-  title: string;
-  alias: string;
-  category: string;
-  meta?: {
-    ref: string;
-    score: number;
-  }
-}
 
 const source = {
   category: "pull requests",
@@ -141,40 +124,16 @@ export const docs = {
   }
 }
 
-export const hotkeys = {
-  "?": "help",
-  "cmd+k": "CommandK"
-}
-
-type NewHit = {
-  id: string;
-  title: string;
-  alias: string;
-  category: string;
-  description?: string;
-  hotkey?: string;
-}
-
-const actions: NewHit[] = Object.keys(docs)
-  .map(doc => ({
-    "id": doc,
-    "title": docs[doc].title,
-    "alias": docs[doc].alias,
-    "category": docs[doc].category,
-    "description": "yo",
-    "hotkey": docs[doc].hotkey,
-  }))
-
 // this scores whats found. hotkeys should precede "normal" hits.
 const score = (found, query) => {
   return found.map(hit => {
     let score = levenshteinDistance(query, hit.title);
 
     // exact hotkey match
-    if(hit.hotkey && hit.hotkey === query) {
+    if(hit.hotkeys && hit.hotkeys === query) {
       score = -1;
     // hotkey included
-    } else if(hit.hotkey?.includes(query)) {
+    } else if(hit.hotkeys?.includes(query)) {
       score = 0;
     }
 
@@ -192,17 +151,105 @@ const hotkeysFirst = (found, query) => {
   return sorted;
 }
 
-const idx = {
-  engine: (actions) => {
-    const engine = F(actions, ['title', 'alias', 'hotkey'])
-    return engine;
-  },
-  search: (str: string) => {
-    const engine = F(actions, ['title', 'alias', 'hotkey'])
-    const search = engine.search(str);
 
-    return hotkeysFirst(search, str);
+export type HotlightContext = {
+  level: number;
+  parents: HotlightAction[];
+  actions: HotlightAction[];
+}
+
+let initialContext: HotlightContext = {
+  level: 0,
+  parents: [],
+  actions: []
+};
+
+const engine = (actions = [], config = null) => {
+  let context = { ...initialContext };
+  context.actions = actions
+    .filter(action => action.parentTitle === undefined); // should be those without parentTitle?
+
+  const actionsByParentTitle = actions
+    .reduce((prev, curr) => {
+      if(!curr.parentTitle) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [curr.parentTitle]: (prev[curr.parentTitle] || []).concat(curr)
+      }
+    }, {})
+
+  const search = (query: string): HotlightAction[] => {
+    const fuzzy = F(context.actions, ['title', 'alias', 'hotkey']);
+    const found = fuzzy.search(query);
+    const hits = hotkeysFirst(found, query);
+    return hits.slice(0, config?.maxHits || 20);
+  }
+
+  /*
+   * level 0: all actions
+   * pick action
+   * if action has children
+   *   level 1 actions = all actions with parentTitle == picked action
+   * else if typeof action.trigger === "function"
+   *   results = action.trigger(query, context)
+   *   if typeof results === "array"
+   *     level 1 actions = results
+   *   // else void
+   */
+  const pick = (action: HotlightAction, query?: string): {
+    keepOpen: boolean;
+    levelHits: any[];
+    context: any;
+  } => {
+    if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
+      window.location.href = action.trigger;
+    } else if(typeof action.trigger === "function") {
+      action.trigger(query, context);
+    }
+
+    const children = actionsByParentTitle[action.title];
+
+    if(children) {
+      context.parents = context.parents.concat(action);
+      context.actions = [...children];
+      context.level = context.level + 1;
+    }
+
+    const keepOpen = !!children;
+    const levelHits = context.actions.length < 10 ? context.actions : [];
+
+    return {
+      keepOpen,
+      levelHits,
+      context
+    }
+  }
+
+  const back = () => {
+    context.parents = context
+      .parents
+      .filter((_, index) => index !== context.parents.length - 1)
+
+    context.level = context.level - 1;
+
+    context.actions = actions;
+
+    return { context }
+  }
+
+  const getContext = () => {
+    return context;
+  }
+
+  return {
+    search,
+    pick,
+    back,
+    getContext
   }
 }
 
-export default idx;
+export default engine;

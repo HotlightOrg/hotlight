@@ -1,13 +1,15 @@
 import { Host, Component, Listen, State, Prop, h } from '@stencil/core';
-import { Hit } from "../../utils/fuzzy";
+import { HotlightContext } from "../../utils/fuzzy";
 
-export type Source = (query: string) => Promise<Hit[]>;
+export type Source = (query: string) => Promise<HotlightAction[]>;
 
 export type HotlightConfig = {
   opened?: boolean;
   stayOpened?: boolean;
   query?: string;
   maxHits?: number;
+
+  placeholder?: string;
 
   sources?: {
     [name: string]: Source;
@@ -18,7 +20,7 @@ export type HotlightConfig = {
   //token?: string;
 }
 
-type Trigger = (query: string) => void;
+export type Trigger = (query: string, context: HotlightContext) => void | string;
 
 export type HotlightAction = {
   title: string;
@@ -26,7 +28,7 @@ export type HotlightAction = {
   description?: string;
   hotkeys?: string;
   category?: string;
-  trigger: Trigger | string; // if it's a url it will be redirected
+  trigger: Trigger; // if it's a url it will be redirected
   parentTitle?: string; // if this is a sub page
 }
 
@@ -40,7 +42,6 @@ export class HotlightModal {
   @Prop() actions: HotlightAction[] = [];
   @State() opened: boolean;
   @State() hidden: boolean;
-  @State() pressing: string[] = [];
   private container?: HTMLDivElement;
   private modal?: HTMLDivElement;
   private backdrop?: HTMLDivElement;
@@ -62,21 +63,10 @@ export class HotlightModal {
   }
 
   componentWillLoad() {
-    console.log(this.actions)
     if(this.config.opened) {
       this.open();
     }
   }
-
-  /*
-  private press(key): void {
-    this.pressing = this.pressing.concat(key);
-  }
-
-  private unpress(key): void {
-    this.pressing = [...this.pressing.filter(_key => _key !== key)];
-  }
-   */
 
   @Listen('keydown', { target: 'window' })
   handleOpen(e: KeyboardEvent) {

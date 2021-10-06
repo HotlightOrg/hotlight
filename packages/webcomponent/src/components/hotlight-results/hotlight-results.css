@@ -51,3 +51,13 @@
 .active-hit.hidden {
   background: rgba(255, 255, 255, 0);
 }
+
+.category {
+  color: #999;
+}
+
+/* underscoring matches */
+.u {
+  text-decoration: underline;
+  font-weight: bold;
+}

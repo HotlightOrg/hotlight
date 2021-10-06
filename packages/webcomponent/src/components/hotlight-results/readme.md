@@ -7,16 +7,18 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                                                                                                                   | Default |
-| -------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------- | ------- |
-| `config` | --        |             | `{ opened?: boolean; stayOpened?: boolean; query?: string; maxHits?: number; sources?: { [name: string]: Source; }; }` | `{}`    |
+| Property  | Attribute | Description | Type                                                                                                                                         | Default |
+| --------- | --------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `actions` | --        |             | `HotlightAction[]`                                                                                                                           | `[]`    |
+| `config`  | --        |             | `{ opened?: boolean; stayOpened?: boolean; query?: string; maxHits?: number; placeholder?: string; sources?: { [name: string]: Source; }; }` | `{}`    |
 
 
 ## Events
 
-| Event              | Description | Type              |
-| ------------------ | ----------- | ----------------- |
-| `commandk:trigger` |             | `CustomEvent<{}>` |
+| Event              | Description | Type                                                                                    |
+| ------------------ | ----------- | --------------------------------------------------------------------------------------- |
+| `commandk:clear`   |             | `CustomEvent<{ level: number; parents: HotlightAction[]; actions: HotlightAction[]; }>` |
+| `commandk:trigger` |             | `CustomEvent<{}>`                                                                       |
 
 
 ## Dependencies

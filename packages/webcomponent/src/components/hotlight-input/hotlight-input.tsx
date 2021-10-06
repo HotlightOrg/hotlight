@@ -1,5 +1,6 @@
-import { Component, Prop, Listen, Event, EventEmitter, h } from '@stencil/core';
+import { Component, State, Prop, Listen, Event, EventEmitter, h } from '@stencil/core';
 import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
+import { HotlightContext } from "../../utils/fuzzy";
 
 @Component({
   tag: 'hotlight-input',
@@ -8,6 +9,7 @@ import { HotlightConfig } from "../hotlight-modal/hotlight-modal";
 })
 export class CommandInput {
   @Prop() config: HotlightConfig = {};
+  @State() context: HotlightContext = { level: 0, parents: [], actions: [] };
   private textInput?: HTMLInputElement;
 
   @Event({
@@ -21,6 +23,8 @@ export class CommandInput {
     bubbles: true
   }) close: EventEmitter;
 
+  @Event() goUp: EventEmitter;
+
   componentDidRender() {
     if(this.config.query) {
       this.textInput.value = this.config.query;
@@ -29,6 +33,13 @@ export class CommandInput {
     if(!this.config.stayOpened) {
       this.textInput.focus();
     }
+  }
+
+  // when going down to a child action
+  @Listen("commandk:clear", { target: "window" })
+  handleClear({ detail }) {
+    this.context = { ...detail };
+    this.textInput.value = "";
   }
 
   @Listen("keyup", { target: "window" })
@@ -47,6 +58,11 @@ export class CommandInput {
     const skip = ["ArrowUp", "ArrowDown", "Enter"];
     if(skip.includes(e.key)) {
       e.preventDefault();
+    } else if(e.key === "Backspace" &&
+      this.textInput.value === "" &&
+      this.context.parents.length > 0
+    ) {
+      this.goUp.emit();
     }
   }
 
@@ -64,11 +80,15 @@ export class CommandInput {
 
   render() {
     return (
-      <form role="search" novalidate>
+      <form
+        role="search"
+        novalidate
+      >
+        {this.context.parents.map(p => <hotlight-crumb label={p.title} />)}
         <input
           class="text-input"
           type="text"
-          placeholder="What do you need?"
+          placeholder={this.config.placeholder || "What do you need?"}
           ref={el => this.textInput = el as HTMLInputElement}
           onKeyUp={this.doQuery.bind(this)}
           onKeyDown={this.skip.bind(this)}

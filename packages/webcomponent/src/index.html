@@ -40,7 +40,36 @@ const config = {
   }
 }
 
-const actions = [{
+const all = Array.from(new Array(1000))
+  .map((x, i) => ({
+    title: `${i} Use Hotlight With React`,
+    trigger: "https://hotlight.dev",
+    category: "Documentation"
+  }))
+    console.log(all.length, ' actions');
+
+const calculator = [{
+  title: "Calculate",
+  category: "Utils",
+  trigger: () => {}
+},{
+  title: "",
+  parentTitle: "Calculate",
+  trigger: function (query, context) {
+    const str = query.split(" ");
+    console.log(str);
+    //eval(query);
+  },
+}];
+
+const greetings = [{
+  title: "Add greet",
+  category: "Greets",
+  trigger: "/greetings/new"
+}]
+
+const actions = [
+{
   title: "Use Hotlight With React",
   trigger: "https://hotlight.dev",
   category: "Documentation"
@@ -48,7 +77,52 @@ const actions = [{
   title: "Hotlight and Vue",
   trigger: "https://hotlight.dev",
   category: "Documentation"
-}]
+},{
+  title: "Hotlight and Svelte",
+  trigger: "https://hotlight.dev/svelte",
+  category: "Documentation"
+},{
+  title: "Alert hej",
+  trigger: function (query, context) {
+    alert(query);
+  }
+},{
+  title: "Find by id (child actions)",
+  trigger: function (query, context) {
+    return new Promise((res) => {
+      setTimeout(() => {
+        return [{
+          title: "yo",
+          trigger: "https://yo.com"
+        },{
+          title: "docs",
+          trigger: "https://arnklint.com"
+        }]
+      }, 1000);
+    });
+    return 
+  }
+},{
+  title: "Parent",
+  trigger: function(query, context) {
+    console.log(query, context);
+  }
+},{
+  title: "Child",
+  trigger: function(query, context) {
+    console.log(context);
+  },
+  parentTitle: "Parent"
+},{
+  title: "Second child",
+  trigger: "https://jonas.arnklint.com",
+  parentTitle: "Parent"
+},{
+  title: "Product",
+  trigger: "https://operator.com/product/secondpath/longpath",
+}].concat(...all, ...calculator, ...greetings);
+
+console.log(actions);
 
 const c = document.querySelector('hotlight-modal');
 c.config = config;

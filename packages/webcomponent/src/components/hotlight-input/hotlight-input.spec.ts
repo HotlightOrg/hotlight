@@ -1,7 +1,8 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { CommandInput } from './hotlight-input';
 
-describe('my-component', () => {
+describe('hotlight-input', () => {
+  /*
   it('renders', async () => {
     const { root } = await newSpecPage({
       components: [CommandInput],
@@ -17,6 +18,7 @@ describe('my-component', () => {
       </my-component>
     `);
   });
+  */
 
   it('renders with values', async () => {
     const { root } = await newSpecPage({

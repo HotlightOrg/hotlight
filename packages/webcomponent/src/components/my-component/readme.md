@@ -31,6 +31,7 @@ graph TD;
   my-component --> hotlight-modal
   hotlight-modal --> hotlight-input
   hotlight-modal --> hotlight-results
+  hotlight-input --> hotlight-crumb
   style my-component fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

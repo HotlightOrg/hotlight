@@ -21,11 +21,11 @@
     <hotlight-modal></hotlight-modal>
   <script>
 const config = {
-  opened: true,
-  stayOpened: true,
+  //opened: true,
+  //stayOpened: true,
 
-  query: "a",
-  //maxHits: 2,
+  //query: "a",
+  //maxHits: 5,
   sources: {
     greets: (query) => { // perhaps option to throttle
       const hits = [{
@@ -39,20 +39,108 @@ const config = {
     }
   }
 }
+
+const all = Array.from(new Array(1000))
+  .map((x, i) => ({
+    title: `${i} Use Hotlight With React`,
+    trigger: "https://hotlight.dev",
+    category: "Documentation"
+  }))
+    console.log(all.length, ' actions');
+
+const calculator = [{
+  title: "Calculate",
+  category: "Utils",
+  trigger: () => {}
+},{
+  title: "",
+  parentTitle: "Calculate",
+  trigger: function (query, context) {
+    const str = query.split(" ");
+    console.log(str);
+    //eval(query);
+  },
+}];
+
+const greetings = [{
+  title: "Add greet",
+  category: "Greets",
+  trigger: "/greetings/new"
+}]
+
+const actions = [
+{
+  title: "Use Hotlight With React",
+  trigger: "https://hotlight.dev",
+  category: "Documentation"
+},{
+  title: "Hotlight and Vue",
+  trigger: "https://hotlight.dev",
+  category: "Documentation"
+},{
+  title: "Hotlight and Svelte",
+  trigger: "https://hotlight.dev/svelte",
+  category: "Documentation"
+},{
+  title: "Alert hej",
+  trigger: function (query, context) {
+    alert(query);
+  }
+},{
+  title: "Find by id (child actions)",
+  trigger: function (query, context) {
+    return new Promise((res) => {
+      setTimeout(() => {
+        return [{
+          title: "yo",
+          trigger: "https://yo.com"
+        },{
+          title: "docs",
+          trigger: "https://arnklint.com"
+        }]
+      }, 1000);
+    });
+    return 
+  }
+},{
+  title: "Parent",
+  trigger: function(query, context) {
+    console.log(query, context);
+  }
+},{
+  title: "Child",
+  trigger: function(query, context) {
+    console.log(context);
+  },
+  parentTitle: "Parent"
+},{
+  title: "Second child",
+  trigger: "https://jonas.arnklint.com",
+  parentTitle: "Parent"
+},{
+  title: "Product",
+  trigger: "https://operator.com/product/secondpath/longpath",
+}].concat(...all, ...calculator, ...greetings);
+
+console.log(actions);
+
 const c = document.querySelector('hotlight-modal');
 c.config = config;
+c.actions = actions;
   </script>
 
-    <h1>CommandK</h1>
+    <h1>Hotlight</h1>
 
     <p>
       The only cmd+k you need for your saas or whatever...
     </p>
 
+    <p class="backdrop" />
+
     <h2>Open the command prompt</h2>
     <pre>
       <code>
-        let open = new Event('commandk:open');
+        let open = new Event('hotlight:open');
         window.dispatchEvent(open);
       </code>
     </pre>
@@ -62,7 +150,7 @@ c.config = config;
     <h2>Listen to triggers</h2>
     <pre>
       <code>
-        document.addEventListener('commandk:trigger', (e) => {
+        document.addEventListener('hotlight:trigger', (e) => {
           const trigger = e.detail;
           console.log(trigger);
         })
@@ -70,7 +158,7 @@ c.config = config;
     </pre>
 
     <h2>Framework support</h2>
-    <p>Use commandk in any framework. At its core, commandk is a web component that comes with helper packages for different frameworks so that you'll easily integrate it anywhere. Any framework specific contribution is greatly appreciated.</p>
+    <p>Use Hotlight in any framework. At its core, Hotlight is a web component that comes with helper packages for different frameworks so that you'll easily integrate it anywhere. Any framework specific contribution is greatly appreciated.</p>
 
     
 
@@ -80,7 +168,7 @@ c.config = config;
     <h3>Hot Keys</h3>
     <p>Actions can be performed with hot keys or simply by searching for its name. Hot keys are configurable with ease in one central place.</p>
     <h3>Objects</h3>
-    <p>Define objects to be able to interact with them and display them as results in commandk.</p>
+    <p>Define objects to be able to interact with them and display them as results in Hotlight.</p>
     <p>Example: You run a CRM and the user wants to be able to search contacts. Define objects so that they will be found when searching for them. An object can adhere from any source, such as a third party API or your own API's.</p>
     <h3>Pages</h3>
     <p>If a query matches a page title or description, the user can quickly hit enter to go to that page. This is a great feature for apps with documentation and faqs.</p>

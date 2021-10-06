@@ -27,24 +27,11 @@ export type Config = {
 export class MyComponent {
   @Prop() config: Config;
 
-  componentWillLoad() {
-    console.log('will load')
-    //this.parseConfig(this.config);
-  }
-
   @Event({
     eventName: 'commandk:open',
     bubbles: true
   }) open: EventEmitter<{}>;
   
-  /*
-  @Watch('config')
-  parseConfig(newValue: Config) {
-    //console.log(typeof newValue, newValue);
-    //if (newValue) this.myInnerObject = JSON.parse(newValue);
-  }
-   */
-
   render() {
     return (
       <div>

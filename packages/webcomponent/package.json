@@ -1,6 +1,6 @@
 {
   "name": "hotlight-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Web app hot keys and search.",
   "author": "Jonas Arnklint <jonas@arnklint.com>",
   "main": "dist/index.cjs.js",

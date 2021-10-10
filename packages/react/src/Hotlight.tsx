@@ -1,5 +1,5 @@
 import React, { useRef, Suspense, lazy } from "react";
-const HotlightLazy = lazy(() => import("./wrapper"));
+const HotlightLazy = lazy(() => import("./Wrapper"));
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
 declare global {

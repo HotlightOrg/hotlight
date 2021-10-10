@@ -1,7 +1,7 @@
 {
   "name": "hotlight-react",
   "description": "A command palette, hotkeys and search bar for the web.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
   "files": [
@@ -15,7 +15,7 @@
   "author": "Jonas Arnklint <jonas@arnklint.com>",
   "license": "MIT",
   "dependencies": {
-    "hotlight-core": "0.0.1"
+    "hotlight-core": "^0.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.0",

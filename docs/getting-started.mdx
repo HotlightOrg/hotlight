@@ -1,11 +1,11 @@
 ---
-title: Getting Started Adding Command K
+title: Getting Started Adding Hotlight
 ---
 
-## Install Command K
+## Install Hotlight
 
 ```js
-npm install commandk
+npm install hotlight-core
 ```
 
 ## Add it to a page
@@ -16,10 +16,10 @@ npm install commandk
 <html>
   <head>
     ...
-    <script type="module" src="/build/commandk.esm.js"></script>
+    <script type="module" src="/build/hotlight-core.esm.js"></script>
   </head>
   <body>
-    <command-k />
+    <hotlight-modal />
   </body>
 </html>
 ```
@@ -27,17 +27,13 @@ npm install commandk
 ### React
 
 ```js
-// add commandk somewhere near the root
-import CommandK from "commandk-react";
+// add hotlight somewhere near the root
+import Hotlight from "hotlight-react";
 
 const Root = () => {
-  const commandkConfig = {
-    token: "my-token"
-  }
-
   return (
     <div>
-      <CommandK config={commandkConfig} />
+      <Hotlight />
     </div>
   )
 }
@@ -50,7 +46,7 @@ It is highly recommended to place a button somewhere on the page that displays t
 ```html
 <script>
 function openHandler() {
-  let open = new Event('commandk:open');
+  let open = new Event('hotlight:open');
   window.dispatchEvent(open);
 }
 </script>

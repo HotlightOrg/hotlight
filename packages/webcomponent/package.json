@@ -10,7 +10,7 @@
   "types": "dist/custom-elements/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/commandk/commandk.esm.js",
+  "unpkg": "dist/hotlight/hotlight.esm.js",
   "files": [
     "dist/",
     "loader/"
@@ -27,7 +27,6 @@
     "@stencil/sass": "^1.4.1"
   },
   "devDependencies": {
-    "@stencil/react-output-target": "^0.1.0",
     "@types/jest": "^26.0.24",
     "jest": "^27.2.5",
     "jest-cli": "^27.2.5",

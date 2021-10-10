@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {
+      "title": "Documentation",
+      "heading": true,
+      "routes": [
+        {
+          "title": "Getting Started",
+          "path": "/docs/getting-started.mdx"
+        },
+        {
+          "title": "Basic Features",
+          "path": "/docs/basic-features.mdx",
+          "open": true,
+          "routes": [
+            {
+              "title": "Actions",
+              "path": "/docs/basic-features/actions.mdx"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

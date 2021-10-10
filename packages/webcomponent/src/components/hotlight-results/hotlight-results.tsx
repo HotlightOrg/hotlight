@@ -1,6 +1,6 @@
-import { Component, Watch, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
+import { Component, Prop, Listen, Event, EventEmitter, State, h } from '@stencil/core';
 import engine, { HotlightContext } from "../../utils/fuzzy";
-import { underscore, triggerIcon } from "../../utils/utils";
+import { underscore } from "../../utils/utils";
 import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal";
 import {ResultLocation} from './ResultLocation';
 

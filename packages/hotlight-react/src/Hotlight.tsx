@@ -1,4 +1,4 @@
-import React, { useRef, Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 const HotlightLazy = lazy(() => import("./Wrapper"));
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
@@ -26,8 +26,8 @@ const Hotlight = ({
   actions
 }: Props) => {
 
-  const modal = useRef(null);
-    console.log(modal.current);
+  //const modal = useRef(null);
+  //  console.log(modal.current);
     /*
     const c = document.querySelector('hotlight-modal') as JSX.HotlightModal;
     if(c) {

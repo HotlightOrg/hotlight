@@ -1,5 +1,5 @@
-import React from "react";
-import { defineCustomElements } from "../../webcomponent";
+import React, { useEffect } from "react";
+import { defineCustomElements } from "hotlight-core";
 defineCustomElements();
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
@@ -23,22 +23,19 @@ type Props = {
   actions: any;
 }
 const Wrapper = ({ config, actions }: Props) => {
-  //console.log(modal)
-  //useEffect(() => {
-  //const c = document.querySelector('hotlight-modal') as unknown;
-  const c = document.querySelector('hotlight-modal');// as JSX.HotlightModal;
-    if(c) {
-      c.config = {
-        opened: true,
-        stayOpened: true,
-        maxHits: 2,
-        ...config
-      };
+  useEffect(() => {
+    const c = document.querySelector('hotlight-modal');// as JSX.HotlightModal;
+      if(c) {
+        c.config = {
+          opened: true,
+          stayOpened: true,
+          maxHits: 2,
+          ...config
+        };
 
-      c.actions = actions;
-      console.log(c)
-    }
-  //})
+        c.actions = actions;
+      }
+  })
   return (
     <hotlight-modal
       config={config}

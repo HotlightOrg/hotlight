@@ -1,2 +1,2 @@
-import Hotlight from "./Hotlight";
-export { Hotlight };
+import Hotlight from "./Wrapper";
+export default Hotlight;

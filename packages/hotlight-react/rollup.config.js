@@ -1,9 +1,16 @@
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import serve from 'rollup-plugin-serve';
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 
-const pkg = require("./package.json");
+export const plugins = [
+  typescript({
+    useTsconfigDeclarationDir: true
+  }),
+  resolve(),
+  commonjs(),
+]
 
 export default {
   input: "src/index.ts",
@@ -19,12 +26,5 @@ export default {
       sourcemap: true,
     }
   ],
-  plugins: [
-    peerDepsExternal(),
-    resolve(),
-    commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true
-    })
-  ]
+  plugins: plugins.concat(peerDepsExternal())
 };

@@ -1,23 +1,25 @@
 <html>
   <head>
-    <title>yo</title>
+    <title>Hotlight Dev</title>
 
 <script type="module">
+/*
 const t = document.createElement("template");
 t.setAttribute("id", "hotlight-action");
 t.innerHTML = "<div class='a'><a href='#'>hit</a></div>";
 document.body.appendChild(t);
-
-const hotlight = document.querySelector("hotlight-modal");
-hotlight.launch();
+*/
 
 import "./main.js";
-//customElements.define("hotlight-modal", Modal);
-</script>
+const hotlight = document.querySelector("hotlight-modal");
+hotlight.launch();
+hotlight.debug();
 
+</script>
 
   </head>
   <body>
-    <hotlight-modal />
+    <hotlight-modal></hotlight-modal>
+      <div style="height: 2000px; background: blue; width: 200px; margin: 0 auto;">content</div>
   </body>
 </html>

@@ -1,14 +1,16 @@
 export type Context = {
+  query: string;
   level: number;
   parents: Action[];
   actions: Action[];
+  activeActionIndex: number;
 }
 
 export type Source = (query: string) => Promise<Actions>;
 
 export type Config = {
   isOpen?: boolean;
-  stayOpened?: boolean;
+  //stayOpened?: boolean;
   query?: string;
   maxHits?: number;
 
@@ -18,6 +20,7 @@ export type Config = {
     [name: string]: Source;
   }
 
+  debug?: boolean;
   //log?: boolean;
 
   //token?: string;

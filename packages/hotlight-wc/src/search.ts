@@ -1,6 +1,6 @@
 import { F } from "./fuzzy";
-import { Action, Context } from "./typings";
-import { validURLOrPathname } from "./utils";
+import { Action, Actions, Context } from "./typings";
+import { validURLOrPathname, debounce } from "./utils";
 
 const levenshteinDistance = (str1 = '', str2 = '') => {
   const track = Array(str2.length + 1)
@@ -29,100 +29,6 @@ const levenshteinDistance = (str1 = '', str2 = '') => {
   return track[str2.length][str1.length];
 };
 
-const source = {
-  category: "pull requests",
-  fetch: async (query: string) => {
-    const res = await fetch("https://api.begreet.com?query=" + query);
-    console.log(res);
-  }
-}
-
-export const sources = [source];
-
-export const docs = {
-  "0": {
-    title: "n",
-    alias: "",
-    hotkey: "n",
-    category: "greets"
-  },
-  "123": {
-    title: "New Greet",
-    alias: "",
-    hotkey: "ng",
-    category: "greets"
-  },
-  "1": {
-    title: "kolle",
-    alias: "",
-    category: "document"
-  },
-  "2": {
-    title: "ada",
-    alias: "",
-    category: "document"
-  },
-  "3": {
-    title: "remove greet",
-    alias: "delete",
-    category: "action"
-  },
-  "4": {
-    title: "publish greet",
-    alias: "",
-    category: "action"
-  },
-  "5": {
-    title: "duplicate greet",
-    alias: "",
-    category: "document"
-  },
-  "6": {
-    title: "help",
-    alias: "? info",
-    category: "document"
-  },
-  "7": {
-    title: "send greet to someone",
-    alias: "",
-    category: "document"
-  },
-  "8": {
-    title: "Draft feedback",
-    alias: "",
-    category: "greeting"
-  },
-  "9": {
-    title: "Thank someone for feedback",
-    alias: "",
-    category: "greeting"
-  },
-  "10": {
-    title: "Feedback document",
-    alias: "",
-    category: "document"
-  },
-  "11": {
-    title: "How much time does this take you?",
-    alias: "",
-    category: "faq"
-  },
-  "12": {
-    title: "Contact us",
-    alias: "mail phone support",
-    category: "document"
-  },
-  "13": {
-    title: "New greet",
-    alias: "create greet, add greet",
-    category: "action"
-  },
-  "14": {
-    title: "Find contact",
-    hotkey: "fc",
-    category: "contacts"
-  }
-}
 
 // this scores whats found. hotkeys should precede "normal" hits.
 const score = (found, query) => {
@@ -176,11 +82,71 @@ const engine = (actions = [], config = null) => {
       }
     }, {})
 
-  const search = (query: string): Action[] => {
-    const fuzzy = F(context.actions, ['title', 'alias', 'hotkey']);
+  let cache = {}, lastQuery = "";
+  const writeCache = (sourceName: string, query: string, results: Actions) => {
+    cache[sourceName] = {
+      ...cache[sourceName],
+      [query]: results
+    }
+  }
+  const readCache = (sourceName: string, query: string) => {
+    if(cache[sourceName] && cache[sourceName][query]) {
+      return cache[sourceName][query];
+    }
+
+    return null;
+  }
+
+  const fetchSourceAnswer = async (query: string, sourceName: string) => {
+    const source = config.sources[sourceName];
+
+    const cache = readCache(sourceName, query);
+    if(cache) {
+      return cache;
+    }
+
+    let res;
+    if(typeof source === "function") {
+      res = source(query); // add context
+    } else {
+      if(typeof source.request === "function") {
+        res = await source.request(query) // add context
+      } else if (typeof source.request === "string") {
+        res = await fetch(source.request + "?q=" + query);
+      } else {
+        res = await fetch(source.request);
+      }
+    }
+
+    // after receiving response, is this 
+    if(query !== lastQuery) {
+      return null;
+    }
+
+    writeCache(sourceName, query, res);
+
+    return res;
+  }
+
+  const fetchAnswer = async (query: string) => {
+    lastQuery = query;
+
+    const promises = Object
+      .keys(config.sources)
+      .map(key => fetchSourceAnswer(query, key))
+
+    const allRes = await Promise.all(promises);
+
+    return allRes.filter(x => x !== undefined && x !== null).flat();
+  }
+
+  const search = async (query: string): Promise<Action[]> => {
+    const res = await fetchAnswer(query);
+    const fuzzy = F(res, ['title', 'alias', 'description'])//, 'hotkey']);
     const found = fuzzy.search(query);
-    const hits = hotkeysFirst(found, query);
-    return hits.slice(0, config?.maxHits || 20);
+    //const hits = hotkeysFirst(found, query);
+
+    return found.slice(0, config.maxHits ?? 20);
   }
 
   /*
@@ -194,18 +160,16 @@ const engine = (actions = [], config = null) => {
    *     level 1 actions = results
    *   // else void
    */
-  const pick = (action: Action, query?: string): {
-    keepOpen: boolean;
-    levelHits: any[];
-    context: any;
-  } => {
-    if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
-      window.location.href = action.trigger;
-    } else if(typeof action.trigger === "function") {
-      action.trigger(query, context);
-    }
-
+  const pick = (action: Action, query?: string) => {
     const children = actionsByParentTitle[action.title];
+
+    if(!children && action.trigger) {
+      if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
+        window.location.href = action.trigger;
+      } else if(typeof action.trigger === "function") {
+        action.trigger(query, null, context);
+      }
+    }
 
     if(children) {
       context.parents = context.parents.concat(action);
@@ -218,8 +182,8 @@ const engine = (actions = [], config = null) => {
 
     return {
       keepOpen,
-      levelHits,
-      context
+      //levelHits,
+      //context
     }
   }
 

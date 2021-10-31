@@ -109,6 +109,7 @@ export class Results extends HTMLElement {
     } else {
       this.results.appendChild(frag);
     }
+    this.results.classList.remove("enter-active");
   }
 
   private component: any;
@@ -138,7 +139,7 @@ actionTemplate.innerHTML = `
 
 const template = document.createElement("template");
 template.innerHTML = `
-  <div id="list">
+  <div id="list" class="enter-active">
     <div id="results"></div>
     <div id="active-hit"></div>
   </div>
@@ -164,11 +165,14 @@ template.innerHTML = `
       color: grey;
       height: 32px;
 
-      transition: color 0.1s ease;
+      transition: color 0.2s ease;
     }
     .hit-inner {
       position: absolute;
       z-index: 10;
+    }
+    .enter-active .active {
+      transition: none;
     }
 
     .active {
@@ -184,7 +188,7 @@ template.innerHTML = `
 
       transition: transform 0.05s ease, color 0.1s ease;
 
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       height: 32px;
       width: calc(100% - 20px);

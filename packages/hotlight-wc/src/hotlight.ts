@@ -1,13 +1,13 @@
 import { Config, Actions, Context } from "./typings";
-
-import engine from "./search";
+import engine, { pick } from "./search";
+import { actions, sources } from "./actions";
 
 /*
 import { underscore } from "../../utils/utils";
 import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal";
 */
 
-const defaultConfig = {
+const defaultConfig: Config = {
   isOpen: false,
   //stayOpened: false,
   query: "",
@@ -16,7 +16,7 @@ const defaultConfig = {
 
   debug: false,
   
-  sources: {},
+  sources
 };
 
 export class Modal extends HTMLElement {
@@ -64,13 +64,7 @@ export class Modal extends HTMLElement {
       this.activateAction(e.detail);
     });
 
-    this.engine = engine([
-      { title: "parent", trigger: "/" },
-      { title: "jonas", trigger: "/" },
-      { title: "kalle", trigger: "/" },
-      { title: "documentation", trigger: "/" },
-      { title: "whatsup", trigger: "/" },
-    ]);
+    this.engine = engine(actions, this._config);
 
     window.addEventListener("keydown", (e) => {
       if(e.key === "k" && e.metaKey) {
@@ -160,11 +154,13 @@ export class Modal extends HTMLElement {
       return
     }
 
-    const skip = ["Enter"];
-    if(skip.includes(e.key)) {
+    if(e.key === "Enter") {
+      this.doTrigger();
       e.preventDefault();
-      return
-    } else if(e.key === "Backspace" &&
+      return;
+    }
+
+    if(e.key === "Backspace" &&
       this.input.value === "" &&
       this.context.parents.length > 0
     ) {
@@ -184,7 +180,7 @@ export class Modal extends HTMLElement {
     this.context.query = this.input.value;
   }
 
-  search(e: KeyboardEvent) {
+  async search(e: KeyboardEvent) {
     const skip = ["ArrowRight", "ArrowLeft"];
     if(skip.includes(e.key)) {
       return
@@ -210,8 +206,10 @@ export class Modal extends HTMLElement {
     if(prevent.includes(e.key)) {
       e.preventDefault();
     } else {
-      const hits: Actions = this.engine.search(this.input.value.trim());
-      this.setResults(hits);
+      const hits: Actions = await this.engine.search(this.input.value.trim());
+      if(hits) {
+        this.setResults(hits);
+      }
     }
   };
 
@@ -234,6 +232,16 @@ export class Modal extends HTMLElement {
     if (index < actions.length && index > -1) {
       this.context.activeActionIndex = index;
       this.results.activeIndex = index;
+    }
+  }
+
+  doTrigger() {
+    const action = this.context.actions[this.context.activeActionIndex];
+    if(action) {
+      this.engine.pick(action, this.context.query);
+      this.context = this.engine.getContext();
+      this.renderContext()
+      this.input.parents = this.context.parents;
     }
   }
 }
@@ -284,6 +292,8 @@ template.innerHTML = `
     }
 
     .container {
+      font-family: Helvetica, Arial, sans-serif;
+
       position: fixed;
       top: 0;
       right: 0;
@@ -301,7 +311,7 @@ template.innerHTML = `
       margin: 10% auto;
       width: 100%;
       max-width: 576px;
-      border: 1px solid #888;
+      /*border: 1px solid rgba(255,255,255,10%);*/
       border-radius: 5px;
       background: black;
       color: white;
@@ -322,6 +332,9 @@ template.innerHTML = `
     }
 
     .hotlight-logo {
+      line-height: 24px;
+      font-size: 14px;
+      text-decoration: none;
       color: white;
       margin: 5px 10px;
       /*display: flex;*/

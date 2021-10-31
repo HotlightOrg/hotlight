@@ -158,10 +158,12 @@ export const F = (actions, keys) => {
       }
     }
 
-    // Sort by score
-    results.sort((a, b) => a.score - b.score);
-
-    return results.map(result => result.item);
+    return results
+      .sort((a, b) => {
+        const s = a.score - b.score;
+        return s
+      })
+      .map(result => result.item);
   }
 
   return {

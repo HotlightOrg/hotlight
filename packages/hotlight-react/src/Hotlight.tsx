@@ -1,7 +1,9 @@
-import React, { Suspense, lazy } from "react";
-const HotlightLazy = lazy(() => import("./Wrapper"));
+import React, { useEffect } from "react";
+import { defineCustomElements } from "hotlight-core";
+defineCustomElements();
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
+/*
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -11,47 +13,28 @@ declare global {
     interface HotlightModal {
       config?: any;
       actions?: any;
+      ref?: any;
       //name: string;
     }
   }
 }
+*/
 
 type Props = {
   config: any;
   actions: any;
 }
-
-const Hotlight = ({
-  config,
-  actions
-}: Props) => {
-
-  //const modal = useRef(null);
-  //  console.log(modal.current);
-    /*
-    const c = document.querySelector('hotlight-modal') as JSX.HotlightModal;
+const Hotlight = ({ config, actions }: Props) => {
+  // Only runs client side
+  useEffect(() => {
+    const c = document.querySelector('hotlight-modal');// as JSX.HotlightModal;
     if(c) {
-      c.config = {
-        opened: true,
-        stayOpened: true,
-        maxHits: 2,
-        ...config
-      };
-
       c.actions = actions;
-      console.log(c)
+      c.config = config;
     }
-     */
-  console.log(config, actions)
-
-  const ssr = typeof window === "undefined";
-  return !ssr ? (
-    <>
-      <Suspense fallback={<div />}>
-        <HotlightLazy config={config} actions={actions} />
-      </Suspense>
-    </>
-  ) : null;
+  })
+  return (
+    <hotlight-modal />
+  )
 }
-
 export default Hotlight;

@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+    <title>Stencil Component Starter 2000</title>
 
     <!--  <link rel="stylesheet" href="/build/commandk.css" />-->
-    <script type="module" src="/build/commandk.esm.js"></script>
-    <script nomodule src="/build/commandk.js"></script>
+    <script type="module" src="/build/hotlight.esm.js"></script>
+    <script nomodule src="/build/hotlight.js"></script>
 
     <script>
-      document.addEventListener('commandk:trigger', (e) => {
+      document.addEventListener('hotlight:trigger', (e) => {
         const trigger = e.detail;
         console.log(trigger);
       })
@@ -121,8 +121,6 @@ const actions = [
   title: "Product",
   trigger: "https://operator.com/product/secondpath/longpath",
 }].concat(...all, ...calculator, ...greetings);
-
-console.log(actions);
 
 const c = document.querySelector('hotlight-modal');
 c.config = config;

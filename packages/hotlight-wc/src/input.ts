@@ -20,17 +20,23 @@ export class Input extends HTMLElement {
   }
 
   private renderParents() {
+    if(this.lastParentCount < this._parents.length) {
+      this.parentsContainer.classList.remove("show");
+    }
+    this.lastParentCount = this._parents.length;
     const frag = document.createDocumentFragment();
 
     this._parents.forEach(action => {
       const item = parentTemplate.content.cloneNode(true) as HTMLElement;
-      item.innerText = action.title;
-      console.log(item, action.title);
+      item.querySelector(".parent-inner").innerHTML = action.title;
       frag.appendChild(item);
     });
 
     this.parentsContainer.innerHTML = "";
     this.parentsContainer.appendChild(frag);
+    setTimeout(() => {
+      this.parentsContainer.classList.add("show");
+    }, 0);
   }
 
   clear() {
@@ -46,6 +52,7 @@ export class Input extends HTMLElement {
   private input: HTMLInputElement;
   private parentsContainer: HTMLDivElement;
   private _parents: Actions;
+  private lastParentCount: number;
 
   get value() {
     return this.input.value;
@@ -104,11 +111,31 @@ template.innerHTML = `
     input:focus {
       outline: none;
     }
+
+    #parents-container {
+      display: flex;
+    }
+    #parents-container.show div.parent:last-of-type {
+      max-width: 100px;
+      overflow: hidden;
+    }
+    .parent:last-of-type {
+      max-width: 0;
+
+      transition: max-width 0.2s;
+    }
+    .parent-inner {
+      display: block;
+      background: red;
+      color: white;
+      padding: 2px;
+    }
   </style>
 `;
 
 const parentTemplate = document.createElement("template");
 parentTemplate.innerHTML = `
-  <div class="parent" style="background: red">
+  <div class="parent" style="padding: 10px; ">
+    <span class="parent-inner"></span>
   </div>
 `

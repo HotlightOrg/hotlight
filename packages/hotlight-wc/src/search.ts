@@ -172,9 +172,15 @@ const engine = (actions = [], config = null) => {
     }
 
     if(children) {
-      context.parents = context.parents.concat(action);
+      context.parents = context.parents
+        .filter(a => a.title !== action.title)
+        .concat(action);
       context.actions = [...children];
       context.level = context.level + 1;
+    } else {
+      context.parents = [];
+      context.actions = [];
+      context.level = 0;
     }
 
     const keepOpen = !!children;

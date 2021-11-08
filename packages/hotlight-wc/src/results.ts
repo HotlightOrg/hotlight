@@ -1,4 +1,5 @@
 import { Action, Actions } from "./typings";
+import { underscore } from "./utils";
 
 export class Results extends HTMLElement {
   constructor() {
@@ -20,7 +21,10 @@ export class Results extends HTMLElement {
         this.hoverHit(index);
       }
     });
+
   }
+
+  private _query: string;
 
   renderItem(action: Action, index: number) {
     const item = this.actionTemplate.content.cloneNode(true) as HTMLElement;
@@ -28,8 +32,12 @@ export class Results extends HTMLElement {
     if(index === this.activeIndex) {
       title.classList.add("active");
     }
-    title.innerHTML = action.title;
+    title.innerHTML = underscore(this._query, action.title);
     return item;
+  }
+
+  set query(value: string) {
+    this._query = value;
   }
 
   set actions(value: Actions) {
@@ -60,6 +68,8 @@ export class Results extends HTMLElement {
   moveActiveHit(index: number) {
     if(index === -1) {
       this.activeHit.classList.add("hidden");
+    } else {
+      this.activeHit.classList.remove("hidden");
     }
 
     if(!this._actions) {
@@ -74,9 +84,7 @@ export class Results extends HTMLElement {
         currentlyActive.classList.remove("active");
       }
       child.classList.add("active");
-    }
 
-    if(child) {
       const { top } = child.getBoundingClientRect();
       const height = 32;
 
@@ -93,7 +101,6 @@ export class Results extends HTMLElement {
         this.activeHit.style.transform = `translateY(${height*index}px)`;
         this.activeHit.style.height = `${height}px`; 
       }
-
     }
   }
 
@@ -188,7 +195,7 @@ template.innerHTML = `
 
       transition: transform 0.05s ease, color 0.1s ease;
 
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 10%);
       border-radius: 3px;
       height: 32px;
       width: calc(100% - 20px);

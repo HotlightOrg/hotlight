@@ -6,3 +6,6 @@ customElements.define("hotlight-results", Results);
 
 import { Modal } from "./hotlight";
 customElements.define("hotlight-modal", Modal);
+
+import { Loading } from "./loading";
+customElements.define("hotlight-loading", Loading);

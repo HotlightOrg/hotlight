@@ -73,7 +73,7 @@ export const validURLOrPathname = (url: string): boolean => {
     return true;
   } else {
     try {
-      if(new URL(url)) {
+      if(new URL(url, location.href)) {
         return true;
       }
     } catch (err) {
@@ -123,3 +123,4 @@ export const truncatePath = (pathname: string, length = 10): string => {
 
   return first.paths.join("/");
 }
+

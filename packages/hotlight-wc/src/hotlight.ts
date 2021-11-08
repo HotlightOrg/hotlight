@@ -1,27 +1,11 @@
-import { Config, Actions, Context } from "./typings";
-import engine, { pick } from "./search";
-import { actions, sources } from "./actions";
-
-/*
-import { underscore } from "../../utils/utils";
-import { HotlightConfig, HotlightAction } from "../hotlight-modal/hotlight-modal";
-*/
-
-const defaultConfig: Config = {
-  isOpen: false,
-  //stayOpened: false,
-  query: "",
-  maxHits: 20,
-  placeholder: "What do you need?",
-
-  debug: false,
-  
-  sources
-};
+import { Config, Actions } from "./typings";
+import engine from "./engine/search";
+import { config } from "./config";
 
 export class Modal extends HTMLElement {
   constructor() {
-    super();    
+    super();
+
     this.component = this
       .attachShadow({
         mode: 'open'
@@ -29,21 +13,11 @@ export class Modal extends HTMLElement {
 
     this.component.appendChild(template.content.cloneNode(true));
 
-    this._config = defaultConfig;
-
-    this.context = {
-      query: "",
-      level: 0,
-      parents: [],
-      actions: [],
-      activeActionIndex: 0
-    };
-
+    this.config = config();
     this.isOpen = this._config.isOpen;
 
     this.hotlight = this.shadowRoot.querySelector(".hotlight");
     this.container = this.shadowRoot.querySelector(".container");
-    //this.modal = this.shadowRoot.querySelector(".modal-container");
 
     this.container.addEventListener("click", (e: MouseEvent) => {
       if(e.target === this.container) {
@@ -52,6 +26,8 @@ export class Modal extends HTMLElement {
     });
 
     this.debugElement = this.shadowRoot.querySelector(".debug");
+    this.loadingIndicator = this.shadowRoot.querySelector("hotlight-loading");
+    this.updateLoading();
 
     this.input = this.shadowRoot.querySelector("hotlight-input");
     this.input.setAttribute("placeholder", this._config.placeholder);
@@ -59,12 +35,16 @@ export class Modal extends HTMLElement {
     this.input.addEventListener("keydown", this.skip.bind(this));
 
     this.results = this.shadowRoot.querySelector("hotlight-results");
-    this.setResults(this.context.actions);
+    this.setResults("", this.engine.context.actions);
     this.results.addEventListener("hover-hit", (e: CustomEvent) => {
       this.activateAction(e.detail);
     });
+    this.results.addEventListener("click", () => {
+      this.engine.pick();
+    });
 
-    this.engine = engine(actions, this._config);
+    //this.l = new Loading();
+    //this.l.render();
 
     window.addEventListener("keydown", (e) => {
       if(e.key === "k" && e.metaKey) {
@@ -72,17 +52,25 @@ export class Modal extends HTMLElement {
         e.preventDefault();
       }
     });
+
+    window.addEventListener("hotlight:response", (e) => {
+      const { query, results } = e.detail;
+      console.log(this.engine.context.loading)
+      this.updateLoading();
+      this.setResults(query, results);
+      this.renderContext();
+    });
     
     window.addEventListener("hotlight:open", () => {
       this.launch();
     });
+
     window.addEventListener("hotlight:close", () => {
       this.close();
     });
   }
 
   private _config: Config;
-  private context: Context;
   private container: HTMLDivElement;
   private input: HTMLInputElement;
   private hotlight: HTMLElement;
@@ -95,7 +83,7 @@ export class Modal extends HTMLElement {
 
   renderContext() {
     if(this._config.debug) {
-      this.debugElement.innerHTML = "<div>" + JSON.stringify(this.context) + "</div>";
+      this.debugElement.innerHTML = "<div>" + JSON.stringify(this.engine.context) + "</div>";
     }
   }
 
@@ -108,8 +96,8 @@ export class Modal extends HTMLElement {
   }
 
   set config(value) {
-    const c = { ...defaultConfig, ...value };
-    this._config = c;
+    this._config = config(value);
+    this.engine = engine(this._config);
   }
 
   get config() {
@@ -136,8 +124,8 @@ export class Modal extends HTMLElement {
       document.body.style.overflowY = "hidden";
       this.isOpen = true;
       this.input.focus();
-      if (this.context.query) {
-        //this.input.value = this.context.query);
+      if (this.engine.context.query) {
+        this.input.value = this.engine.context.query;
       }
     }
   }
@@ -147,7 +135,7 @@ export class Modal extends HTMLElement {
   }
 
   skip(e: KeyboardEvent) {
-    const { activeActionIndex } = this.context;
+    const { activeActionIndex } = this.engine.context;
 
     const doNothing = ["Meta", "Tab", "Shift", "ArrowLeft", "ArrowRight", "Escape"];
     if(doNothing.includes(e.key)) {
@@ -162,7 +150,7 @@ export class Modal extends HTMLElement {
 
     if(e.key === "Backspace" &&
       this.input.value === "" &&
-      this.context.parents.length > 0
+      this.engine.context.parents.length > 0
     ) {
       //this.goUp.emit();
     }
@@ -177,10 +165,10 @@ export class Modal extends HTMLElement {
       return
     }
 
-    this.context.query = this.input.value;
+    this.renderContext();
   }
 
-  async search(e: KeyboardEvent) {
+  search(e: KeyboardEvent) {
     const skip = ["ArrowRight", "ArrowLeft"];
     if(skip.includes(e.key)) {
       return
@@ -189,32 +177,42 @@ export class Modal extends HTMLElement {
     if(e.key === "Escape") {
       e.preventDefault();
       if(
-        this.context.query === "" &&
-        this.context.parents.length === 0
+        this.engine.context.query === "" &&
+        this.engine.context.parents.length === 0
       ) {
         this.close();
         return
       } else {
+        this.doSearch("");
         this.setInputValue("");
-        this.setResults([]);
       }
     }
-
-    this.renderContext();
 
     const prevent = ["ArrowUp", "ArrowDown", "Enter", "Meta"];
     if(prevent.includes(e.key)) {
       e.preventDefault();
     } else {
-      const hits: Actions = await this.engine.search(this.input.value.trim());
-      if(hits) {
-        this.setResults(hits);
-      }
+      this.doSearch(this.input.value.trim());
     }
   };
 
-  setResults(actions: Actions) {
-    this.context.actions = actions;
+  doSearch(query: string) {
+    this.updateLoading();
+    this.engine.search(query);
+  }
+
+  updateLoading() {
+    const { loading } = this.engine.context;
+    if(loading) {
+      this.loadingIndicator.classList.remove("hidden")
+    } else {
+      this.loadingIndicator.classList.add("hidden")
+    }
+  }
+
+  setResults(query: string, actions: Actions) {
+    //this.context.actions = actions;
+    this.results.query = query;
     this.results.actions = actions;
 
     if(actions.length > 0) {
@@ -223,26 +221,20 @@ export class Modal extends HTMLElement {
   }
 
   setInputValue(value: string) {
-    this.context.query = "";
-    this.input.value = "";
+    this.input.value = value;
   }
 
   activateAction(index: number) {
-    const { actions } = this.context;
-    if (index < actions.length && index > -1) {
-      this.context.activeActionIndex = index;
+    if(this.engine.activateActionIndex(index)) {
       this.results.activeIndex = index;
     }
   }
 
   doTrigger() {
-    const action = this.context.actions[this.context.activeActionIndex];
-    if(action) {
-      this.engine.pick(action, this.context.query);
-      this.context = this.engine.getContext();
-      this.renderContext()
-      this.input.parents = this.context.parents;
-    }
+    this.updateLoading();
+    this.engine.pick();
+    this.updateLoading();
+    this.input.parents = this.engine.context.parents;
   }
 }
 
@@ -253,14 +245,18 @@ template.innerHTML = `
       <div class="modal">
         <hotlight-input></hotlight-input>
         <hotlight-results></hotlight-results>
-        <a
-          class="hotlight-logo"
-          href="https://hotlight.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Hotlight
-        </a>
+        <div class="bottom-bar">
+          <div class="loading-indicator"><span>.</span></div>
+          <hotlight-loading></hotlight-loading>
+          <a
+            class="hotlight-logo"
+            href="https://hotlight.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Hotlight
+          </a>
+        </div>
       </div>
     </div>
 
@@ -270,7 +266,7 @@ template.innerHTML = `
   </div>
 
   <style>
-    .hidden {
+    .hotlight.hidden {
       display: none;
     }
 
@@ -331,14 +327,33 @@ template.innerHTML = `
       pointer-events: none;
     }
 
-    .hotlight-logo {
+    .bottom-bar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       line-height: 24px;
       font-size: 14px;
+      margin: 5px 10px;
+    }
+    .loading-indicator {
+      flex-grow: 1;
+      font-size: 24px;
+      animation: flickerAnimation 1s infinite;
+    }
+    .loading-indicator.hidden span {
+      visibility: hidden;
+    }
+    .hotlight-logo {
+      font-size: 12px;
+      /*display: flex;*/
       text-decoration: none;
       color: white;
-      margin: 5px 10px;
-      /*display: flex;*/
-      align-self: flex-end;
+    }
+
+    @keyframes flickerAnimation {
+      0%   { opacity:1; }
+      50%  { opacity:0; }
+      100% { opacity:1; }
     }
   </style>
 `;

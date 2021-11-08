@@ -4,6 +4,7 @@ export type Context = {
   parents: Action[];
   actions: Action[];
   activeActionIndex: number;
+  loading: boolean;
 }
 
 type SourceResult = {
@@ -12,6 +13,7 @@ type SourceResult = {
 type SourceResults = SourceResult[];
 
 type RequestFunction = (query?: string, context?: Context) => Promise<Actions> | Actions | string;
+
 export type Source = {
   request?: RequestFunction | string;
   category?: string;
@@ -21,7 +23,7 @@ export type Source = {
 export type Config = {
   isOpen?: boolean;
   //stayOpened?: boolean;
-  query?: string;
+  initialQuery?: string;
   maxHits?: number;
 
   placeholder?: string;
@@ -43,7 +45,7 @@ interface ActionBase {
   arguments?: Argument[];
   hotkeys?: string;
   category?: string;
-  parentTitle: string;
+  parentTitle?: string;
   trigger: Trigger;
 }
 
@@ -75,7 +77,7 @@ type ArgumentResult = {
 }
 
 
-type TriggerFunction = (query: string, arguments: ArgumentResult, context: Context) => Action[] | [string | null, string | null];
+type TriggerFunction = (query: string, arguments: ArgumentResult, context: Context) => Action[] | [string | null, string | null] | void;
 type TriggerRedirectUrl = string;
 type Trigger = TriggerFunction | TriggerRedirectUrl;
 
@@ -85,4 +87,10 @@ type SuccessMessage = {
 }
 //type Card = HTMLTemplateElement | any;
 
-
+type Engine = {
+  pick: () => void,
+  search: (query: string) => Promise<Actions>,
+  context: Context;
+  activateActionIndex: (index: number) => boolean;
+  back: () => void;
+}

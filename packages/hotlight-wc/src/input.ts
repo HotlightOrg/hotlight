@@ -89,6 +89,8 @@ template.innerHTML = `
       id="input"
       type="text"
       class="text-input"
+      autocomplete="off"
+      spellcheck="false"
     />
   </div>
 

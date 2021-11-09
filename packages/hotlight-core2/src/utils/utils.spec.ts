@@ -18,7 +18,7 @@ describe('search', () => {
 
   it('returns top 20 actions by default', () => {
     const action = { title: "action title", trigger: "https://test-domain.com" };
-    const actions = Array.from(new Array(100)).map(a => action);
+    const actions = Array.from(new Array(100)).map(_ => action);
     const e = engine(actions);
     expect(e.search("a").length).toEqual(20);
   })

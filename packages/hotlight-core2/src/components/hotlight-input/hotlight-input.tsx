@@ -88,7 +88,7 @@ export class CommandInput {
         <input
           class="text-input"
           type="text"
-          placeholder={this.config.placeholder || "What do you need?"}
+          placeholder={this.config.placeholder}
           ref={el => this.textInput = el as HTMLInputElement}
           onKeyUp={this.doQuery.bind(this)}
           onKeyDown={this.skip.bind(this)}

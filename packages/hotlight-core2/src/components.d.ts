@@ -8,13 +8,14 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { HotlightAction as HotlightAction1, HotlightConfig } from "./components/hotlight-modal/hotlight-modal";
 import { HotlightAction, HotlightConfig as HotlightConfig1 } from "./components/hotlight-modal/hotlight-modal";
 import { HotlightContext } from "./utils/fuzzy";
-import { Config } from "./components/my-component/my-component";
 export namespace Components {
     interface HotlightCrumb {
         "label": string;
     }
     interface HotlightInput {
         "config": HotlightConfig;
+    }
+    interface HotlightLauncher {
     }
     interface HotlightModal {
         "actions": HotlightAction[];
@@ -23,9 +24,6 @@ export namespace Components {
     interface HotlightResults {
         "actions": HotlightAction[];
         "config": HotlightConfig;
-    }
-    interface MyComponent {
-        "config": Config;
     }
 }
 declare global {
@@ -41,6 +39,12 @@ declare global {
         prototype: HTMLHotlightInputElement;
         new (): HTMLHotlightInputElement;
     };
+    interface HTMLHotlightLauncherElement extends Components.HotlightLauncher, HTMLStencilElement {
+    }
+    var HTMLHotlightLauncherElement: {
+        prototype: HTMLHotlightLauncherElement;
+        new (): HTMLHotlightLauncherElement;
+    };
     interface HTMLHotlightModalElement extends Components.HotlightModal, HTMLStencilElement {
     }
     var HTMLHotlightModalElement: {
@@ -53,18 +57,12 @@ declare global {
         prototype: HTMLHotlightResultsElement;
         new (): HTMLHotlightResultsElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLElementTagNameMap {
         "hotlight-crumb": HTMLHotlightCrumbElement;
         "hotlight-input": HTMLHotlightInputElement;
+        "hotlight-launcher": HTMLHotlightLauncherElement;
         "hotlight-modal": HTMLHotlightModalElement;
         "hotlight-results": HTMLHotlightResultsElement;
-        "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -77,6 +75,9 @@ declare namespace LocalJSX {
         "onCommandk:query"?: (event: CustomEvent<string>) => void;
         "onGoUp"?: (event: CustomEvent<any>) => void;
     }
+    interface HotlightLauncher {
+        "onCommandk:open"?: (event: CustomEvent<{}>) => void;
+    }
     interface HotlightModal {
         "actions"?: HotlightAction[];
         "config"?: HotlightConfig;
@@ -87,16 +88,12 @@ declare namespace LocalJSX {
         "onCommandk:clear"?: (event: CustomEvent<HotlightContext>) => void;
         "onCommandk:trigger"?: (event: CustomEvent<{}>) => void;
     }
-    interface MyComponent {
-        "config"?: Config;
-        "onCommandk:open"?: (event: CustomEvent<{}>) => void;
-    }
     interface IntrinsicElements {
         "hotlight-crumb": HotlightCrumb;
         "hotlight-input": HotlightInput;
+        "hotlight-launcher": HotlightLauncher;
         "hotlight-modal": HotlightModal;
         "hotlight-results": HotlightResults;
-        "my-component": MyComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -105,9 +102,9 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "hotlight-crumb": LocalJSX.HotlightCrumb & JSXBase.HTMLAttributes<HTMLHotlightCrumbElement>;
             "hotlight-input": LocalJSX.HotlightInput & JSXBase.HTMLAttributes<HTMLHotlightInputElement>;
+            "hotlight-launcher": LocalJSX.HotlightLauncher & JSXBase.HTMLAttributes<HTMLHotlightLauncherElement>;
             "hotlight-modal": LocalJSX.HotlightModal & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
             "hotlight-results": LocalJSX.HotlightResults & JSXBase.HTMLAttributes<HTMLHotlightResultsElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
 }

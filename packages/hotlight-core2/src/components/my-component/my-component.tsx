@@ -20,13 +20,11 @@ export type Config = {
 }
 
 @Component({
-  tag: 'my-component',
-  styleUrl: 'my-component.css',
+  tag: 'hotlight-launcher',
+  styleUrl: 'hotlight-launcher.css',
   shadow: true,
 })
-export class MyComponent {
-  @Prop() config: Config;
-
+export class HotlightLauncher {
   @Event({
     eventName: 'commandk:open',
     bubbles: true

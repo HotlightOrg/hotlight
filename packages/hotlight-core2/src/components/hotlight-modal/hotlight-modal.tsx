@@ -1,6 +1,17 @@
 import { Host, Component, Listen, State, Prop, h } from '@stencil/core';
 import { HotlightContext } from "../../utils/fuzzy";
 
+const initialConfig: HotlightConfig = {
+  opened: false,
+  stayOpened: false,
+  query: null,
+  maxHits: 10,
+
+  placeholder: "What do you need?",
+
+  sources: {}
+}
+
 export type Source = (query: string) => Promise<HotlightAction[]>;
 
 export type HotlightConfig = {
@@ -38,7 +49,7 @@ export type HotlightAction = {
   shadow: true,
 })
 export class HotlightModal {
-  @Prop() config: HotlightConfig = {};
+  @Prop() config: HotlightConfig = initialConfig;
   @Prop() actions: HotlightAction[] = [];
   @State() opened: boolean;
   @State() hidden: boolean;
@@ -67,6 +78,23 @@ export class HotlightModal {
       this.open();
     }
   }
+
+    /*
+  set config(val) {
+    if(val) {
+      this.setAttribute('config', {
+        ...initialConfig,
+        val
+      });
+    }
+  }
+
+  mergeDefault(newVal: HotlightConfig, oldVal: HotlightConfig) {
+    console.log(newVal, oldVal);
+    //this.config = { ...initialConfig, ...newVal };
+    console.log(this.config);
+  }
+     */
 
   @Listen('keydown', { target: 'window' })
   handleOpen(e: KeyboardEvent) {
@@ -128,7 +156,6 @@ export class HotlightModal {
   }
 
   renderModal() {
-
     return (
       <div
         class="modal-container"
@@ -178,3 +205,4 @@ export class HotlightModal {
     );
   }
 }
+

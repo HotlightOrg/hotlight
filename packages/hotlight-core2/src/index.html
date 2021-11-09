@@ -16,10 +16,108 @@
       })
 
     </script>
+
+
+<template id="hotlight-modal">
+  <style>
+    div {
+      background: black;
+      color: white;
+    }
+  </style>
+
+  <div class="modal-container">
+    <div class="modal hidden">
+      <div class="input-wrapper">
+        <hotlight-input />
+      </div>
+    </div>
+  </div>
+  <div
+    class="backdrop hidden"
+  />
+</template>
+
+<script>
+const defaultConfig = {
+  token: "fake"
+}
+
+class Input extends HTMLElement {
+  constructor() {
+    super();
+    console.log("input init");
+  }
+}
+
+class Modal extends HTMLElement {
+  constructor() {
+    super();    
+    let template = document.getElementById('hotlight-modal');
+    let templateContent = template.content;
+    const shadowRoot = this
+      .attachShadow({
+        mode: 'open'
+      })
+      .appendChild(templateContent.cloneNode(true));
+
+    this._config = defaultConfig;
+    this._actions = [];
+
+    this.container = this.shadowRoot.querySelector(".modal-container");
+    //this.modal = this.shadowRoot.querySelector(".modal-container");
+    //this.backdrop = this.shadowRoot.querySelector(".modal-container");
+
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "k" && e.metaKey) {
+        this.toggle();
+        e.preventDefault();
+      }
+    });
+  }
+
+  toggle() {
+    console.log("TOGGLE");
+  }
+
+  /*
+  static get observedAttributes() {
+    return ['value'];
+  }
+
+  attributeChangedCallback(attrName, oldValue, newValue) {
+    if (attrName === 'value') {
+      console.log(attrName, oldValue, newValue);
+      this.value = parseInt(newValue, 10);
+    }
+  }
+  */
+
+  set config(value) {
+    const c = { ...defaultConfig, ...value };
+    this._config = c;
+  }
+
+  get config() {
+    return this._config;
+  }
+}
+
+customElements.define("hotlight-input", Input);
+customElements.define("hotlight-modalx", Modal);
+
+
+</script>
   </head>
   <body>
     <hotlight-modal></hotlight-modal>
+    <hotlight-modalx value="this is value"></hotlight-modalx>
   <script>
+
+const x = document.querySelector("hotlight-modalx");
+x.config = { yo: "what" }
+console.log(x.config)
+
 const config = {
   //opened: true,
   //stayOpened: true,

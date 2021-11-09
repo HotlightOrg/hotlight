@@ -1,24 +1,17 @@
 {
-  "name": "hotlight-core",
-  "version": "0.1.1",
-  "description": "Web app hot keys and search.",
-  "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
-  "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/arnklint/hotlight/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arnklint/hotlight.git",
-    "directory": "packages/hotlight-core"
-  },
-  "main": "dist/index.js",
+  "name": "hotlight-wc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "dev": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",
-    "build": "esbuild src/index.ts --bundle --outfile=www/index.js --format=esm",
-    "build:prod": "esbuild src/index.ts --bundle --outfile=dist/index.js --minify",
+    "build": "esbuild src/hotlight.ts --bundle --outfile=out.js --format=esm",
+    "build:prod": "esbuild src/hotlight.ts --bundle --outfile=out.js --format=esm --minify",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"
   },
   "keywords": [],
+  "author": "",
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {

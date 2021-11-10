@@ -53,11 +53,11 @@ export class Modal extends Component {
 
   private _config: Config;
   private container: HTMLDivElement;
-  private input: HTMLInputElement;
   private hotlight: HTMLElement;
   private results: HTMLElement;
   private debugElement: HTMLElement;
   private engine: Engine;
+  public input: HTMLInputElement;
 
   private isOpen: boolean;
 

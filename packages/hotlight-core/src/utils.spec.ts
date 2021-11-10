@@ -119,7 +119,7 @@ describe('underscore', () => {
 
 describe('triggerIcon', () => {
   it('returns an icon that indicates action', () => {
-    expect(triggerIcon(() => {})).toEqual({ icon: "action", path: null });
+    expect(triggerIcon(() => {})).toEqual({ icon: "action", path: "" });
   });
   it('returns an icon that indicates external link', () => {
     expect(triggerIcon("https://external-domain.com/x")).toEqual({ icon: "external", path: "external-domain.com/x" });

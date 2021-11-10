@@ -1,12 +1,12 @@
 import { F } from "./fuzzy";
-import { Engine, Action, Actions, Context } from "../typings";
+import { Config, Engine, Actions, Context } from "../typings";
 import { validURLOrPathname } from "../utils";
 import { levenshteinDistance } from "./sort";
 import { readByQuery, readCache, writeCache } from "./cache";
 import store from "../store/index";
 
 // this scores whats found. hotkeys should precede "normal" hits.
-const score = (found, query) => {
+const score = (found: Actions, query: string) => {
   return found.map(hit => {
     let score = levenshteinDistance(query, hit.title);
 
@@ -56,23 +56,20 @@ let initialContext: Context = {
   loading: false
 };
 
-const engine = (config = null): Engine => {
+const engine = (config: Config): Engine => {
   let context = { ...initialContext };
 
-  let lastQuery = "";
-
-  //const lastResultsCount = {};
   let requests = 0;
   const request = (query: string) => {
     Object
-      .keys(config.sources)
+      .keys(store.state.config.sources)
       .forEach(async source => {
         requests++;
         const cached = readCache(source, query);
         if(cached) {
           respond(source, query, cached);
         } else {
-          const actions = await config.sources[source](query);
+          let actions = await config.sources[source](query);
           respond(source, query, actions);
         }
       });
@@ -110,7 +107,7 @@ const engine = (config = null): Engine => {
       if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
-        const results = await action.trigger(store.state.query, null, store.state);
+        const results = await action.trigger(store.state.query, {}, store.state);
         if(typeof results === "string" && validURLOrPathname(results)) {
           window.location.href = results;
         }

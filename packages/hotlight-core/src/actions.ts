@@ -43,8 +43,8 @@ export const actions: Actions = [
       },
       {
         placeholder: "Organisation",
-        options: async (query) => {
-          return new Promise((resolve, reject) => {
+        options: async (query: string) => {
+          return new Promise((resolve, _reject) => {
             resolve([{
               label: "yo",
               value: "string"
@@ -61,7 +61,7 @@ export const actions: Actions = [
     }
   },
   { title: "parent", trigger: "/" },
-  { title: "child", parentTitle: "parent" },
+  { title: "child", parentTitle: "parent", trigger: "/" },
   { title: "jonas", trigger: "https://jonas.arnklint.com" },
   { title: "kalle", trigger: "/" },
   { title: "documentation", trigger: "/" },

@@ -1,6 +1,10 @@
-import { Actions } from "./typings";
+import { Actions } from "../typings";
 
-let cache = {};
+type Cache = {
+  [key: string]: any;
+}
+
+let cache: Cache = {};
 export const writeCache = (sourceName: string, query: string, results: Actions) => {
   cache[sourceName] = {
     ...cache[sourceName],

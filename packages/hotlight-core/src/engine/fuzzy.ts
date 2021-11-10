@@ -1,4 +1,8 @@
-const nestedProp = (object, path, list = []) => {
+
+type Value = Value[] | string | null | number;
+type Obj = { [key: string]: Value };
+
+export const nestedProp = (obj: Obj, path: string, list: Value[] = []) => {
   let firstSegment: string;
   let remain;
   let dotIndex;
@@ -16,11 +20,11 @@ const nestedProp = (object, path, list = []) => {
       remain = path.slice(dotIndex + 1);
     }
 
-    value = object[firstSegment];
+    value = obj[firstSegment];
     if (value !== null && typeof value !== 'undefined') {
       if (!remain && (typeof value === 'string' || typeof value === 'number')) {
         list.push(value);
-      } else if (Object.prototype.toString.call(value) === '[object Array]') {
+      } else if (Array.isArray(value)) {
         for (i = 0, length = value.length; i < length; i++) {
           nestedProp(value[i], remain, list);
         }
@@ -29,30 +33,31 @@ const nestedProp = (object, path, list = []) => {
       }
     }
   } else {
-    list.push(object);
+    list.push(obj);
   }
 
   return list;
 }
 
-const firstLetterIndexes = (item: string, query: string) => {
+export const firstLetterIndexes = (item: string, query: string) => {
   const match = query[0];
 
   return item
     .split('')
-    .map((letter, index) => {
-      if (letter !== match) {
-        return -1;
+    .reduce((prev, curr, i) => {
+      if(curr === match) {
+        return prev.concat(i);
       }
-
-      return index;
-    })
-    .filter(index => index !== -1);
+      return prev;
+    }, [] as number[]);
 }
 
-const nearestIndexesFor = (item, query) => {
+type Index = boolean | number[];
+//type Indexes = Index[];
+type Indexes = Index[];
+export const nearestIndexesFor = (item: string, query: string) => {
   const letters = query.split('');
-  let indexes = [];
+  let indexes: Indexes = [];
 
   const firstIndexes = firstLetterIndexes(item, query);
 
@@ -72,7 +77,7 @@ const nearestIndexesFor = (item, query) => {
         break;
       }
 
-      indexes[loopingIndex].push(index);
+      (indexes[loopingIndex] as number[]).push(index);
 
       index++;
     }
@@ -80,13 +85,11 @@ const nearestIndexesFor = (item, query) => {
 
   indexes = indexes.filter(letterIndexes => letterIndexes !== false);
 
-  if (! indexes.length) {
-    return false;
-  }
+  if (!indexes.length) return false;
 
   return indexes.sort((a, b) => {
-    if (a.length === 1) {
-      return a[0] - b[0];
+    if (Array.isArray(a) && a.length === 1) {
+      return a[0] - (b as number[])[0];
     }
 
     a = a[a.length - 1] - a[0];
@@ -96,7 +99,7 @@ const nearestIndexesFor = (item, query) => {
   })[0];
 }
 
-const isMatch = (item: string, query: string) => {
+export const isMatch = (item: string, query: string) => {
   item = String(item);
   query = String(query);
 
@@ -105,7 +108,7 @@ const isMatch = (item: string, query: string) => {
 
   const indexes = nearestIndexesFor(item, query);
 
-  if (!indexes) {
+  if (typeof indexes === "boolean") {
     return false;
   }
 
@@ -114,12 +117,12 @@ const isMatch = (item: string, query: string) => {
     return 1;
   }
 
-  // If we have more than 2 letters, matches close to each other should be first.
-  if (indexes.length > 1) {
+  // When more than 2 letters, matches close to each other should be first.
+  if (Array.isArray(indexes) && indexes.length > 1) {
     return 2 + (indexes[indexes.length - 1] - indexes[0]);
   }
 
-  // Matches closest to the start of the string should be first.
+  // Match closest to the start of the string should be first.
   return 2 + indexes[0];
 }
 

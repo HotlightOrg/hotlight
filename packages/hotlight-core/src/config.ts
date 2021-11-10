@@ -12,6 +12,6 @@ const defaultConfig: Config = {
   sources: {}
 };
 
-export const config = (custom: Config = {}): Config => {
+export const config = (custom: Partial<Config> = {}): Config => {
   return { ...defaultConfig, ...custom };
 }

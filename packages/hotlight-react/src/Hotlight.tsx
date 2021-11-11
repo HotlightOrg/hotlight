@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { defineCustomElements } from "hotlight-core";
-defineCustomElements();
+import { hotlight } from "hotlight-core";
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
 /*
@@ -24,15 +23,13 @@ type Props = {
   config: any;
   actions: any;
 }
-const Hotlight = ({ config, actions }: Props) => {
+const Hotlight = ({ config }: Props) => {
   // Only runs client side
   useEffect(() => {
-    const c = document.querySelector('hotlight-modal');// as JSX.HotlightModal;
-    if(c) {
-      c.actions = actions;
-      c.config = config;
-    }
+    const hl = hotlight();
+    hl.configure(config);
   })
+
   return (
     <hotlight-modal />
   )

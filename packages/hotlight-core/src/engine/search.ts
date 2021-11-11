@@ -85,7 +85,7 @@ const engine = (config: Config): Engine => {
 
     const currentResults = readByQuery(query);
 
-    const fuzzy = F(currentResults, ['title', 'alias', 'description'])//, 'hotkey']);
+    const fuzzy = F(currentResults, ['title', 'alias', 'description']);
     const found = fuzzy.search(query);
     //const hits = hotkeysFirst(found, query);
     if(found.length > 0 && query !== "") {

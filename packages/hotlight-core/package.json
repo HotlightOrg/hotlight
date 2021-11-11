@@ -17,10 +17,12 @@
     "build:prod": "esbuild src/index.ts --bundle --target=chrome93,firefox94,safari13,edge93 --minify --outfile=dist/index.js",
     "build:types": "tsc -p ./tsconfig.json",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
-    "test:disabled": "node  --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"
   },
-  "keywords": [],
+  "keywords": [
+    "command palette",
+    "keyboard shortcuts"
+  ],
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {

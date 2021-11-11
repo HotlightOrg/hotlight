@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Passes config and actions down to the web component 1`] = `<hotlight-modal />`;

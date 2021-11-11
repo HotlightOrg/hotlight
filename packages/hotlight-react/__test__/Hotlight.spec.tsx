@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Hotlight from "./Hotlight";
+import Hotlight from "../src/Hotlight";
 
 const config = {
   sources: [() => [{

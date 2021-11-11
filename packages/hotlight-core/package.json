@@ -11,6 +11,7 @@
     "directory": "packages/hotlight-core"
   },
   "main": "dist/index.js",
+  "types": "dist",
   "scripts": {
     "dev": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",
     "build": "esbuild src/index.ts --bundle --outfile=www/index.js --format=esm",

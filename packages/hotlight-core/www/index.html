@@ -28,7 +28,9 @@
         { title: "Getting started", trigger: () => "/" },
         { title: "Hotlight React", trigger: () => "/" },
         { title: "Hotlight Svelte", trigger: () => "/" },
-        { title: "Close Hotlight", trigger: ({ hotlight }) => hotlight.close() },
+        { title: "Go to a website", trigger: () => "https://jonas.arnklint.com" },
+        { title: "Reload Window", trigger: () => location.reload() },
+        { title: "Close Hotlight", trigger: ({ close }) => close() },
         { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
         { title: "fast trigger", trigger: () => "#fast" }
       ]

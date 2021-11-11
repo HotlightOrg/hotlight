@@ -1,6 +1,7 @@
+import { Actions, Action } from "../typings";
 
-type Value = Value[] | string | null | number;
-type Obj = { [key: string]: Value };
+type Value = Value[] | Obj | string | null | number;
+type Obj = { [key: string]: Obj | string | null | number };
 
 export const nestedProp = (obj: Obj, path: string, list: Value[] = []) => {
   let firstSegment: string;
@@ -20,16 +21,18 @@ export const nestedProp = (obj: Obj, path: string, list: Value[] = []) => {
       remain = path.slice(dotIndex + 1);
     }
 
-    value = obj[firstSegment];
+    value = obj[firstSegment as keyof Action];
     if (value !== null && typeof value !== 'undefined') {
       if (!remain && (typeof value === 'string' || typeof value === 'number')) {
         list.push(value);
       } else if (Array.isArray(value)) {
-        for (i = 0, length = value.length; i < length; i++) {
-          nestedProp(value[i], remain, list);
+        if(typeof remain !== "undefined") {
+          for (i = 0, length = value.length; i < length; i++) {
+            nestedProp(value[i], remain, list);
+          }
         }
       } else if (remain) {
-        nestedProp(value, remain, list);
+        nestedProp(value as Obj, remain, list);
       }
     }
   } else {
@@ -92,10 +95,13 @@ export const nearestIndexesFor = (item: string, query: string) => {
       return a[0] - (b as number[])[0];
     }
 
-    a = a[a.length - 1] - a[0];
-    b = b[b.length - 1] - b[0];
+    if(Array.isArray(a) && Array.isArray(b)) {
+      const _a = a[a.length - 1] - a[0];
+      const _b = b[b.length - 1] - b[0];
+      return _a - _b;
+    }
 
-    return a - b;
+    return 0;
   })[0];
 }
 
@@ -126,7 +132,7 @@ export const isMatch = (item: string, query: string) => {
   return 2 + indexes[0];
 }
 
-export const F = (actions, keys) => {
+export const F = (actions: Obj[], keys: string[]) => {
 
   const search = (query = '') => {
     if (query === '') {
@@ -144,7 +150,7 @@ export const F = (actions, keys) => {
         let found = false;
 
         for (let z = 0; z < propertyValues.length; z++) {
-          const score = isMatch(propertyValues[z], query);
+          const score = isMatch(String(propertyValues[z]), query);
 
           if (score) {
             found = true;

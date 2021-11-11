@@ -12,7 +12,8 @@ let initialState: State = {
     maxHits: 20,
     placeholder: "What are you looking to do?",
     sources: {},
-    debug: false
+    debug: false,
+    isOpen: false
   }
 };
 

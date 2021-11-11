@@ -4,24 +4,27 @@ const source: Source = () => {
   return actions;
 }
 
+/*
 const source2: Source = {
   category: "pull requests",
   request: (query: string) => "https://api.begreet.com?query=" + query
 }
+*/
 
-const source3: Source = {
-  request: async (query) => {
-    const res = await fetch("https://31dgeh4x4m.execute-api.eu-west-1.amazonaws.com/hello?query=" + query)
+type Hit = {
+  id: string;
+}
+const source3: Source = async (query) => {
+  const res = await fetch("https://31dgeh4x4m.execute-api.eu-west-1.amazonaws.com/hello?query=" + query)
 
-    if(res.ok) {
-      const { message } = await res.json();
-      return message.hits.map(hit => ({
-        title: "" + new Date().getTime() + hit.id,
-        trigger: "/"
-      }));
-    } else {
-      return [];
-    }
+  if(res.ok) {
+    const { message } = await res.json();
+    return message.hits.map((hit: Hit) => ({
+      title: "" + new Date().getTime() + hit.id,
+      trigger: "/"
+    }));
+  } else {
+    return [];
   }
 }
 

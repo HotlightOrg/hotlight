@@ -1,4 +1,13 @@
-import { Actions, State } from "../typings";
+import { Actions, Config, State } from "../typings";
+
+export const setConfig = (state: State, payload: Partial<Config>) => {
+  state.config = {
+    ...state.config,
+    ...payload
+  }
+
+  return state;
+}
 
 export const loading = (state: State, payload: boolean) => {
   state.loading = payload;

@@ -88,8 +88,10 @@ const engine = (config: Config): Engine => {
     const fuzzy = F(currentResults, ['title', 'alias', 'description'])//, 'hotkey']);
     const found = fuzzy.search(query);
     //const hits = hotkeysFirst(found, query);
-    const limited = found.slice(0, config.maxHits ?? 20);
-    store.dispatch("receiveActions", limited);
+    if(found.length > 0 && query !== "") {
+      const limited = found.slice(0, config.maxHits ?? 20);
+      store.dispatch("receiveActions", limited);
+    }
   }
 
   const search = (query: string): void => {

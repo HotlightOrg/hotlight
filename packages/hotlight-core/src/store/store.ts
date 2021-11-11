@@ -42,12 +42,12 @@ export default class Store {
     }
 
     self.state = new Proxy((props.state || initialState), {
-      set: function(state: State, key: keyof State, value) {
+      set: function<K extends keyof State, V extends State[K]>(state: State, key: K, value: V) {
 
         if(state[key] !== value) {
           state[key] = value;
 
-          log(`stateChange: ${key}: ${value}`);
+          log(`stateChange: ${key}: ${String(value)}`);
 
           self.events.publish("stateChange", self.state);
 

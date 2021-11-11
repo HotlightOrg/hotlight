@@ -76,6 +76,7 @@ interface ActionBase {
   category?: string;
   parentTitle?: string;
   trigger: Trigger;
+  [key: string]: any;
 }
 
 export type Action = ActionBase; //ActionWithParent | ActionWithTrigger;// | (ActionWithTrigger & ActionWithParent);

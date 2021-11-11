@@ -7,9 +7,13 @@ const actions = [
   { title: "Readme", trigger: "/" },
   { title: "Test", trigger: "/" },
   { title: "My action", trigger: "/" },
+  { title: "Close Hotlight", trigger: ({ close }: { close: () => void }) => close() },
 ]
 
+const source = () => actions;
+
 ReactDOM.render(React.createElement(Hotlight,{
-  config: {},
-  actions
+  config: {
+    sources: [source]
+  },
 }), document.querySelector('#root'));

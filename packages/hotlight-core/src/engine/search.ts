@@ -65,6 +65,7 @@ const engine = (config: Config): Engine => {
       .keys(store.state.config.sources)
       .forEach(async source => {
         requests++;
+        loading(true);
         const cached = readCache(source, query);
         if(cached) {
           respond(source, query, cached);
@@ -96,16 +97,15 @@ const engine = (config: Config): Engine => {
 
   const search = (query: string): void => {
     store.dispatch("search", query);
-    loading(true);
     request(query);
   }
 
   const pick = async () => {
-    loading(true);
     const children = [];//actionsByParentTitle[action.title];
     const action = store.state.actions[store.state.activeActionIndex];
 
-    if(children.length === 0 && action.trigger) {
+    if(action && action.trigger && children.length === 0) {
+      loading(true);
       if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
@@ -114,8 +114,8 @@ const engine = (config: Config): Engine => {
           window.location.href = results;
         }
       }
+      loading(false);
     }
-    loading(false);
   }
 
   const back = () => {

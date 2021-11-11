@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",
     "build": "esbuild src/index.ts --bundle --outfile=www/index.js --format=esm",
-    "build:prod": "esbuild src/index.ts --bundle --target=chrome93,firefox94,safari13,edge93 --minify --outfile=dist/index.js",
+    "build:prod": "esbuild src/index.ts --bundle --target=chrome93,firefox94,safari13,edge93 --minify --outfile=dist/index.js --format=esm",
     "build:types": "tsc -p ./tsconfig.json",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"

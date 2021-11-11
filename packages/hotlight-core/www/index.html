@@ -65,10 +65,10 @@
       import { hotlight } from "./main.js";
 
       const hl = hotlight();
-      hl.config = {
+      hl.configure({
         initialQuery: "janne",
         sources: [source, remote]
-      }
+      });
       hl.launch();
       hl.debug();
     </script>

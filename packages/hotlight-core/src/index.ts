@@ -11,7 +11,7 @@ import { Loading } from "./loading";
 customElements.define("hotlight-loading", Loading);
 
 export const hotlight = () => {
-  const hotlight = document.querySelector("hotlight-modal");
+  const hotlight = document.querySelector("hotlight-modal") as Modal;
   if(hotlight) return hotlight;
   throw new Error("No <hotlight-modal> detected on the page. Please add a <hotlight-modal></hotlight-modal> in the body of the page.");
 }

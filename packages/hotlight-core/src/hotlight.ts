@@ -75,6 +75,10 @@ export class Modal extends Component {
     }
   }
 
+  configure(config: Partial<Config>) {
+    store.dispatch("setConfig", config);
+  }
+
   set config(value) {
     store.dispatch("setConfig", value);
     this._config = config(value);

@@ -56,7 +56,7 @@ export const actions: Actions = [
         }
       }
     ],
-    trigger: (_, args) => {
+    trigger: (args) => {
       //if(Contact.create(args)) {
         alert("Success!");
       //}

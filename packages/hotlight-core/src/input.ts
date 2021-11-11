@@ -43,8 +43,7 @@ export class Input extends HTMLElement {
   }
 
   set placeholder(value: string) {
-    this.setAttribute("placeholder", value);
-    this.input.setAttribute("value", value);
+    this.input.setAttribute("placeholder", value);
   }
 
   private component: any;

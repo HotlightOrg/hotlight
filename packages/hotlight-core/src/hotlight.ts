@@ -1,4 +1,5 @@
 import Component from './lib/component';
+import { Input } from "./input";
 import { Config, Engine } from "./typings";
 import engine from "./engine/search";
 import { config } from "./config";
@@ -25,8 +26,8 @@ export class Modal extends Component {
 
     this.debugElement = this.root.querySelector(".debug")!;
 
-    this.input = this.root.querySelector("hotlight-input")!;
-    this.input.setAttribute("placeholder", this._config.placeholder!);
+    this.input = this.root.querySelector("hotlight-input")! as Input;
+    this.input.placeholder = store.state.config.placeholder;
     this.input.addEventListener("keyup", this.search.bind(this));
     this.input.addEventListener("keydown", this.skip.bind(this));
 
@@ -57,7 +58,7 @@ export class Modal extends Component {
   private results: HTMLElement;
   private debugElement: HTMLElement;
   private engine: Engine;
-  public input: HTMLInputElement;
+  public input: Input;
 
   private isOpen: boolean;
 
@@ -99,6 +100,8 @@ export class Modal extends Component {
       setTimeout(() => {
         document.body.style.overflowY = "auto";
       }, 300); // approx the transition time
+      this.input.clear();
+      store.dispatch("search", "");
       this.isOpen = false;
     }
   }

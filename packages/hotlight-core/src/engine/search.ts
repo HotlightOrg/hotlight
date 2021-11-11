@@ -1,3 +1,4 @@
+import { Modal } from "../hotlight";
 import { F } from "./fuzzy";
 import { Config, Engine, Actions, Context } from "../typings";
 import { validURLOrPathname } from "../utils";
@@ -61,8 +62,10 @@ const engine = (config: Config): Engine => {
 
   let requests = 0;
   const request = (query: string) => {
+    const { sources } = store.state.config;
+
     Object
-      .keys(store.state.config.sources)
+      .keys(sources)
       .forEach(async source => {
         requests++;
         loading(true);
@@ -70,7 +73,7 @@ const engine = (config: Config): Engine => {
         if(cached) {
           respond(source, query, cached);
         } else {
-          let actions = await config.sources[source](query);
+          let actions = await sources[source](query);
           respond(source, query, actions);
         }
       });
@@ -100,16 +103,23 @@ const engine = (config: Config): Engine => {
     request(query);
   }
 
+  const close = () => {
+    const hotlight = document.querySelector("hotlight-modal") as Modal;
+    hotlight!.close();
+  }
+
   const pick = async () => {
+    const { query, actions, activeActionIndex } = store.state;
+
     const children = [];//actionsByParentTitle[action.title];
-    const action = store.state.actions[store.state.activeActionIndex];
+    const action = actions[activeActionIndex];
 
     if(action && action.trigger && children.length === 0) {
       loading(true);
       if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
-        const results = await action.trigger(store.state.query, {}, store.state);
+        const results = await action.trigger({ query, arguments: {}, context: store.state, close });
         if(typeof results === "string" && validURLOrPathname(results)) {
           window.location.href = results;
         }

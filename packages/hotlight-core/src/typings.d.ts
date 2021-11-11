@@ -107,7 +107,13 @@ type ArgumentResult = {
 }
 
 
-type TriggerFunction = (query: string, arguments: ArgumentResult, context: Context) => Promise<Actions> | Actions | [string | null, string | null] | void;
+type TriggerFunctionProps = {
+  query: string;
+  arguments: ArgumentResult;
+  context: Context;
+  close: () => void;
+}
+type TriggerFunction = ({ query, arguments, context, hotlight }: TriggerFunctionProps) => Promise<Actions> | Actions | [string | null, string | null] | void;
 type TriggerRedirectUrl = string;
 type Trigger = TriggerFunction | TriggerRedirectUrl;
 

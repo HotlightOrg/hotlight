@@ -1,0 +1,41 @@
+$font-size: 16px;
+$font-size-sm: 14px;
+
+// dark mode:
+//https://ionicframework.com/docs/theming/dark-mode#automatically-enable-dark-mode
+
+:root {
+  --font-s: 40px;
+}
+
+:host {
+  --font-size: 18px;
+  --light-bg: #fff;
+
+  --font-color: rgba(255, 255, 255, 1);
+  --font-color-dimmed: rgba(255, 255, 255, .7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --font-size: 22px;
+    --light-bg: #333;
+
+    --font-color: rgba(255, 255, 255, 1);
+    --font-color-dimmed: rgba(255, 255, 255, .7);
+  }
+}
+
+/*
+@mixin min-width($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+
+$breakpoint-tablet: 768px;
+@media (min-width: $breakpoint-tablet) {
+  
+}
+
+*/

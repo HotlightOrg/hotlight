@@ -47,12 +47,7 @@ export const firstLetterIndexes = (item: string, query: string) => {
 
   return item
     .split('')
-    .reduce((prev, curr, i) => {
-      if(curr === match) {
-        return prev.concat(i);
-      }
-      return prev;
-    }, [] as number[]);
+    .reduce((prev, curr, i) => curr === match ? prev.concat(i) : prev, [] as number[]);
 }
 
 type Index = boolean | number[];

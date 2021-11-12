@@ -154,4 +154,4 @@ describe('truncate pathname', () => {
     expect(truncatePath(path, 10)).toEqual("/../../../fourth");
     expect(truncatePath(path, 30)).toEqual("/first/second/third/fourth");
   });
-});
+})

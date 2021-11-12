@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  background: pink;
+  margin: 5px 0 5px 10px;
+}
+
+.crumb {
+  border: none;
+  background: transparent;
+  padding: 3px 0;
+}
+.crumb span {
+  display: block;
+  padding: 3px 4px;
+}

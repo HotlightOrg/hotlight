@@ -1,4 +1,4 @@
-import { Actions } from "./typings";
+import { Actions } from "../typings";
 import engine from "./search";
 
 const slow = (q) => new Promise(r => setTimeout(() => r([{ title: q, trigger: "/" }]), 1000));
@@ -9,10 +9,10 @@ const actions: Actions = [{
 },{
   title: "Second long action herre to test fuzzy",
   trigger: "https://second.com"
-},{
+}/*{
   title: "funk",
   trigger: (query: string) => console.log(query)
-}];
+}*/];
 
 const config = {
   sources: {
@@ -20,6 +20,7 @@ const config = {
   }
 };
 
+/*
 xdescribe("Search", () => {
   jest.useFakeTimers();
 
@@ -158,3 +159,4 @@ xdescribe("Search", () => {
     });
   });
 });
+*/

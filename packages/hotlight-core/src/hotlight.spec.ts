@@ -75,7 +75,7 @@ describe("focus", () => {
 
   it("has focus after opened", () => {
     modal.input.dispatchEvent(new MouseEvent("click"));
-    expect(modal.input === ((document.activeElement as Modal).input as HTMLInputElement)).toEqual(true);
+    expect(modal.input === ((document.activeElement as Modal).input as Input)).toEqual(true);
   });
 });
 

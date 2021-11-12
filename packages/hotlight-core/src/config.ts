@@ -2,7 +2,6 @@ import { Config } from "./typings";
 
 const defaultConfig: Config = {
   isOpen: false,
-  //stayOpened: false,
   initialQuery: "",
   maxHits: 20,
   placeholder: "What do you need?",
@@ -12,6 +11,6 @@ const defaultConfig: Config = {
   sources: {}
 };
 
-export const config = (custom: Config = {}): Config => {
+export const config = (custom: Partial<Config> = {}): Config => {
   return { ...defaultConfig, ...custom };
 }

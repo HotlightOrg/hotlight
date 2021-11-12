@@ -1,12 +1,13 @@
+import { Modal } from "../hotlight";
 import { F } from "./fuzzy";
-import { Engine, Action, Actions, Context } from "../typings";
+import { Config, Engine, Actions, Context } from "../typings";
 import { validURLOrPathname } from "../utils";
 import { levenshteinDistance } from "./sort";
 import { readByQuery, readCache, writeCache } from "./cache";
 import store from "../store/index";
 
 // this scores whats found. hotkeys should precede "normal" hits.
-const score = (found, query) => {
+const score = (found: Actions, query: string) => {
   return found.map(hit => {
     let score = levenshteinDistance(query, hit.title);
 
@@ -56,23 +57,23 @@ let initialContext: Context = {
   loading: false
 };
 
-const engine = (config = null): Engine => {
+const engine = (config: Config): Engine => {
   let context = { ...initialContext };
 
-  let lastQuery = "";
-
-  //const lastResultsCount = {};
   let requests = 0;
   const request = (query: string) => {
+    const { sources } = store.state.config;
+
     Object
-      .keys(config.sources)
+      .keys(sources)
       .forEach(async source => {
         requests++;
+        loading(true);
         const cached = readCache(source, query);
         if(cached) {
           respond(source, query, cached);
         } else {
-          const actions = await config.sources[source](query);
+          let actions = await sources[source](query);
           respond(source, query, actions);
         }
       });
@@ -88,35 +89,43 @@ const engine = (config = null): Engine => {
 
     const currentResults = readByQuery(query);
 
-    const fuzzy = F(currentResults, ['title', 'alias', 'description'])//, 'hotkey']);
+    const fuzzy = F(currentResults, ['title', 'alias', 'description']);
     const found = fuzzy.search(query);
     //const hits = hotkeysFirst(found, query);
-    const limited = found.slice(0, config.maxHits ?? 20);
-    store.dispatch("receiveActions", limited);
+    if(found.length > 0 && query !== "") {
+      const limited = found.slice(0, config.maxHits ?? 20);
+      store.dispatch("receiveActions", limited);
+    }
   }
 
   const search = (query: string): void => {
     store.dispatch("search", query);
-    loading(true);
     request(query);
   }
 
-  const pick = async () => {
-    loading(true);
-    const children = [];//actionsByParentTitle[action.title];
-    const action = store.state.actions[store.state.activeActionIndex];
+  const close = () => {
+    const hotlight = document.querySelector("hotlight-modal") as Modal;
+    hotlight!.close();
+  }
 
-    if(children.length === 0 && action.trigger) {
+  const pick = async () => {
+    const { query, actions, activeActionIndex } = store.state;
+
+    const children = [];//actionsByParentTitle[action.title];
+    const action = actions[activeActionIndex];
+
+    if(action && action.trigger && children.length === 0) {
+      loading(true);
       if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
-        const results = await action.trigger(store.state.query, null, store.state);
+        const results = await action.trigger({ query, arguments: {}, context: store.state, close });
         if(typeof results === "string" && validURLOrPathname(results)) {
           window.location.href = results;
         }
       }
+      loading(false);
     }
-    loading(false);
   }
 
   const back = () => {

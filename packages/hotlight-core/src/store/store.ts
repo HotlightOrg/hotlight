@@ -1,13 +1,10 @@
 import PubSub from "../lib/pubsub";
 import { constants } from "./actions";
-import { State } from "../typings";
+import { State, Payload } from "../typings";
+import initialState from "./state";
 import { log } from "../utils";
 
 type Key = keyof typeof constants;
-
-type Payload = {
-  [kye: string]: any;  
-} | number | string | boolean;
 
 type Props = {
   actions?: any;
@@ -15,10 +12,19 @@ type Props = {
   state?: State;
 }
 
+type StoreAction = (context: Store, payload: Payload) => void;
+type StoreActions = {
+  [key: string]: StoreAction;
+}
+
+type Mutations = {
+  [key: string]: (state: State, payload: Payload) => State;
+}
+
 export default class Store {
-  actions = {};
-  mutations = {};
-  state: State = {};
+  actions: StoreActions = {};
+  mutations: Mutations = {};
+  state: State = initialState;
 
   status = "resting";
 
@@ -35,13 +41,13 @@ export default class Store {
       self.mutations = props.mutations;
     }
 
-    self.state = new Proxy((props.state || {}), {
-      set: function(state, key: string, value) {
+    self.state = new Proxy((props.state || initialState), {
+      set: function<K extends keyof State, V extends State[K]>(state: State, key: K, value: V) {
 
         if(state[key] !== value) {
           state[key] = value;
 
-          log(`stateChange: ${key}: ${value}`);
+          log(`stateChange: ${key}: ${String(value)}`);
 
           self.events.publish("stateChange", self.state);
 

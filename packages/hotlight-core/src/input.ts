@@ -11,12 +11,13 @@ export class Input extends HTMLElement {
 
     this.component.appendChild(template.content.cloneNode(true));
 
-    this.parentsContainer = this.component.getElementById("parents-container");
+    //this.parentsContainer = this.component.getElementById("parents-container");
     this.input = this.component.getElementById("input");
 
   }
 
   private renderParents() {
+    /*
     if(this.lastParentCount < this._parents.length) {
       this.parentsContainer.classList.remove("show");
     }
@@ -25,7 +26,7 @@ export class Input extends HTMLElement {
 
     this._parents.forEach(action => {
       const item = parentTemplate.content.cloneNode(true) as HTMLElement;
-      item.querySelector(".parent-inner").innerHTML = action.title;
+      item.querySelector(".parent-inner")!.innerHTML = action.title;
       frag.appendChild(item);
     });
 
@@ -34,6 +35,7 @@ export class Input extends HTMLElement {
     setTimeout(() => {
       this.parentsContainer.classList.add("show");
     }, 0);
+    */
   }
 
   clear() {
@@ -41,15 +43,14 @@ export class Input extends HTMLElement {
   }
 
   set placeholder(value: string) {
-    this.setAttribute("placeholder", value);
-    this.input.setAttribute("value", value);
+    this.input.setAttribute("placeholder", value);
   }
 
   private component: any;
   private input: HTMLInputElement;
-  private parentsContainer: HTMLDivElement;
-  private _parents: Actions;
-  private lastParentCount: number;
+  //private parentsContainer: HTMLDivElement;
+  //private _parents: Actions;
+  //private lastParentCount: number;
 
   get value() {
     return this.input.value;
@@ -61,7 +62,7 @@ export class Input extends HTMLElement {
 
   set parents(value: Actions) {
     log(value)
-    this._parents = value;
+    //this._parents = value;
     this.renderParents();
   }
 

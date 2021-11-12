@@ -11,7 +11,7 @@ export class Loading extends Component {
       template
     });
 
-    this.indicator = this.root.querySelector(".loading-indicator");
+    this.indicator = this.root.querySelector(".loading-indicator")!;
   }
 
   render(): void {

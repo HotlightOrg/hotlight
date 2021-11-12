@@ -1,3 +1,5 @@
+import { Trigger } from "./typings";
+
 export const w = typeof window !== "undefined" ? window : undefined;
 
 export const log = (args: any) => {
@@ -18,7 +20,7 @@ export const underscore = (str1: string, str2: string): string => {
   const str2Array = str2.toLowerCase().split("");
 
   let lastIndex = 0;
-  const underscored = str1Array
+  const underscored: { [key: number]: string } = str1Array
     .reduce((prev, curr) => {
       const index = str2Array.findIndex((y, i) => {
         if(y === curr && i >= lastIndex) {
@@ -48,10 +50,10 @@ export const underscore = (str1: string, str2: string): string => {
 
 }
 
-export const triggerIcon = (trigger): { icon: string; path: string } => {
+export const triggerIcon = (trigger: Trigger): { icon: string; path: string } => {
   const hostname = typeof window === "undefined" ? null : window.location.hostname;
 
-  let icon = null, path = null;
+  let icon = "", path = "";
   if(typeof trigger === "function") {
     icon = "action";
   } else if(validURLOrPathname(trigger)) {
@@ -125,7 +127,7 @@ export const truncatePath = (pathname: string, length = 10): string => {
         sum: 1000 // make sure nothing is added
       }
     }
-  }, { paths: [], sum: paths[paths.length-1].length });
+  }, { paths: [] as string[], sum: paths[paths.length-1].length });
 
   return first.paths.join("/");
 }

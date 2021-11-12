@@ -1,5 +1,5 @@
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import serve from 'rollup-plugin-serve';
+//import serve from 'rollup-plugin-serve';
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
@@ -16,13 +16,24 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      dir: "build/cjs",
+      dir: "build/cjs/",
       format: "cjs",
       sourcemap: true,
     },
     {
       dir: "build/esm/",
       format: "esm",
+      sourcemap: true,
+    },
+    {
+      dir: "build/umd/",
+      format: "umd",
+      sourcemap: true,
+      name: "bundle"
+    },
+    {
+      dir: "build/unpkg/",
+      format: "iife",
       sourcemap: true,
     }
   ],

@@ -11,14 +11,19 @@
     "directory": "packages/hotlight-core"
   },
   "main": "dist/index.js",
+  "types": "dist",
   "scripts": {
     "dev": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",
     "build": "esbuild src/index.ts --bundle --outfile=www/index.js --format=esm",
-    "build:prod": "esbuild src/index.ts --bundle --outfile=dist/index.js --minify",
+    "build:prod": "esbuild src/index.ts --bundle --target=chrome93,firefox94,safari13,edge93 --minify --outfile=dist/index.js --format=esm",
+    "build:types": "tsc -p ./tsconfig.json",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"
   },
-  "keywords": [],
+  "keywords": [
+    "command palette",
+    "keyboard shortcuts"
+  ],
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {
@@ -31,6 +36,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@types/jest": "^27.0.2",
     "babel-jest": "^27.3.0",
+    "babel-plugin-transform-builtin-classes": "^0.6.1",
     "esbuild": "^0.13.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.5",

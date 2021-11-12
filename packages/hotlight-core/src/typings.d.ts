@@ -4,6 +4,16 @@ declare global {
 	}
 }
 
+type ObjectKeys<T> = 
+  T extends object ? (keyof T)[] :
+  T extends number ? [] :
+  T extends Array<any> | string ? string[] :
+  never;
+
+interface ObjectConstructor {
+  keys<T>(o: T): ObjectKeys<T>
+}
+
 export type State = {
   query: string;
   level: number;
@@ -12,7 +22,6 @@ export type State = {
   activeActionIndex: number;
   loading: boolean;
   config: Config;
-  requestCount: 0;
 }
 
 export type Context = {
@@ -24,33 +33,36 @@ export type Context = {
   loading: boolean;
 }
 
+type Payload = {
+  [kye: string]: any;  
+} | number | string | boolean;
+
+
 type SourceResult = {
   [key: string]: any
 }
 type SourceResults = SourceResult[];
 
-type RequestFunction = (query?: string, context?: Context) => Promise<Actions> | Actions | string;
+type RequestFunction = (query?: string, context?: Context) => Promise<Actions> | Actions;// | string;
 
-export type Source = {
-  request?: RequestFunction | string;
-  category?: string;
-  transformResults?: (query?: string, res?: SourceResults) => Promise<Actions> | Actions;
-} | RequestFunction;
+export type Source = RequestFunction;//{
+  //request?: RequestFunction | string;
+  //category?: string;
+  //transformResults?: (query?: string, res?: SourceResults) => Promise<Actions> | Actions;
+//} ;
 
 export type Config = {
-  isOpen?: boolean;
-  //stayOpened?: boolean;
-  initialQuery?: string;
-  maxHits?: number;
+  isOpen: boolean;
+  initialQuery: string;
+  maxHits: number;
 
-  placeholder?: string;
+  placeholder: string;
 
-  sources?: {
+  sources: {
     [name: string]: Source;
   }
 
   debug?: boolean;
-  //log?: boolean;
 
   //token?: string;
 }
@@ -64,6 +76,7 @@ interface ActionBase {
   category?: string;
   parentTitle?: string;
   trigger: Trigger;
+  [key: string]: any;
 }
 
 export type Action = ActionBase; //ActionWithParent | ActionWithTrigger;// | (ActionWithTrigger & ActionWithParent);
@@ -94,7 +107,13 @@ type ArgumentResult = {
 }
 
 
-type TriggerFunction = (query: string, arguments: ArgumentResult, context: Context) => Action[] | [string | null, string | null] | void;
+type TriggerFunctionProps = {
+  query: string;
+  arguments: ArgumentResult;
+  context: Context;
+  close: () => void;
+}
+type TriggerFunction = ({ query, arguments, context, hotlight }: TriggerFunctionProps) => Promise<Actions> | Actions | [string | null, string | null] | void;
 type TriggerRedirectUrl = string;
 type Trigger = TriggerFunction | TriggerRedirectUrl;
 

@@ -1,5 +1,6 @@
 import Component from './lib/component';
-import { Config } from "./typings";
+import { Input } from "./input";
+import { Config, Engine } from "./typings";
 import engine from "./engine/search";
 import { config } from "./config";
 import store from "./store/index";
@@ -12,10 +13,10 @@ export class Modal extends Component {
     });
 
     this.config = config();
-    this.isOpen = this._config.isOpen;
+    this.isOpen = !!this._config.isOpen;
 
-    this.hotlight = this.shadowRoot.querySelector(".hotlight");
-    this.container = this.shadowRoot.querySelector(".container");
+    this.hotlight = this.root.querySelector(".hotlight")!;
+    this.container = this.root.querySelector(".container")!;
 
     this.container.addEventListener("click", (e: MouseEvent) => {
       if(e.target === this.container) {
@@ -23,14 +24,14 @@ export class Modal extends Component {
       }
     });
 
-    this.debugElement = this.shadowRoot.querySelector(".debug");
+    this.debugElement = this.root.querySelector(".debug")!;
 
-    this.input = this.shadowRoot.querySelector("hotlight-input");
-    this.input.setAttribute("placeholder", this._config.placeholder);
+    this.input = this.root.querySelector("hotlight-input")! as Input;
+    this.input.placeholder = store.state.config.placeholder;
     this.input.addEventListener("keyup", this.search.bind(this));
     this.input.addEventListener("keydown", this.skip.bind(this));
 
-    this.results = this.shadowRoot.querySelector("hotlight-results");
+    this.results = this.root.querySelector("hotlight-results")!;
     this.results.addEventListener("click", () => {
       this.engine.pick();
     });
@@ -53,11 +54,11 @@ export class Modal extends Component {
 
   private _config: Config;
   private container: HTMLDivElement;
-  private input: HTMLInputElement;
   private hotlight: HTMLElement;
   private results: HTMLElement;
   private debugElement: HTMLElement;
-  private engine: any;
+  private engine: Engine;
+  public input: Input;
 
   private isOpen: boolean;
 
@@ -75,7 +76,12 @@ export class Modal extends Component {
     }
   }
 
+  configure(config: Partial<Config>) {
+    store.dispatch("setConfig", config);
+  }
+
   set config(value) {
+    store.dispatch("setConfig", value);
     this._config = config(value);
     this.engine = engine(this._config);
   }
@@ -94,6 +100,8 @@ export class Modal extends Component {
       setTimeout(() => {
         document.body.style.overflowY = "auto";
       }, 300); // approx the transition time
+      this.input.clear();
+      store.dispatch("search", "");
       this.isOpen = false;
     }
   }
@@ -183,7 +191,7 @@ export class Modal extends Component {
 
   doTrigger() {
     this.engine.pick();
-    this.input.parents = store.state.parents;
+    //this.input.parents = store.state.parents;
   }
 }
 

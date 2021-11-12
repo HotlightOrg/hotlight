@@ -20,7 +20,9 @@ export default class Component extends HTMLElement {
         mode: "open"
       });
 
-    this.root.appendChild(props.template.content.cloneNode(true));
+    if(props.template) {
+      this.root.appendChild(props.template.content.cloneNode(true));
+    }
 
     let self = this;
 
@@ -35,7 +37,7 @@ export default class Component extends HTMLElement {
     }
 
     // Store the HTML element to attach the render to if set
-    if(props.hasOwnProperty("element")) {
+    if(props.hasOwnProperty("element") && props.element) {
       this.element = props.element;
     }
   }

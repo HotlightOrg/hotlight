@@ -10,13 +10,14 @@ export class Results extends Component {
       store
     });
 
-    this.results = this.root.getElementById("results");  
-    this.activeHit = this.root.getElementById("active-hit");  
+    this.results = this.root.getElementById("results")!;
+    this.activeHit = this.root.getElementById("active-hit")!;
     this.actionTemplate = actionTemplate;
 
     this.results.addEventListener("mouseover", (e: MouseEvent) => {
-      if(e.target.classList.contains("hit")) {
-        const index = Array.from(e.target.parentNode.children).indexOf(e.target);
+      const target = e.target as HTMLElement;
+      if(target && target.classList.contains("hit") && target.parentNode) {
+        const index = Array.from(target.parentNode.children).indexOf(target);
         store.dispatch("activateIndex", index);
       }
     });
@@ -66,6 +67,8 @@ export class Results extends Component {
   renderItem(action: Action, index: number) {
     const item = this.actionTemplate.content.cloneNode(true) as HTMLElement;
     const title = item.querySelector(".title");
+
+    if(!title) return item;
 
     if(index === store.state.activeActionIndex) {
       title.classList.add("active");

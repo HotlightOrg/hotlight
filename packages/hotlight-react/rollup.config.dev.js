@@ -4,7 +4,7 @@ import config, { plugins } from "./rollup.config";
 
 const devConfig = {
   input: "dev/index.ts",
-  output: config.output,
+  output: [config.output.filter(o => o.format === "esm")[0]],
   plugins: plugins
     .concat(serve({
       contentBase: ['dev', 'build'],

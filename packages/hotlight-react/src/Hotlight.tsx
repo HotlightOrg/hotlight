@@ -1,6 +1,16 @@
 import React, { useEffect } from "react";
 import { hotlight } from "hotlight-core";
 
+/*
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'hotlight-modal': Modal;
+    }
+  }
+}
+ */
+
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
 
 type Props = {

@@ -1,3 +1,26 @@
+import { Config } from "./typings";
+
+declare namespace LocalJSX {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": HotlightModal;
+    }
+    interface HotlightModal {
+      "configure"?: (config: Partial<Config>) => void;
+    }
+  }
+}
+
+export { LocalJSX as JSX };
+
+declare module "hotlight-core" {
+  export namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": LocalJSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+    }
+  }
+}
+
 import { Input } from "./input";
 customElements.define("hotlight-input", Input);
 

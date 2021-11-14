@@ -22,6 +22,11 @@ jobs:
       with:
         node-version: '14'
 
+    - name: "Setup npm"
+      run: |
+        npm set @arnklint:registry=https://registry.npmjs.org/arnklint
+        npm set "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISH }}"
+
     - name: "Version and publish"
       env:
         GH_TOKEN: ${{ secrets.PUBLISH_PACKAGES }}

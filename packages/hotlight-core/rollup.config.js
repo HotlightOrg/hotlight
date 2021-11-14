@@ -1,13 +1,10 @@
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
-//import serve from 'rollup-plugin-serve';
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
 
 export const plugins = [
   typescript(),
-    //useTsconfigDeclarationDir: true
-  //}),
   resolve(),
   commonjs(),
 ]
@@ -16,26 +13,26 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: "dist/hotlight-react.cjs.js",
+      file: "dist/hotlight.cjs.js",
       format: "cjs",
       sourcemap: true,
     },
     {
-      file: "dist/hotlight-react.esm.js",
+      file: "dist/hotlight.esm.js",
       format: "esm",
       sourcemap: true,
     },
     {
-      file: "dist/hotlight-react.umd.js",
+      file: "dist/hotlight.umd.js",
       format: "umd",
       sourcemap: true,
-      name: "HotlightReact"
+      name: "HotlightCore"
     },
     {
-      file: "dist/hotlight-react.unpkg.js",
+      file: "dist/hotlight.unpkg.js",
       format: "iife",
       sourcemap: true,
-      name: "HotlightReact"
+      name: "HotlightCore"
     }
   ],
   plugins: plugins.concat(peerDepsExternal())

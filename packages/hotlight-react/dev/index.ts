@@ -7,7 +7,7 @@ const actions = [
   { title: "Readme", trigger: "/" },
   { title: "Test", trigger: "/" },
   { title: "My action", trigger: "/" },
-  { title: "Close Hotlight", trigger: ({ close }: { close: () => void }) => close() },
+  { title: "Close Hotlight", trigger: ({ close }) => close() },
 ]
 
 const source = () => actions;

@@ -30,7 +30,7 @@
         { title: "Hotlight Svelte", trigger: () => "/" },
         { title: "Go to a website", trigger: () => "https://jonas.arnklint.com" },
         { title: "Reload Window", trigger: () => location.reload() },
-        { title: "Close Hotlight", trigger: ({ close }) => close() },
+        { title: "Close Hotlight", trigger: ({ close }) => close() },
         { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
         { title: "fast trigger", trigger: () => "#fast" }
       ]
@@ -64,8 +64,7 @@
       }
       */
 
-      //import { hotlight } from "./build.js";
-      import { hotlight } from "./main.js";
+      import { hotlight } from "./hotlight.esm.js";
 
       const hl = hotlight();
       hl.configure({

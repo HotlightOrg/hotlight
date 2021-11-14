@@ -1,4 +1,5 @@
 import { Config } from "./typings";
+export type { Config };
 
 declare namespace LocalJSX {
   namespace JSX {
@@ -12,7 +13,15 @@ declare namespace LocalJSX {
 }
 
 export { LocalJSX as JSX };
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": LocalJSX.JSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+    }
+  }
+}
 
+/*
 declare module "hotlight-core" {
   export namespace JSX {
     interface IntrinsicElements {
@@ -20,6 +29,7 @@ declare module "hotlight-core" {
     }
   }
 }
+*/
 
 import { Input } from "./input";
 customElements.define("hotlight-input", Input);
@@ -36,5 +46,7 @@ customElements.define("hotlight-loading", Loading);
 export const hotlight = () => {
   const hotlight = document.querySelector("hotlight-modal") as Modal;
   if(hotlight) return hotlight;
-  throw new Error("No <hotlight-modal> detected on the page. Please add a <hotlight-modal></hotlight-modal> in the body of the page.");
+  throw new Error("No <\hotlight-modal\> detected on the page. Please add a <hotlight-modal></hotlight-modal> in the body of the page.");
 }
+
+//export default hotlight;

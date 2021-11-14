@@ -4,15 +4,15 @@
     "module": "es6",
     "lib": ["esnext", "dom"],
     "declaration": true,
-    "emitDeclarationOnly": true,
+    "declarationDir": "dist/",
+    "emitDeclarationOnly": false,
     "strict": true,
     "skipLibCheck": true,
     "noImplicitThis": true,
     "noEmitOnError": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "strictPropertyInitialization": false,
-    "outDir": "dist"
+    "strictPropertyInitialization": false
   },
   "include": ["src"],
   "exclude": ["src/**/*.spec.ts"]

@@ -1,0 +1,58 @@
+{
+  "name": "hotlight-vue",
+  "description": "A command palette allowing end users to quickly navigate and interact with your Vue app without necessarily using their mouse pointer.",
+  "version": "0.1.1",
+  "homepage": "https://hotlight.dev",
+  "bugs": "https://github.com/arnklint/hotlight/issues",
+  "main": "build/my-component.umd.js",
+  "module": "build/my-component.esm.js",
+  "unpkg": "build/my-component.min.js",
+  "files": [
+    "build"
+  ],
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "rimraf ./build && rollup -c",
+    "build:es": "rollup --config rollup.config.js --format es --file dist/hotlight-vue.esm.js",
+    "build:umd": "rollup --config rollup.config.js --format umd --file dist/hotlight-vue.umd.js",
+    "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/hotlight-vue.min.js",
+    "dev": "rimraf ./build && rollup --config rollup.config.dev.js -w",
+    "test": "jest"
+  },
+  "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arnklint/hotlight.git",
+    "directory": "packages/hotlight-vue"
+  },
+  "dependencies": {
+    "hotlight-core": "^0.1.1",
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@types/jest": "^27.0.2",
+    "@types/react-dom": "^17.0.2",
+    "@types/react-test-renderer": "^17.0.1",
+    "@vue/test-utils": "^1.2.2",
+    "babel-jest": "^27.2.5",
+    "babel-loader": "^8.2.2",
+    "jest": "^27.2.5",
+    "react-test-renderer": "^17.0.2",
+    "rollup": "^2.58.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-visualizer": "^5.5.2",
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": "^4.4.3"
+  }
+}

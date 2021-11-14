@@ -1,0 +1,15 @@
+'use strict';
+import { localVue, mount } from '@vue/test-utils'
+import Hotlight from '../src/wrapper';
+
+describe('Hotlight', () => {
+  let wrapper = null
+
+  beforeEach(() => {
+    wrapper = mount(Homepage, {
+      localVue,
+    })
+  })
+
+  // ...
+})

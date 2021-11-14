@@ -1,4 +1,5 @@
 import { Config } from "./typings";
+export type { Config };
 
 declare namespace LocalJSX {
   namespace JSX {
@@ -12,6 +13,13 @@ declare namespace LocalJSX {
 }
 
 export { LocalJSX as JSX };
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": LocalJSX.JSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+    }
+  }
+}
 
 /*
 declare module "hotlight-core" {

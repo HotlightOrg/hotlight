@@ -12,7 +12,7 @@
   },
   "main": "dist/hotlight.esm.js",
   "module": "dist/hotlight.esm.js",
-  "types": "dist",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
     "dev:old": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",

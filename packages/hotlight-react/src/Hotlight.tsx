@@ -10,6 +10,31 @@ declare global {
   }
 }
  */
+//declare namespace LocalJSX {
+//declare namespace LocalJSX {
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": HotlightModal;
+    }
+    interface HotlightModal {
+      "configure"?: (config: Partial<{}>) => void;
+    }
+  }
+}
+//export { LocalJSX as JSX };
+  /*
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'hotlight-modal': PersonInfoProps
+    }
+    interface PersonInfoProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
+      config?: Config,
+    }
+  }
+}
+  */
 
 // this should be in the types in the dist of the component.. import them from there or add a package.json that refers to them
 

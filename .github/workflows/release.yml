@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - development
+      - main
+
+jobs:
+  publish-gpr:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Ensure access
+        run: npm whoami --registry https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
+
+      - name: Config git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Bootstrap lerna
+        run: npx lerna bootstrap
+
+      - name: Bump versions and publish packages
+        run: |
+          npm set @arnklint:registry=https://registry.npmjs.org/arnklint
+          npm set "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISH }}"
+          npm run version:ci
+          if [ ${{ github.base_ref }} = development ]; then
+            npm run beta:version:ci
+          else
+            npm run version:ci
+          fi
+          npm run publish:ci
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}

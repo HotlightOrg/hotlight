@@ -23,7 +23,7 @@ jobs:
       - name: Ensure access
         run: npm whoami --registry https://registry.npmjs.org
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
 
       - name: Config git user
         run: |

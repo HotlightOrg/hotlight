@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - ci-token
+      - main
+
+jobs:
+  publish-gpr:
+    name: Publish to GPR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Ensure access
+        run: npm whoami --registry https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Config git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Bootstrap lerna
+        run: npm bootstrap
+
+      - name: Bump versions and publish packages
+        run: |
+          npm version:ci
+          if [ ${{ github.base_ref }} = ci-token ]; then
+            npm beta:version:ci
+          else
+            npm version:ci
+          fi
+          npm publish:ci
+
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}

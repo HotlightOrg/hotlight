@@ -4,7 +4,11 @@
   "private": true,
   "description": "If spotlight and site search had a child, this would be it.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bootstrap": "npx lerna bootstrap",
+    "publish:ci": "lerna publish from-package --yes",
+    "version:ci": "npx lerna version --conventional-commits --conventional-graduate --yes",
+    "beta:version:ci": "npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes"
   },
   "author": "Jonas Arnklint",
   "license": "MIT",

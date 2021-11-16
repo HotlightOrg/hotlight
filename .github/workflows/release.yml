@@ -3,12 +3,12 @@ name: Release
 on:
   push:
     branches:
-      - ci-token
+      - development
       - main
 
 jobs:
   publish-gpr:
-    name: Publish to GPR
+    name: Publish to NPM
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,18 +31,19 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Bootstrap lerna
-        run: npm bootstrap
+        run: npx lerna bootstrap
 
       - name: Bump versions and publish packages
         run: |
-          npm version:ci
-          if [ ${{ github.base_ref }} = ci-token ]; then
-            npm beta:version:ci
+          npm set @arnklint:registry=https://registry.npmjs.org/arnklint
+          npm set "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISH }}"
+          npm run version:ci
+          if [ ${{ github.base_ref }} = development ]; then
+            npm run beta:version:ci
           else
-            npm version:ci
+            npm run version:ci
           fi
-          npm publish:ci
-
+          npm run publish:ci
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}

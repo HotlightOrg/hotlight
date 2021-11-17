@@ -33,6 +33,9 @@ jobs:
       - name: Bootstrap lerna
         run: npx lerna bootstrap
 
+      - name: Bootstrap lerna
+        run: npx lerna run build
+
       - name: Bump versions and publish packages
         run: |
           npm set @arnklint:registry=https://registry.npmjs.org/arnklint

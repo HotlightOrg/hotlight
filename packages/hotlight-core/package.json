@@ -10,13 +10,15 @@
     "url": "https://github.com/arnklint/hotlight.git",
     "directory": "packages/hotlight-core"
   },
-  "main": "dist/hotlight.esm.js",
+  "main": "dist/hotlight.cjs.js",
   "module": "dist/hotlight.esm.js",
+  "files": [
+    "dist"
+  ],
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
-    "dev:old": "esbuild --bundle src/index.ts --outfile=www/main.js --servedir=www --format=esm",
-    "build": "rimraf ./build && rollup -c",
+    "build": "rimraf ./dist && rollup -c",
     "build:types": "tsc -p ./tsconfig.json",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"

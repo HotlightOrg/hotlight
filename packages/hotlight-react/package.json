@@ -4,15 +4,15 @@
   "version": "0.1.2-beta.1",
   "homepage": "https://hotlight.dev",
   "bugs": "https://github.com/arnklint/hotlight/issues",
-  "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
+  "main": "dist/hotlight-react.cjs.js",
+  "module": "dist/hotlight-react.esm.js",
   "files": [
-    "build"
+    "dist"
   ],
-  "types": "build/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf ./build && rollup -c",
-    "dev": "rimraf ./build && rollup --config rollup.config.dev.js -w",
+    "dev": "rollup --config rollup.config.dev.js -w",
+    "build": "rimraf ./dist && rollup -c",
     "test": "jest"
   },
   "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",

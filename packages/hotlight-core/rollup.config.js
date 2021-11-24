@@ -7,15 +7,18 @@ export const plugins = [
   typescript(),
   resolve(),
   commonjs(),
+  peerDepsExternal()
 ]
 
 export default {
   input: "src/index.ts",
+  plugins,
   output: [
     {
       file: "dist/hotlight.cjs.js",
       format: "cjs",
       sourcemap: true,
+
     },
     {
       file: "dist/hotlight.esm.js",
@@ -34,6 +37,5 @@ export default {
       sourcemap: true,
       name: "HotlightCore"
     }
-  ],
-  plugins: plugins.concat(peerDepsExternal())
+  ]
 };

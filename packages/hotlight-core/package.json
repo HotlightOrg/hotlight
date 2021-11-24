@@ -18,7 +18,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
-    "build": "rimraf ./dist && rollup -c",
+    "build2": "rimraf ./dist && rollup -c",
+    "build": "rimraf ./dist && npm run build:types && rollup -c",
     "build:types": "tsc -p ./tsconfig.json",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
     "test:watch": "npm test -- --watch"

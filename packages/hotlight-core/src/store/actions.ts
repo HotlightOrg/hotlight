@@ -7,6 +7,11 @@ export const constants = {
   activateIndex: "activateIndex",
   search: "search",
   receiveActions: "receiveActions",
+  clear: "clear",
+}
+
+export const clear = (context: Store, payload: string) => {
+  context.commit(constants.clear, payload);
 }
 
 export const setConfig = (context: Store, payload: Partial<Config>) => {

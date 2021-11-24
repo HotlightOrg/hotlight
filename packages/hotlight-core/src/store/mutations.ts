@@ -1,4 +1,10 @@
 import { Actions, Config, State } from "../typings";
+import initialState from "./state";
+
+export const clear = (state: State, payload: string) => {
+  state = { ...state, ...initialState };
+  return state;
+}
 
 export const setConfig = (state: State, payload: Partial<Config>) => {
   state.config = {

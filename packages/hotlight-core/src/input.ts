@@ -106,7 +106,7 @@ template.innerHTML = `
       background: transparent;
     }
     input:placeholder {
-      color: white;
+      color: var(--hl-input-placeholder-color, white);
     }
     input:focus {
       outline: none;

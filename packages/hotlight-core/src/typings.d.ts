@@ -1,3 +1,23 @@
+declare namespace LocalJSX {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": HotlightModal;
+    }
+    interface HotlightModal {
+      "configure"?: (config: Partial<Config>) => void;
+    }
+  }
+}
+
+export { LocalJSX as JSX };
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "hotlight-modal": LocalJSX.JSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+    }
+  }
+}
+
 declare global {
 	interface Window {
 		HOTLIGHT_DEBUG: boolean;
@@ -33,9 +53,9 @@ export type Context = {
   loading: boolean;
 }
 
-type Payload = {
+export type Payload = {
   [kye: string]: any;  
-} | number | string | boolean;
+} | number | string | boolean | null;
 
 
 type SourceResult = {
@@ -71,10 +91,10 @@ interface ActionBase {
   title: string;
   alias?: string;
   description?: string;
-  arguments?: Argument[];
-  hotkeys?: string;
-  category?: string;
-  parentTitle?: string;
+  //arguments?: Argument[];
+  //hotkeys?: string;
+  //category?: string;
+  //parentTitle?: string;
   trigger: Trigger;
   [key: string]: any;
 }
@@ -112,10 +132,11 @@ type TriggerFunctionProps = {
   arguments: ArgumentResult;
   context: Context;
   close: () => void;
+  clear: () => void;
 }
 type TriggerFunction = ({ query, arguments, context, hotlight }: TriggerFunctionProps) => Promise<Actions> | Actions | [string | null, string | null] | void;
 type TriggerRedirectUrl = string;
-type Trigger = TriggerFunction | TriggerRedirectUrl;
+export type Trigger = TriggerFunction | TriggerRedirectUrl;
 
 type SuccessMessage = {
   headline: string;
@@ -123,7 +144,7 @@ type SuccessMessage = {
 }
 //type Card = HTMLTemplateElement | any;
 
-type Engine = {
+export type Engine = {
   pick: () => void;
   search: (query: string) => void;
   context: Context;

@@ -15,8 +15,11 @@ declare namespace LocalJSX {
 export { LocalJSX as JSX };
 declare global {
   namespace JSX {
+    interface HotlightModal {
+      "configure"?: (config: Partial<Config>) => void;
+    }
     interface IntrinsicElements {
-      "hotlight-modal": LocalJSX.JSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
+      "hotlight-modal": HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;
     }
   }
 }

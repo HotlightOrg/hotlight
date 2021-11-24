@@ -227,8 +227,8 @@ template.innerHTML = `
     }
 
     .backdrop {
-      opacity: 0.8;
-      background: black;
+      opacity: var(--hl-backdrop-opacity, 0.8);
+      background: var(--hl-backdrop-background, black);
       position: fixed;
       top: 0;
       left: 0;
@@ -262,15 +262,13 @@ template.innerHTML = `
       flex-direction: column;
       margin: 10% auto;
       width: 100%;
-      max-width: 576px;
-      /*border: 1px solid rgba(255,255,255,10%);*/
-      border-radius: 5px;
-      background: black;
-      color: white;
+      max-width: var(--hl-modal-max-width, 576px);
+      border-radius: var(--hl-modal-radius, 5px);
+      color: var(--hl-text-color, white);
+      background: var(--hl-modal-background, black);
       min-height: 66px; /* because input field is not rendered at all times */
 
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11),
-        0 32px 32px rgba(0, 0, 0, 0.11);
+      box-shadow: var(--hl-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));
 
       transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 

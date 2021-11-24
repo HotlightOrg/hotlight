@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { hotlight } from "hotlight-core";
+import { hotlight, Config } from "hotlight-core";
 
 declare global {
   namespace JSX {
@@ -7,7 +7,7 @@ declare global {
       "hotlight-modal": HotlightModal;
     }
     interface HotlightModal {
-      "configure"?: (config: Partial<{}>) => void;
+      "configure"?: (config: Partial<Config>) => void;
     }
   }
 }

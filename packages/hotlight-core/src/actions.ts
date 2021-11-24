@@ -42,7 +42,7 @@ export const actions: Actions = [
       "Name",
       {
         placeholder: "Email",
-        validator: (value) => value.includes("@") ? [null, null] : [null, "Valid email is required"]
+        validator: (value: string) => value.includes("@") ? [null, null] : [null, "Valid email is required"]
       },
       {
         placeholder: "Organisation",

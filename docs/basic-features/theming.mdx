@@ -1,0 +1,39 @@
+# Theming - styling Hotlight
+
+Consistency is part of a good user experience. Use [CSS custom variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) to override the default styling of Hotlight.
+
+Simply declare a `:root` block in your global css and adjust the colors, shadows, border radius and other variables to make Hotlight look the way you want.
+
+```css
+:root {
+  --hl-text-color: rgba(255, 255, 255, 70%);
+}
+```
+
+This will override the default variable used by Hotlight. 
+
+These are all variables that you can customize.
+
+```css
+:root {
+  --hl-modal-radius: 20px;
+  --hl-modal-max-width: 600px;
+
+  --hl-modal-shadow: 0 1px 1px rgba(0, 0, 0, 0.11);
+  --hl-modal-background: pink;
+
+  --hl-backdrop-opacity: 0.2;
+  --hl-backdrop-background: pink;
+
+  --hl-input-placeholder-color: purple;
+
+  --hl-hit-color: gold;
+
+  --hl-active-hit-background: purple;
+  --hl-active-hit-radius: 0;
+  --hl-active-hit-color: gold;
+
+  --hl-underscore-decoration: none;
+  --hl-underscore-font-weight: bold;
+}
+```

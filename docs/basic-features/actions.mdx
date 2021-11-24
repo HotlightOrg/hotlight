@@ -1,0 +1,57 @@
+# Actions
+
+The hits that appears in Hotlight when you search are called actions. They are central to the way Hotlight is being used.
+
+`Actions` adhere from one or multiple `sources`, where you can create actions dynamically when needed.
+
+```ts
+import { hotlight } from "hotlight-core";
+const hl = hotlight();
+
+const actions = [{
+  title: "All products",
+  trigger: "/"
+},{
+  title: "Dark mode",
+  trigger: () => {
+    darkMode(); // this would be defined by you
+  }
+},{
+  title: "Mark done",
+  trigger: async () => {
+    const todoId = new URLSearchParams(window.location.search).id;
+    done(todoId);
+  }
+}];
+
+const sources = {
+  actions: [{
+    title: "All products",
+    trigger: "/",
+  }]
+}
+
+hl.configure({
+  sources
+});
+```
+
+Actions can also be defined ad hoc, using a callback function that returns an array of actions.
+
+```ts
+const sources = {
+
+```
+
+```ts
+interface ActionBase {
+  title: string; // this appears in each hit in the result list
+  alias?: string; // aliases are matched as well
+  trigger: Trigger; // the trigger is what is called when you press enter or click on the result
+}
+```
+
+```ts
+
+
+```

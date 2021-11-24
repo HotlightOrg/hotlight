@@ -9,15 +9,12 @@
           "path": "/docs/getting-started.mdx"
         },
         {
-          "title": "Basic Features",
-          "path": "/docs/basic-features.mdx",
-          "open": true,
-          "routes": [
-            {
-              "title": "Actions",
-              "path": "/docs/basic-features/actions.mdx"
-            }
-          ]
+          "title": "Actions",
+          "path": "/docs/basic-features/actions.mdx"
+        },
+        {
+          "title": "Theming",
+          "path": "/docs/basic-features/theming.mdx"
         }
       ]
     }

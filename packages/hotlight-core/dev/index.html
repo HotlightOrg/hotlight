@@ -5,6 +5,26 @@
     <style>
       :root {
         --hl-text-color: rgba(255, 255, 255, 70%);
+
+        --hl-modal-radius: 20px;
+        --hl-modal-max-width: 600px;
+
+        --hl-modal-shadow: 0 1px 1px rgba(0, 0, 0, 0.11);
+        --hl-modal-background: pink;
+
+        --hl-backdrop-opacity: 0.2;
+        --hl-backdrop-background: pink;
+
+        --hl-input-placeholder-color: purple;
+
+        --hl-hit-color: gold;
+
+        --hl-active-hit-background: purple;
+        --hl-active-hit-radius: 0;
+        --hl-active-hit-color: gold;
+
+        --hl-underscore-decoration: none;
+        --hl-underscore-font-weight: bold;
       }
     </style>
 
@@ -31,8 +51,10 @@
         { title: "Go to a website", trigger: () => "https://jonas.arnklint.com" },
         { title: "Reload Window", trigger: () => location.reload() },
         { title: "Close Hotlight", trigger: ({ close }) => close() },
+        { title: "Clear Hotlight State", trigger: ({ clear }) => clear() },
         { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
-        { title: "fast trigger", trigger: () => "#fast" }
+        { title: "fast trigger", trigger: () => "#fast" },
+        { title: "Close deal", trigger: () => "" }
       ]
 
       const remote = async (query) => {
@@ -71,12 +93,54 @@
         initialQuery: "janne",
         sources: [source, remote]
       });
-      hl.launch();
-      hl.debug();
+      //hl.launch();
+      //hl.debug();
     </script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   </head>
-  <body>
+  <body style="background: url('https://cdn.dribbble.com/users/744746/screenshots/15336336/media/c3ad68bcdf90870629e7ec76443bf129.png'); background-size: contain; background-repeat: no-repeat;">
+    <div class="flex flex-row">
+      <div class="w-1/5" style="background-color: #19184f; background-color: #05043e;">
+        <div class="flex flex-col p-10">
+          <a href="#" class="text-white text-md flex flex-row mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="ml-2">Dashboard</span>
+          </a>
+          <a href="#" class="text-white text-md flex flex-row mb-2">
+            <span class="ml-2">Actions</span>
+          </a>
+          <a href="#">Archive</a>
+          <a href="#">Activity</a>
+          <a href="#">Settings</a>
+        </div>
+      </div>
+      <div class="w-4/5 flex flex-col">
+        <div class="bg-white">
+          <div class="h-32 p-10 flex flex-row">
+            <div class="w-16 h-16 bg-blue-500 mr-6 rounded"></div>
+            <div class="flex flex-col flex-grow">
+              <h1 class="text-xl font-bold">Deal: Microsoft Spring</h1>
+              <p class="text-gray-500">35 days trial</p>
+            </div>
+            <div class="flex flex-row">
+              <div class="rounded-full bg-red-500 w-10 h-10"></div>
+              <div class="rounded-full bg-red-500 w-10 h-10"></div>
+              <div class="rounded-full bg-red-500 w-10 h-10"></div>
+              <div class="rounded-full bg-red-500 w-10 h-10"></div>
+              <button class="rounded bg-blue-500 px-4 text-md text-white">Close</button>
+            </div>
+          </div>
+          <div class="flex flex-row px-10">
+            <a class="border-b-2 border-blue-500 mr-4 p-2">Overview</a>
+            <a class="border-b-2 border-white mr-4 p-2">Notes</a>
+            <a class="border-b-2 border-white mr-4 p-2">History log</a>
+          </div>
+        </div>
+        <div style="height: 2000px; width: 200px; margin: 0 auto;">content</div>
+      </div>
+    </div>
     <hotlight-modal></hotlight-modal>
-    <div style="height: 2000px; background: blue; width: 200px; margin: 0 auto;">content</div>
   </body>
 </html>

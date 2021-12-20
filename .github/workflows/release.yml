@@ -27,10 +27,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
 
-      - name: Config git user
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          #- name: Config git user
+          #  run: |
+          #    git config --global user.name "${{ github.actor }}"
+          #    git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Bootstrap lerna
         run: npx lerna bootstrap

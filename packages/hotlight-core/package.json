@@ -21,7 +21,7 @@
     "build2": "rimraf ./dist && rollup -c",
     "build": "rimraf ./dist && npm run build:types && rollup -c",
     "build:types": "tsc -p ./tsconfig.json",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --env jsdom",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.js",
     "test:watch": "npm test -- --watch"
   },
   "keywords": [

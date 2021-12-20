@@ -20,6 +20,11 @@ export const loading = (state: State, payload: boolean) => {
   return state;
 }
 
+export const setTheme = (state: State, payload: State["theme"]) => {
+  state.theme = payload;
+  return state;
+}
+
 export const search = (state: State, payload: string) => {
   state.query = payload;
   return state;
@@ -33,7 +38,7 @@ export const activateIndex = (state: State, index: number) => {
 }
 
 export const receiveActions = (state: State, actions: Actions) => {
-  if(state.activeActionIndex > actions.length || actions.length === 0) {
+  if(state.activeActionIndex >= actions.length || actions.length === 0) {
     state.activeActionIndex = actions.length - 1;
   } else if(state.activeActionIndex < 0 && actions.length > 0) {
     state.activeActionIndex = 0;

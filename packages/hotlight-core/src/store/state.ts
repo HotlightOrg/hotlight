@@ -7,6 +7,7 @@ let initialState: State = {
   query: "",
   activeActionIndex: -1,
   loading: false,
+  theme: 'light',
   config: {
     initialQuery: "",
     maxHits: 20,

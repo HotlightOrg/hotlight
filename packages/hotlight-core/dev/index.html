@@ -3,9 +3,12 @@
     <title>Hotlight Dev</title>
 
     <style>
+/*
       :root {
         --hl-text-color: rgba(255, 255, 255, 70%);
+        --hl-dark-backdrop-opacity: 0.5;
       }
+      */
     </style>
 
     <script type="module">
@@ -48,6 +51,7 @@
         category: "pull requests",
         request: (query) => "https://api.begreet.com?query=" + query
       }
+      */
 
       const source3 = async (query) => {
         const res = await fetch("https://31dgeh4x4m.execute-api.eu-west-1.amazonaws.com/hello?query=" + query)
@@ -62,14 +66,13 @@
           return [];
         }
       }
-      */
 
       import { hotlight } from "./hotlight.esm.js";
 
       const hl = hotlight();
       hl.configure({
         initialQuery: "janne",
-        sources: [source, remote]
+        sources: [source, source3, remote]
       });
       hl.launch();
       hl.debug();

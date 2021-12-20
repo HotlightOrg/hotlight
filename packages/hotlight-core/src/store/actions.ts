@@ -6,6 +6,7 @@ export const constants = {
   loading: "loading",
   activateIndex: "activateIndex",
   search: "search",
+  setTheme: "setTheme",
   receiveActions: "receiveActions",
   clear: "clear",
 }
@@ -20,6 +21,10 @@ export const setConfig = (context: Store, payload: Partial<Config>) => {
 
 export const search = (context: Store, payload: string) => {
   context.commit(constants.search, payload);
+}
+
+export const setTheme = (context: Store, payload: "dark" | "light") => {
+  context.commit(constants.setTheme, payload);
 }
 
 export const receiveActions = (context: Store, payload: Actions) => {

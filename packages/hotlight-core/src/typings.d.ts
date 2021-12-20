@@ -41,6 +41,7 @@ export type State = {
   actions: Action[];
   activeActionIndex: number;
   loading: boolean;
+  theme: 'dark' | 'light';
   config: Config;
 }
 

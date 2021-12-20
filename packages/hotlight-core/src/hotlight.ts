@@ -50,6 +50,15 @@ export class Modal extends Component {
     window.addEventListener("hotlight:close", () => {
       this.close();
     });
+
+    const darkMode = window.matchMedia("(prefers-color-scheme: dark)");
+    darkMode.addEventListener("change", (changed) => {
+      store.dispatch("setTheme", changed.matches ? "dark" : "light");
+    });
+
+    if(darkMode.matches) {
+      store.dispatch("setTheme", "dark");
+    }
   }
 
   private _config: Config;
@@ -176,7 +185,7 @@ export class Modal extends Component {
       }
     }
 
-    const prevent = ["ArrowUp", "ArrowDown", "Enter", "Meta"];
+    const prevent = ["ArrowUp", "ArrowDown", "Enter", "Meta", "Control"];
     if(prevent.includes(e.key)) {
       e.preventDefault();
     } else {
@@ -192,6 +201,24 @@ export class Modal extends Component {
   doTrigger() {
     this.engine.pick();
     //this.input.parents = store.state.parents;
+  }
+
+  render() {
+    if(!this.hotlight) return;
+
+    const { theme } = store.state;
+    const { classList } = this.hotlight;
+
+    if(theme === "dark" && !classList.contains("dark")) {
+      classList.add("dark");
+    } else if(theme === "light" && classList.contains("dark")) {
+      classList.remove("dark");
+    }
+
+    const logo = this.root.querySelector(".hotlight-logo");
+    if(logo) {
+      logo.innerHTML = theme;
+    }
   }
 }
 
@@ -226,9 +253,29 @@ template.innerHTML = `
       display: none;
     }
 
+    .dark {
+      --hl-backdrop-opacity: var(--hl-dark-backdrop-opacity, 0.8);
+      --hl-backdrop-background: var(--hl-dark-backdrop-background, black);
+
+      --hl-input-placeholder-color: var(--hl-dark-input-placeholder-color, white);
+
+      --hl-modal-shadow: var(--hl-dark-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));
+      --hl-modal-background: var(--hl-dark-modal-background, black);
+      --hl-modal-border: var(--hl-dark-modal-border, none);
+
+      --hl-hit-active-background: var(--hl-dark-active-hit-background, rgba(255, 255, 255, 10%));
+      --hl-hit-active-color: var(--hl-dark-hit-active-color, white);
+
+      --hl-hit-color: var(--hl-dark-hit-color, gray);
+
+      --hl-text-color: var(--hl-dark-text-color, rgba(255, 255, 255, 80%));
+
+      --hl-loading-color: var(--hl-dark-loading-color, #777);
+    }
+
     .backdrop {
       opacity: var(--hl-backdrop-opacity, 0.8);
-      background: var(--hl-backdrop-background, black);
+      background: var(--hl-backdrop-background, white);
       position: fixed;
       top: 0;
       left: 0;
@@ -264,8 +311,9 @@ template.innerHTML = `
       width: 100%;
       max-width: var(--hl-modal-max-width, 576px);
       border-radius: var(--hl-modal-radius, 5px);
-      color: var(--hl-text-color, white);
-      background: var(--hl-modal-background, black);
+      border: var(--hl-modal-border, 1px solid rgba(0, 0, 0, 10%));
+      color: var(--hl-text-color, black);
+      background: var(--hl-modal-background, white);
       min-height: 66px; /* because input field is not rendered at all times */
 
       box-shadow: var(--hl-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));

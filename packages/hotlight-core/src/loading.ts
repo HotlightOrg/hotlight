@@ -37,7 +37,7 @@ template.innerHTML = `
       font-size: 24px;
       transition: opacity 1s;
       opacity: 1;
-      color: #777;
+      color: var(--hl-loading-color, #777);
     }
     .loading-indicator.hidden {
       opacity: 0;

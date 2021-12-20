@@ -33,6 +33,7 @@ export class Results extends Component {
     }
 
     if(!store.state.actions) {
+      this.activeHit.classList.add("hidden");
       return; // happens if a query is triggered from ie initialState before ref is there
     }
 
@@ -141,7 +142,7 @@ template.innerHTML = `
       font-size: 16px;
       padding: 0 20px;
       cursor: pointer;
-      color: var(--hl-hit-color, gray);
+      color: var(--hl-hit-color, rgba(50, 50, 50, 100%));
       height: 32px;
 
       transition: color 0.2s ease;
@@ -155,7 +156,7 @@ template.innerHTML = `
     }
 
     .active {
-      color: var(--hl-active-hit-color, white);
+      color: var(--hl-hit-active-color, black);
     }
     #active-hit {
       display: flex;
@@ -167,9 +168,9 @@ template.innerHTML = `
 
       transition: transform 0.05s ease, color 0.1s ease;
 
-      color: var(--hl-active-hit-color, white);
-      background: var(--hl-active-hit-background, rgba(255, 255, 255, 10%));
-      border-radius: var(--hl-active-hit-radius, 3px);
+      color: var(--hl-hit-active-color, black);
+      background: var(--hl-hit-active-background, rgba(0, 0, 0, 10%));
+      border-radius: var(--hl-hit-active-radius, 3px);
       height: 32px;
       width: calc(100% - 20px);
       margin: 0 10px;

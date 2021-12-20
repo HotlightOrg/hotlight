@@ -100,13 +100,13 @@ template.innerHTML = `
     input {
       flex-grow: 1;
       font-size: 18px;
-      color: var(--hl-text-color, rgba(255, 255, 255, 80%));
+      color: var(--hl-text-color, rgba(0, 0, 0, 80%));
       padding: 10px;
       border: none;
       background: transparent;
     }
     input:placeholder {
-      color: var(--hl-input-placeholder-color, white);
+      color: var(--hl-input-placeholder-color, black);
     }
     input:focus {
       outline: none;

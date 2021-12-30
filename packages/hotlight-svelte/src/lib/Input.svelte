@@ -14,7 +14,7 @@
     }
 
     if(e.key === "Enter") {
-      //this.doTrigger();
+      search.perform();
       e.preventDefault();
       return;
     }
@@ -45,8 +45,7 @@
         config.hide();
         return
       } else {
-        //this.engine.search("");
-        search.reset();
+        search.search("");
       }
     }
 
@@ -54,11 +53,7 @@
     if(prevent.includes(e.key)) {
       e.preventDefault();
     } else {
-      const val = value.trim();
-      //search.search(val);
-      console.log("search", $search.query.trim());
-      
-      //this.engine.search(val);
+      search.search($search.query);
     }
   };
 

@@ -6,7 +6,31 @@
   import Input from "./Input.svelte";
   import Debugger from "./Debugger.svelte";
   import Results from "./Results.svelte";
+  import Configurator from "./Configurator.svelte";
 
+  // enables the component to have attributes that can be used to set config
+  export let hidden: boolean;
+  export let debug: boolean;
+  export let transitions: boolean;
+  export let theme: string;
+  export let placeholder: string;
+  export let sources: [];
+
+  export const query = (query: string) => {
+    search.search(query);
+  }
+
+  export const configure = (x) => console.log(x)
+
+  $: {
+    if(typeof hidden !== "undefined") {
+      if(hidden) {
+        close();
+      } else {
+        open();
+      }
+    }
+  }
 
   $: if (document) document.body.style.overflowY = $config.hidden ? "auto" : "hidden";
 
@@ -79,12 +103,17 @@
 
     <div class="backdrop" transition:fade="{{ duration: $config.transitions ? 50 : 0 }}"/>
 
-    {#if $config.debug}
-      <hotlight-debugger />
-      <!--<Debugger />-->
-    {/if}
   </div>
 {/if}
+
+  {#if $config.debug}
+    <hotlight-debugger />
+    <!--<Debugger />-->
+  {/if}
+  {#if $config.configure}
+    <hotlight-configurator />
+    <!--<Configurator />-->
+  {/if}
 
 <style>
   .backdrop {
@@ -97,10 +126,6 @@
     bottom: 0;
     z-index: 50;
 
-    -webkit-transition: opacity 0.2s ease;
-    -moz-transition: opacity 0.2s ease;
-    -ms-transition: opacity 0.2s ease;
-    -o-transition: opacity 0.2s ease;
     transition: opacity 0.2s ease;
   }
 
@@ -144,7 +169,6 @@
   }
   .hotlight-logo {
     font-size: 12px;
-    /*display: flex;*/
     text-decoration: none;
     color: white;
   }

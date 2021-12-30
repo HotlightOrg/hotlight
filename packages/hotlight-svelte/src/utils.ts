@@ -33,3 +33,18 @@ export const underscore = (str1: string, str2: string): string => {
   
   }
   
+  export const validURLOrPathname = (url: string): boolean => {
+    if(url[0] === "/") {
+      return true;
+    } else {
+      try {
+        if(new URL(url, location.href)) {
+          return true;
+        }
+      } catch (err) {
+        console.warn("URL not valid.", err);
+        return false;
+      }
+    }
+    return false;
+  }

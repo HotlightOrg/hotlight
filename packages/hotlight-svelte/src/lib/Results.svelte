@@ -2,12 +2,12 @@
 	import { fade } from 'svelte/transition';
 
   import { search, config } from "../store";
-  import { underscore } from "../utils";
+  import { underscore } from "../utils";
 
   let resultsRef;
 
-  const pick = (e: MouseEvent) => {
-    console.log("picking")
+  const pick = () => {
+    search.perform();
   }
 
   const activateHit = (index) => {
@@ -16,8 +16,11 @@
 
   let style;
   $: {
-    let h = $search.index > -1 && resultsRef ? getComputedStyle(resultsRef.children[$search.index]).height : "0";
-    style = `height: ${h}; transform: translateY(${parseInt(h)*$search.index}px)`;
+    if(resultsRef && resultsRef.children) {
+      const child = resultsRef.children[$search.index];
+      let h = $search.index > -1 && child ? window.getComputedStyle(child).height : "0";
+      style = `height: ${h}; transform: translateY(${parseInt(h)*$search.index}px)`;
+    }
   }
 </script>
 
@@ -30,7 +33,7 @@
       <div
         tabindex="0"
         class="hit"
-        on:click={pick}
+        on:click|preventDefault={pick}
         on:mouseover={() => activateHit(index)}
         on:focus={() => activateHit(index)}
       >
@@ -53,7 +56,6 @@
 
 #results {
   position: relative;
-  max-height: 200px;
   overflow-y: auto;
 }
 
@@ -78,7 +80,7 @@
 }
 
 .active {
-  color: var(--hl-active-hit-color, white);
+  color: var(--hl-active-hit-color, rgba(255, 255, 255, 70%));
 }
 #active-hit {
   display: flex;
@@ -106,7 +108,8 @@
 }
 
 .u {
-  text-decoration: var(--hl-underscore-decoration, underline);
+  text-decoration: var(--hl-underscore-decoration, none);
   font-weight: var(--hl-underscore-font-weight, bold);
+  color: var(--hl-underscore-color, rgba(255, 255, 255, 90%));
 }
 </style>

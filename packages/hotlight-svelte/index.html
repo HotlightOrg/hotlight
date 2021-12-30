@@ -7,10 +7,66 @@
     <title>Svelte + TS + Vite App</title>
   </head>
   <body>
-
-    <hotlight-modal />
+    <hotlight-modal id="hotlight" />
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      const actions = [
+        { title: "Home", trigger: "/" },
+        { title: "About", trigger: () => "/about" }
+      ]
+      const source = () => {
+        return actions;
+      }
+
+      const remoteActions = [
+        { title: "Installing Hotlight", trigger: "/" },
+        { title: "Getting started", trigger: () => "/" },
+        { title: "Hotlight React", trigger: () => "/" },
+        { title: "Hotlight Svelte", trigger: () => "/" },
+        { title: "Go to a website", trigger: () => "https://jonas.arnklint.com" },
+        { title: "Reload Window", trigger: () => location.reload() },
+        { title: "Close Hotlight", trigger: ({ close }) => close() },
+        { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
+        { title: "fast trigger", trigger: () => "#fast" }
+      ]
+
+      const remote = async (query) => {
+        return await new Promise((resolve) => {
+          setTimeout(() => {
+            return resolve(remoteActions);
+          }, 100 * Math.random());
+        });
+      }
+
+      /*
+      const source2 = {
+        category: "pull requests",
+        request: (query) => "https://api.begreet.com?query=" + query
+      }
+
+      const source3 = async (query) => {
+        const res = await fetch("https://31dgeh4x4m.execute-api.eu-west-1.amazonaws.com/hello?query=" + query)
+
+        if(res.ok) {
+          const { message } = await res.json();
+          return message.hits.map(hit => ({
+            title: "" + new Date().getTime() + hit.id,
+            trigger: "/"
+          }));
+        } else {
+          return [];
+        }
+      }
+      */
+
+      const hl = document.getElementById("hotlight");
+      window.customElements.whenDefined('hotlight-modal').then(() => {
+        hl.query("contact");
+        hl.sources = [source, remote]
+        hl.hidden = false;
+      });
+    </script>
 
     <div style="height: 200vh; background-color: blue;"></div>
   </body>

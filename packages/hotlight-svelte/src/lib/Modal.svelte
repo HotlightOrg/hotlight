@@ -53,7 +53,7 @@
     if(e.key === "k" && e.metaKey) {
       toggle();
       e.preventDefault();
-    } else if(e.key === "Escape" && !$config.hidden && $search.query === "") {
+    } else if(e.key === "Escape" && !$config.hidden && $search.query === "" && $search.args.length === 0) {
       search.close();
     }
   }
@@ -64,7 +64,7 @@
 <svelte:options tag="hotlight-modal" />
 
 {#if !$config.hidden}
-  <div class="hotlight" >
+  <div class="hotlight">
     <div
       class="container"
       on:click={closeByClick}
@@ -110,6 +110,10 @@
   {/if}
 
 <style>
+  :host, .hotlight {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
   .backdrop {
     opacity: var(--hl-backdrop-opacity, 0.8);
     background: var(--hl-backdrop-background, black);
@@ -124,8 +128,6 @@
   }
 
   .container {
-    font-family: Helvetica, Arial, sans-serif;
-
     position: fixed;
     top: 0;
     right: 0;

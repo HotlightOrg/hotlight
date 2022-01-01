@@ -162,12 +162,15 @@ export const F = (actions: Obj[], keys: string[]) => {
       }
     }
 
-    return results
+    const found = results
       .sort((a, b) => {
         const s = a.score - b.score;
         return s
       })
       .map(result => result.item);
+
+      console.log(found);
+    return found;
   }
 
   return {
@@ -194,16 +197,6 @@ export const score = (found: Actions, query: string) => {
   })
   .sort((a, b) => a.score > b.score ? 1 : -1);
 }
-
-/*
-export const hotkeysFirst = (found, query) => {
-  const sorted = score(found, query)
-    .sort((a, b) => a.score > b.score ? 1 : -1);
-
-  return sorted;
-}
-*/
-
 
 const levenshteinDistance = (str1 = '', str2 = '') => {
   const track = Array(str2.length + 1)

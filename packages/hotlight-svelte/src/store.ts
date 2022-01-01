@@ -92,7 +92,7 @@ const remoteActions = [
   { title: "Getting started", trigger: () => "/" },
   { title: "Hotlight React", trigger: () => "/" },
   { title: "Hotlight Svelte", trigger: () => "/" },
-  { title: "Go to a website", trigger: () => "https://jonas.arnklint.com", preview: "<div style='background: red; color: white'>My homepage</div>" },
+  { title: "Go to a website", trigger: () => "https://jonas.arnklint.com", preview: "<div style='background: red; color: white;'>My homepage</div>" },
   { title: "Go to another website", trigger: () => "https://hotlight.dev" },
   { title: "Reload Window", trigger: () => location.reload() },
   { title: "Close Hotlight", trigger: ({ close }) => close() },
@@ -147,6 +147,7 @@ type SearchState = {
   results: any[];
   index: number;
   action: any; // current action?
+  chosenAction: any;
   loading: boolean;
   preview: string | null;
   placeholder: string;
@@ -159,6 +160,7 @@ export function createSearch() {
     results: [],
     index: -1,
     action: null,
+    chosenAction: null,
     loading: false,
     preview: null,
     placeholder: get(config).placeholder,
@@ -181,6 +183,7 @@ export function createSearch() {
           respond(source, query, cached);
         } else {
           try {
+            console.log(searchStore.sources[source])
             let actions = await searchStore.sources[source](query);
             respond(source, query, actions);
           } catch (e) {
@@ -195,11 +198,12 @@ export function createSearch() {
     requests--;
     loading(requests > 0);
 
-    writeCache(source, query, actions);
-
     if(searchStore.query !== query) return;
 
     const currentResults = readByQuery(query);
+    if(currentResults) {
+      writeCache(source, query, actions);
+    }
 
     const fuzzy = F(currentResults, ['title', 'alias', 'description']);
     const found = fuzzy.search(query);
@@ -216,20 +220,24 @@ export function createSearch() {
 
   const receiveActions = (actions) => {
     searchStore.results = actions;
+    _choose(0);
     set(searchStore);
-    choose(0);
   }
 
   const loading = (isLoading: boolean) => {
-    searchStore.loading = isLoading;
-    set(searchStore);
+    if(searchStore.loading !== isLoading) {
+      searchStore.loading = isLoading;
+      set(searchStore);
+    }
   }
 
   const search = (value: string): void => {
     if(searchStore.args.length === 0) {
       searchStore.query = value;
+
       if(value === "") {
         searchStore.results = [];
+        searchStore.chosenAction = null;
       }
 
       set(searchStore);
@@ -241,13 +249,32 @@ export function createSearch() {
 
   }
 
-  const preview = (html: string) => {
+  const _preview = (html: string) => {
     searchStore.preview = html;
+  }
+
+  const preview = (html: string) => {
+    _preview(html);
+    set(searchStore);
+  }
+
+  const escape = () => {
+    if(searchStore.query.length === 0 && searchStore.args.length === 0) {
+      return close();
+    }
+
+    if(searchStore.args.length > 0) {
+      searchStore.args = [];
+      searchStore.placeholder = get(config).placeholder;
+    }
+    if(searchStore.query.length > 0) {
+      searchStore.query = "";
+    }
+    searchStore.chosenAction = null;
     set(searchStore);
   }
 
   const close = () => {
-    console.log(searchStore)
     searchStore.preview = "";
     searchStore.args = [];
     set(searchStore);
@@ -306,22 +333,28 @@ export function createSearch() {
 
         searchStore.placeholder = get(config).placeholder;
         searchStore.query = "";
+        searchStore.chosenAction = null;
         searchStore.results = [];
         set(searchStore);
       }
       loading(false);
     }
   }
+
+  const _choose = (index: number) => {
+    const hit = searchStore.results[index];
+    if(hit.preview) {
+      _preview(hit.preview);
+    }
+
+    searchStore.index = index;
+    searchStore.preview = "";
+    searchStore.chosenAction = hit;
+  }
   
   const choose = (index: number) => {
     if(index < searchStore.results.length && index > -1) {
-      searchStore.index = index;
-      searchStore.preview = "";
-
-      const hit = searchStore.results[index];
-      if(hit.preview) {
-        preview(hit.preview);
-      }
+      _choose(index);
       set(searchStore);
     }
   }
@@ -333,7 +366,8 @@ export function createSearch() {
     perform,
     clear,
     set,
-    close
+    close,
+    escape
   };
 }
 

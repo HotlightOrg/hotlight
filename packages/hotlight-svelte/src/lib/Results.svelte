@@ -53,7 +53,7 @@
 
   </div>
 
-  {#if $search.preview}
+  {#if $search.chosenAction?.preview}
     <div id="preview">
       <div>
         {@html $search.preview}
@@ -93,10 +93,6 @@
 
   transition: color 0.2s ease;
 }
-.hit-inner {
-  position: absolute;
-  z-index: 10;
-}
 .alias {
   font-size: 14px;
   margin-left: 10px;
@@ -124,9 +120,6 @@
   height: 32px;
   width: calc(100% - 20px);
   margin: 0 10px;
-}
-#active-hit.hidden {
-  background: rgba(255, 255, 255, 0);
 }
 
 .category {

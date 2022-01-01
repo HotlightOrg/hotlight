@@ -19,12 +19,13 @@
 <div class="configurator">
   {#each Object.entries($config) as [key, value]}
     <div>
-      <label>{key}</label>: 
+      <label for={key}>{key}</label>: 
       {#if typeof value === "boolean"}
         <input
           type="checkbox"
           checked={value}
           name={key}
+          id={key}
           on:change|preventDefault={updateConfig}
         />
       {:else if typeof value === "string" || typeof value === "number"}
@@ -32,6 +33,7 @@
           type="text"
           value={value}
           name={key}
+          id={key}
           on:keyup|preventDefault={updateConfig}
         />
       {/if}

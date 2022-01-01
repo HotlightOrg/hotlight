@@ -1,4 +1,4 @@
-import type { Action } from "./store";
+import type { Action, Actions } from "./store";
 
 type Value = Value[] | Obj | string | null | number;
 type Obj = { [key: string]: Obj | string | null | number };
@@ -175,3 +175,59 @@ export const F = (actions: Obj[], keys: string[]) => {
   }
 }
 
+export const score = (found: Actions, query: string) => {
+  return found.map(hit => {
+    let score = levenshteinDistance(query, hit.title);
+
+    // exact hotkey match
+    if(hit.hotkeys && hit.hotkeys === query) {
+      score = -1;
+    // hotkey included
+    } else if(hit.hotkeys?.includes(query)) {
+      score = 0;
+    }
+
+    return {
+      ...hit,
+      score
+    }
+  })
+  .sort((a, b) => a.score > b.score ? 1 : -1);
+}
+
+/*
+export const hotkeysFirst = (found, query) => {
+  const sorted = score(found, query)
+    .sort((a, b) => a.score > b.score ? 1 : -1);
+
+  return sorted;
+}
+*/
+
+
+const levenshteinDistance = (str1 = '', str2 = '') => {
+  const track = Array(str2.length + 1)
+    .fill(null)
+    .map(() => Array(str1.length + 1).fill(null));
+
+  for (let i = 0; i <= str1.length; i += 1) {
+    track[0][i] = i;
+  }
+
+  for (let j = 0; j <= str2.length; j += 1) {
+    track[j][0] = j;
+  }
+
+  for (let j = 1; j <= str2.length; j += 1) {
+    for (let i = 1; i <= str1.length; i += 1) {
+      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1, // deletion
+        track[j - 1][i] + 1, // insertion
+        track[j - 1][i - 1] + indicator, // substitution
+      );
+    }
+  }
+
+  return track[str2.length][str1.length];
+};

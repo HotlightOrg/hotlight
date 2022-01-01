@@ -40,9 +40,8 @@
       e.preventDefault();
       if(
         $search.query === ""
-        // && store.state.parents.length === 0
       ) {
-        config.hide();
+        search.close();
         return
       } else {
         search.search("");
@@ -57,6 +56,11 @@
     }
   };
 
+  const clear = () => {
+    search.clear();
+    input.focus();
+  }
+
 </script>
 
 <svelte:options tag="hotlight-input" />
@@ -66,7 +70,15 @@
   novalidate
   autocomplete="off"
 >
-  <div id="parents-container"></div>
+  {#if $search.query !== ""}
+    <button 
+      class="clear"
+      type="button"
+      on:click|preventDefault={clear}
+    >
+      Clear
+    </button>
+  {/if}
   <input
     on:keydown={skip}
     on:keyup={performSearch}
@@ -77,18 +89,19 @@
     class="text-input"
     autocomplete="off"
     spellcheck="false"
-    placeholder={$config.placeholder}
+    placeholder={$search.placeholder}
   />
 </form>
 
 <style>
   form {
+    position: relative;
     display: flex;
     margin: 0;
   }
   input {
     flex-grow: 1;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--hl-text-color, rgba(255, 255, 255, 80%));
     padding: 10px;
     border: none;
@@ -100,25 +113,14 @@
   input:focus {
     outline: none;
   }
-
-  #parents-container {
-    display: flex;
+  .clear {
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: var(--hl-clear-color, rgba(255, 255, 255, 60%));
   }
-  /*
-  #parents-container.show div.parent:last-of-type {
-    max-width: 100px;
-    overflow: hidden;
-  }
-  .parent:last-of-type {
-    max-width: 0;
-
-    transition: max-width 0.2s;
-  }
-  .parent-inner {
-    display: block;
-    background: red;
-    color: white;
-    padding: 2px;
-  }
-  */
 </style>

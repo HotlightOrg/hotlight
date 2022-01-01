@@ -40,23 +40,45 @@
         <div class="title" class:active={index === $search.index}>
           {@html underscore($search.query, result.title)}       
         </div>
+        <div class="alias">
+          {@html underscore($search.query, result.alias)}       
+        </div>
         <span class="category"></span>
       </div>
     {/each}
+
+    {#if $search.index > -1 && $search.results.length > 0}
+      <div id="active-hit" style="{style}" transition:fade="{{ duration: $config.transitions ? 150 : 0 }}"></div>
+    {/if}
+
   </div>
-  {#if $search.index > -1}
-    <div id="active-hit" style="{style}" transition:fade="{{ duration: $config.transitions ? 150 : 0 }}"></div>
+
+  {#if $search.preview}
+    <div id="preview">
+      <div>
+        {@html $search.preview}
+      </div>
+    </div>
   {/if}
+
 </div>
 
 <style>
 #list {
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 
 #results {
   position: relative;
+  width: 100%;
+  max-height: 224px;
   overflow-y: auto;
+}
+
+#preview {
+  width: 200px;
 }
 
 .hit {
@@ -74,6 +96,10 @@
 .hit-inner {
   position: absolute;
   z-index: 10;
+}
+.alias {
+  font-size: 14px;
+  margin-left: 10px;
 }
 .enter-active .active {
   transition: none;

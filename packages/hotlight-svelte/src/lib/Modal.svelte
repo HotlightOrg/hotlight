@@ -25,9 +25,9 @@
   $: {
     if(typeof hidden !== "undefined") {
       if(hidden) {
-        close();
+        search.close();
       } else {
-        open();
+        config.open();
       }
     }
   }
@@ -36,25 +36,17 @@
 
   const toggle = () => {
     if(!$config.hidden) {
-      close();
+      search.close();
     } else {
-      open();
+      config.open();
     }
-  }
-
-  const open = () => {
-    config.show();
   }
 
   let containerRef;
   const closeByClick = (e: MouseEvent) => {
     if(e.target === containerRef) {
-      close();
+      search.close();
     }
-  }
-
-  const close = () => {
-    config.hide();
   }
 
   const handleKeydown = (e) => {
@@ -62,7 +54,7 @@
       toggle();
       e.preventDefault();
     } else if(e.key === "Escape" && !$config.hidden && $search.query === "") {
-      close();
+      search.close();
     }
   }
 
@@ -101,7 +93,9 @@
       </div>
     </div>
 
-    <div class="backdrop" transition:fade="{{ duration: $config.transitions ? 50 : 0 }}"/>
+    {#if $config.backdrop}
+      <div class="backdrop" transition:fade="{{ duration: $config.transitions ? 50 : 0 }}"/>
+    {/if}
 
   </div>
 {/if}

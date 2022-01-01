@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { readCache, readByQuery, writeCache } from "./cache";
 import { validURLOrPathname } from "./utils";
-import { F } from "./fuzzy";
+import { F, score } from "./fuzzy";
 
 interface ActionBase {
   title: string;
@@ -11,14 +11,14 @@ interface ActionBase {
   [key: string]: any;
 }
 
-export type Action = ActionBase; //ActionWithParent | ActionWithTrigger;// | (ActionWithTrigger & ActionWithParent);
+export type Action = ActionBase;
 export type Actions = Action[];
 
-export type ActionResults = Promise<Action[]> | Action[] | void; // Card;
+export type ActionResults = Promise<Action[]> | Action[] | void;
 
 type TriggerFunctionProps = {
   query: string;
-  arg: (placeholder: string) => string; //ArgumentResult;
+  arg: (placeholder: string) => string;
   close: () => void;
   clear: () => void;
 }
@@ -34,6 +34,7 @@ type Config = {
   configure: boolean;
   transitions: boolean;
   theme: "light" | "dark" | "auto";
+  backdrop: boolean;
   maxHits: number;
 }
 
@@ -44,6 +45,7 @@ function createConfig() {
     debug: true,
     configure: false,
     transitions: true,
+    backdrop: false,
     theme: "auto",
     maxHits: 20
   };
@@ -52,6 +54,7 @@ function createConfig() {
 
   const close = () => {
     configState.hidden = true;
+    search.clear();
     set(configState);
   }
 
@@ -70,8 +73,8 @@ function createConfig() {
   return {
     subscribe,
     setEntry,
-    show: open,
-    hide: close
+    open,
+    close
   };
 }
 
@@ -89,15 +92,30 @@ const remoteActions = [
   { title: "Getting started", trigger: () => "/" },
   { title: "Hotlight React", trigger: () => "/" },
   { title: "Hotlight Svelte", trigger: () => "/" },
-  { title: "Go to a website", trigger: () => "https://jonas.arnklint.com" },
+  { title: "Go to a website", trigger: () => "https://jonas.arnklint.com", preview: "<div style='background: red; color: white'>My homepage</div>" },
+  { title: "Go to another website", trigger: () => "https://hotlight.dev" },
   { title: "Reload Window", trigger: () => location.reload() },
   { title: "Close Hotlight", trigger: ({ close }) => close() },
   { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
   { title: "fast trigger", trigger: () => "#fast" },
-  { title: "Reset Hotlight", trigger: ({ reset }) => reset() },
-  { title: "New Contact", trigger: async ({ arg }) => {
-    const name = await arg("Name");
-  }},
+  { title: "Clear Hotlight", trigger: ({ clear }) => clear() },
+  {
+    title: "New Contact",
+    alias: "Add Contact",// "Create Contact"],
+    trigger: async ({ arg, preview, close }) => {
+      const name = await arg("Name");
+      console.log("received name", name);
+      const email = await arg("Email");
+      console.log("received email", email);
+      const phone = await arg("Phone");
+      console.log("received phone", phone);
+      preview(`
+        <div style="background-color: red">New contact created: ${name}, ${email}, ${phone}</div>
+      `)
+      location.hash = `#${[name, email, phone]}`;
+      //close();
+    }
+  },
 ]
 
 const remote = async (query) => {
@@ -131,8 +149,10 @@ type SearchState = {
   action: any; // current action?
   loading: boolean;
   preview: string | null;
+  placeholder: string;
+  args: any[];
 }
-function createSearch() {
+export function createSearch() {
   let searchStore = {
     query: "",
     sources,
@@ -140,7 +160,9 @@ function createSearch() {
     index: -1,
     action: null,
     loading: false,
-    preview: null
+    preview: null,
+    placeholder: get(config).placeholder,
+    args: []
   };
 
   let initialState = { ...searchStore };
@@ -183,15 +205,19 @@ function createSearch() {
     const found = fuzzy.search(query);
 
     if(found.length > 0 && query !== "") {
-      const limited = found.slice(0, get(config).maxHits ?? 20);
-      receiveActions(limited);
+      const hits = score(found, query);
+      const transformed = hits.slice(0, get(config).maxHits ?? 20).map(hit => ({
+        ...hit,
+        alias: hit.alias || ""
+      }));
+      receiveActions(transformed);
     }
   }
 
   const receiveActions = (actions) => {
     searchStore.results = actions;
-    searchStore.index = actions.length > 0 ? 0 : -1;
     set(searchStore);
+    choose(0);
   }
 
   const loading = (isLoading: boolean) => {
@@ -200,14 +226,15 @@ function createSearch() {
   }
 
   const search = (value: string): void => {
-    searchStore.query = value;
-    set(searchStore);
-    request(value);
-  }
+    if(searchStore.args.length === 0) {
+      searchStore.query = value;
+      if(value === "") {
+        searchStore.results = [];
+      }
 
-  // async
-  const arg = (placeholder: string) => {
-    console.log(placeholder)
+      set(searchStore);
+      request(value);
+    }
   }
 
   const goto = (urlOrPath: string) => {
@@ -220,15 +247,45 @@ function createSearch() {
   }
 
   const close = () => {
-    config.hide();
+    console.log(searchStore)
+    searchStore.preview = "";
+    searchStore.args = [];
+    set(searchStore);
+    config.close();
   }
 
-  const reset = () => set(initialState);
+  const clear = () => {
+    searchStore = initialState;
+    set(searchStore);
+  };
+
+  const arg = async (placeholder: string): Promise<string> => {
+    searchStore.query = "";
+    searchStore.results = [];
+    searchStore.loading = false;
+    searchStore.index = -1;
+    searchStore.placeholder = placeholder;
+
+    let r;
+    const promise = new Promise<string>((resolve) => {
+      r = resolve;
+    });
+    searchStore.args.push(r);
+    set(searchStore);
+    return promise;
+  }
 
   const perform = async () => {
     const { index, query, results } = searchStore;
-    const children = [];//actionsByParentTitle[action.title];
+    const children = [];
     const action = results[index];
+
+    if(searchStore.args.length > 0) {
+      const lastResolve = searchStore.args.pop();
+      set(searchStore);
+      lastResolve(query);
+      return;
+    }
 
     if(action && action.trigger && children.length === 0) {
       loading(true);
@@ -236,14 +293,21 @@ function createSearch() {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
         const actionResult = await action.trigger({
-          query: searchStore.query,
+          query,
           arg,
+          preview,
           close,
-          reset
+          clear
         });
+
         if(typeof actionResult === "string" && validURLOrPathname(actionResult)) {
           window.location.href = actionResult;
         }
+
+        searchStore.placeholder = get(config).placeholder;
+        searchStore.query = "";
+        searchStore.results = [];
+        set(searchStore);
       }
       loading(false);
     }
@@ -252,6 +316,12 @@ function createSearch() {
   const choose = (index: number) => {
     if(index < searchStore.results.length && index > -1) {
       searchStore.index = index;
+      searchStore.preview = "";
+
+      const hit = searchStore.results[index];
+      if(hit.preview) {
+        preview(hit.preview);
+      }
       set(searchStore);
     }
   }
@@ -261,22 +331,10 @@ function createSearch() {
     search,
     choose,
     perform,
-    reset,
-    set
+    clear,
+    set,
+    close
   };
 }
 
 export const search = createSearch();
-
-type HotlightState = {
-  launched: boolean;
-}
-function createHotlight() {
-  const store = writable({
-    launched: false
-  });
-
-  return store;
-}
-
-export const hotlight = createHotlight();

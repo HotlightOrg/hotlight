@@ -18,7 +18,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
-    "build": "rimraf ./dist && rollup -c",
+    "buildold": "rimraf ./dist && rollup -c",
     "build2": "rimraf ./dist && tsc -p ./tsconfig.cjs.json && tsc -p ./tsconfig.esm.json && rollup -c",
     "test": "jest"
   },

@@ -1,1 +1,6 @@
-www/index.js
+/node_modules/
+/dist/
+/.vscode/
+.DS_Store
+cypress/videos
+cypress/screenshots

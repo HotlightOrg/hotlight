@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>Hotlight Vanilla example</title>
+  </head>
+  <body>
+    <hotlight-modal id="hotlight"></hotlight-modal>
+    <script type="module" src="index.js"></script>
+
+    <h1>Available actions</h1>
+    <p><pre>cmd + k</pre> on Mac or <pre>ctrl + k</pre> on Windows to launch <strong>Hotlight</strong>. </p>
+    <p>These are the available actions for this example:</p>
+    <ul id="available-actions"></ul>
+
+    <style>
+      pre {
+        display: inline;
+      }
+    </style>
+
+    <script>
+      const actions = [
+        { title: "Go to a website2", trigger: () => "https://jonas.arnklint.com" },
+        { title: "Reload Window", trigger: () => location.reload() },
+        { title: "Close Hotlight", trigger: ({ close }) => close() },
+        { title: "Home", trigger: "/" },
+        { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
+        { title: "Fast trigger", trigger: () => "#fast" }
+      ]
+
+      const source = () => {
+        return actions;
+      }
+
+      //configure Hotlight
+      window.customElements.whenDefined('hotlight-modal').then(() => {
+        const hl = document.getElementById("hotlight");
+
+        hl.sources = [source]
+
+        setTimeout(() => {
+          hl.sources = [];
+          console.log("refresh");
+        }, 5000);
+      });
+
+      // list available triggers for demo purposes
+      const container = document.getElementById("available-actions");
+      actions.forEach(action => {
+        const el = document.createElement("li");
+        el.innerText = action.title;
+        container.appendChild(el);
+      });
+
+    </script>
+
+  </body>
+</html>

@@ -38,7 +38,7 @@ export const actions: Actions = [
   {
     title: "Add contact",
     description: "Adds a contact to an organisation",
-    arguments: [
+    args: [
       "Name",
       {
         placeholder: "Email",

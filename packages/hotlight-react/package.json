@@ -6,6 +6,12 @@
   "bugs": "https://github.com/arnklint/hotlight/issues",
   "main": "dist/hotlight-react.cjs.js",
   "module": "dist/hotlight-react.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -13,6 +19,7 @@
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
     "build": "rimraf ./dist && rollup -c",
+    "build2": "rimraf ./dist && tsc -p ./tsconfig.cjs.json && tsc -p ./tsconfig.esm.json && rollup -c",
     "test": "jest"
   },
   "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",

@@ -2,11 +2,11 @@
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "dist/cjs",
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
-    "declaration": true,
-    "declarationDir": "dist/esm",
     "sourceMap": true,
     "rootDir": "./src",
     "strict": true,

@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import { hotlight, Config } from "hotlight-core";
+import { Config } from "hotlight-core";
+//import { hotlight, Config } from "hotlight-core";
+
 
 declare global {
   namespace JSX {
@@ -20,8 +22,14 @@ type Props = {
 const Hotlight = ({ config }: Props) => {
   // Only runs client side
   useEffect(() => {
-    const hl = hotlight();
-    hl.configure(config);
+    const init = async () => {
+      const mod = await import("hotlight-core");
+
+      const hl = mod.hotlight();
+      hl.configure(config);
+    }
+
+    init();
   }, [])
 
   return (

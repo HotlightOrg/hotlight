@@ -78,6 +78,7 @@ import { each } from "svelte/internal";
   autocomplete="off"
 >
   <input
+    data-testid="hotlight-input"
     on:keydown={skip}
     on:keyup={performSearch}
     bind:this={input}

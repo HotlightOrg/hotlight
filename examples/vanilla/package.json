@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "rollup -c rollup.config.js -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.1.2",
+    "@web/rollup-plugin-html": "^1.10.1",
+    "rollup": "^2.62.0",
+    "rollup-plugin-serve": "^1.1.0"
+  },
+  "dependencies": {
+    "hotlight-svelte": "0.0.0"
+  }
+}

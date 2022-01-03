@@ -64,13 +64,19 @@
       }
       */
 
-      import { hotlight } from "./hotlight.esm.js";
+      //import "./esm/index.js";
+      import { hotlight } from "./esm/index.js";
+      hotlight();
+      console.log(hotlight);
+      //const h = hotlight();
 
-      const hl = hotlight();
+      const hl = document.querySelector("hotlight-modal");
+
       hl.configure({
         initialQuery: "janne",
         sources: [source, remote]
       });
+
       hl.launch();
       hl.debug();
     </script>

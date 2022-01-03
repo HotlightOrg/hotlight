@@ -1,10 +1,13 @@
 import serve from 'rollup-plugin-serve';
 import replace from '@rollup/plugin-replace';
+import typescript from '@rollup/plugin-typescript';
 import config, { plugins } from "./rollup.config";
+
+const esmConfig = config[1].output;
 
 const devConfig = {
   input: "src/index.ts",
-  output: [config.output.filter(o => o.format === "esm")[0]],
+  output: esmConfig,
   plugins: plugins
     .concat(serve({
       contentBase: ['dev', 'dist'],
@@ -13,6 +16,10 @@ const devConfig = {
     .concat(replace({
       'process.env.NODE_ENV': JSON.stringify("development"),
       preventAssignment: true
+    }))
+    .concat(typescript({
+      module: "esnext",
+      declarationDir: "dist/esm"
     }))
 }
 

@@ -34,22 +34,37 @@ declare module "hotlight-core" {
 }
 */
 
-import { Input } from "./input";
-customElements.define("hotlight-input", Input);
+/*
+import('./components').then(function (maths) {
+  console.log(maths);
+});
+*/
 
-import { Results } from "./results";
-customElements.define("hotlight-results", Results);
-
-import { Modal } from "./hotlight";
-customElements.define("hotlight-modal", Modal);
-
-import { Loading } from "./loading";
-customElements.define("hotlight-loading", Loading);
+/*
+import { defineCustomElements } from "./components";
+defineCustomElements();
+*/
 
 export const hotlight = () => {
-  const hotlight = document.querySelector("hotlight-modal") as Modal;
+  if(typeof window === "undefined") return;
+
+  import("./components").then((mod) => mod.defineCustomElements());
+  //components.defineCustomElements();
+
+  const hotlight = document.querySelector("hotlight-modal")// as Modal;
+  console.log(hotlight);
   if(hotlight) return hotlight;
   throw new Error("No <\hotlight-modal\> detected on the page. Please add a <hotlight-modal></hotlight-modal> in the body of the page.");
 }
 
-//export default hotlight;
+/*
+async function renderWidget() {
+  const container = document.getElementById("widget");
+  if (container !== null) {
+    const widget = await import("./widget");
+    widget.render(container);
+  }
+}
+
+renderWidget();
+*/

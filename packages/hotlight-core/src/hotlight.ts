@@ -81,6 +81,7 @@ export class Modal extends Component {
   }
 
   set config(value) {
+    console.log(value);
     store.dispatch("setConfig", value);
     this._config = config(value);
     this.engine = engine(this._config);

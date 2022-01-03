@@ -129,12 +129,12 @@ type ArgumentResult = {
 
 type TriggerFunctionProps = {
   query: string;
-  arguments: ArgumentResult;
+  args: ArgumentResult;
   context: Context;
   close: () => void;
   clear: () => void;
 }
-type TriggerFunction = ({ query, arguments, context, hotlight }: TriggerFunctionProps) => Promise<Actions> | Actions | [string | null, string | null] | void;
+type TriggerFunction = ({ query, args, context, close, clear }: TriggerFunctionProps) => Promise<Actions> | Actions | [string | null, string | null] | void;
 type TriggerRedirectUrl = string;
 export type Trigger = TriggerFunction | TriggerRedirectUrl;
 

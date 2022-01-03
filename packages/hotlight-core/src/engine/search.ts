@@ -123,7 +123,7 @@ const engine = (config: Config): Engine => {
       if(typeof action.trigger === "string" && validURLOrPathname(action.trigger)) {
         window.location.href = action.trigger;
       } else if(typeof action.trigger === "function") {
-        const results = await action.trigger({ query, arguments: {}, context: store.state, close, clear });
+        const results = await action.trigger({ query, args: {}, context: store.state, close, clear });
         if(typeof results === "string" && validURLOrPathname(results)) {
           window.location.href = results;
         }

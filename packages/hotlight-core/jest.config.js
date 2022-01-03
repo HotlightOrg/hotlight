@@ -1,5 +1,14 @@
-module.exports = {
-  testEnvironment: "jsdom",
-  moduleDirectories: ["node_modules", "src"],
-}
-
+// jest.config.js
+export default {
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.svelte$': [
+      'svelte-jester',
+      {
+        preprocess: true,
+      },
+    ],
+  },
+  moduleFileExtensions: ['js', 'ts', 'svelte'],
+  testEnvironment: "jsdom"
+};

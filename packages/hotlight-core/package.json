@@ -1,59 +1,47 @@
 {
-  "name": "hotlight-core",
-  "version": "0.2.1-beta.0",
-  "description": "Web app hot keys and search.",
-  "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
-  "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/arnklint/hotlight/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arnklint/hotlight.git",
-    "directory": "packages/hotlight-core"
-  },
-  "main": "dist/hotlight.cjs.js",
-  "module": "dist/hotlight.esm.js",
+  "name": "hotlight-svelte",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/hotlight-core.umd.js",
+  "module": "./dist/hotlight-core.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "dev": "rollup --config rollup.config.dev.js -w",
-    "build2": "rimraf ./dist && rollup -c",
-    "build": "rimraf ./dist && npm run build:types && rollup -c",
-    "build:types": "tsc -p ./tsconfig.json",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.js",
-    "test:watch": "npm test -- --watch"
-  },
-  "keywords": [
-    "command palette",
-    "keyboard shortcuts"
-  ],
-  "license": "MIT",
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy"
+  "exports": {
+    ".": {
+      "import": "./dist/hotlight-core.es.js",
+      "require": "./dist/hotlight-core.umd.js"
     }
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "jest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e:run": "start-server-and-test dev http-get://localhost:3000 cy:run",
+    "test:e2e:dev": "start-server-and-test dev http-get://localhost:3000 cy:open"
+  },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
-    "@babel/preset-typescript": "^7.15.0",
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
-    "@rollup/plugin-replace": "^3.0.0",
-    "@rollup/plugin-typescript": "^8.3.0",
-    "@types/jest": "^27.0.2",
-    "babel-jest": "^27.3.0",
-    "babel-plugin-transform-builtin-classes": "^0.6.1",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.2.5",
-    "jsdom": "^18.0.0",
-    "rollup": "^2.58.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-serve": "^1.1.0",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "rollup-plugin-visualizer": "^5.5.2",
-    "typescript": "^4.4.4"
+    "@cypress/vite-dev-server": "^2.2.2",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@testing-library/cypress": "^8.0.2",
+    "@testing-library/svelte": "^3.0.3",
+    "@tsconfig/svelte": "^2.0.1",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^17.0.7",
+    "cypress": "^9.2.0",
+    "jest": "^27.4.5",
+    "start-server-and-test": "^1.14.0",
+    "svelte": "^3.44.0",
+    "svelte-check": "^2.2.7",
+    "svelte-jester": "^2.1.5",
+    "svelte-preprocess": "^4.9.8",
+    "ts-jest": "^27.1.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2"
   }
 }

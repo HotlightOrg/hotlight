@@ -1,6 +1,21 @@
 {
-  "name": "hotlight-svelte",
-  "version": "0.0.0",
+  "name": "hotlight-core",
+  "version": "0.2.1-beta.0",
+  "description": "Web app hot keys and search.",
+  "license": "MIT",
+  "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
+  "homepage": "https://hotlight.dev",
+  "bugs": "https://github.com/arnklint/hotlight/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arnklint/hotlight.git",
+    "directory": "packages/hotlight-core"
+  },
+  "keywords": [
+    "command palette",
+    "site search",
+    "keyboard shortcuts"
+  ],
   "type": "module",
   "main": "./dist/hotlight-core.umd.js",
   "module": "./dist/hotlight-core.es.js",

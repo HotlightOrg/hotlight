@@ -3,15 +3,13 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  /*
   build:{
     lib:{
       entry: './src/main.ts',
-      name: 'MyLibrary',
+      name: 'Hotlight',
+      fileName: (format) => `hotlight-core.${format}.js`
     }
   },
-  */
-  //plugins: [svelte()]
   plugins: [svelte({
     compilerOptions: {
       customElement: true

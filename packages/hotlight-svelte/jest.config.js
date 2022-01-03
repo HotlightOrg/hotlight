@@ -10,4 +10,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['js', 'ts', 'svelte'],
+  testEnvironment: "jsdom"
 };

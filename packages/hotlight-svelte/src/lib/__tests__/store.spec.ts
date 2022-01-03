@@ -22,7 +22,26 @@ describe("Config store", () => {
 
 describe("Search store", () => {
   it("search", () => {
-    search.search("test")
+    search.search("test");
     expect(get(search).query).toEqual("test");
   })
+
+  it("clears", () => {
+    const state = get(search);
+    search.set({
+      ...state,
+      args: [{}, {}],
+      query: "test",
+      index: 100,
+      chosenAction: {},
+      results: [{}, {}],
+    });
+    search.clear();
+    expect(state.index).toEqual(-1);
+    expect(state.preview).toBeNull();
+    expect(state.results).toEqual([]);
+    expect(state.args).toEqual([]);
+    expect(state.chosenAction).toEqual(null);
+  });
+
 });

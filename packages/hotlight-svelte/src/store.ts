@@ -65,7 +65,7 @@ function createConfig() {
 
   const setEntry = (key: keyof Config, value: ValueOf<Config>) => {
     if(key && !!configState[key]) {
-      configState[key] = value;
+      (configState as Record<typeof key, ValueOf<Config>>)[key] = value;
     }
     set(configState);
   }
@@ -80,67 +80,6 @@ function createConfig() {
 
 export const config = createConfig();
 
-const actions = [
-  { title: "Home", trigger: "/" },
-  { title: "About", trigger: () => "/about" }
-]
-const source = () => {
-  return actions;
-}
-const remoteActions = [
-  { title: "Installing Hotlight", trigger: "/" },
-  { title: "Getting started", trigger: () => "/" },
-  { title: "Hotlight React", trigger: () => "/" },
-  { title: "Hotlight Svelte", trigger: () => "/" },
-  { title: "Go to a website", trigger: () => "https://jonas.arnklint.com", preview: "<div style='background: red; color: white;'>My homepage</div>" },
-  { title: "Go to another website", trigger: () => "https://hotlight.dev" },
-  { title: "Reload Window", trigger: () => location.reload() },
-  { title: "Close Hotlight", trigger: ({ close }) => close() },
-  { title: "Slow trigger", trigger: async () => await new Promise((resolve) => setTimeout(() => resolve("#slow"), 1000)) },
-  { title: "fast trigger", trigger: () => "#fast" },
-  { title: "Clear Hotlight", trigger: ({ clear }) => clear() },
-  {
-    title: "New Contact",
-    alias: "Add Contact",// "Create Contact"],
-    trigger: async ({ arg, preview, close }) => {
-      const name = await arg("Name");
-      console.log("received name", name);
-      const email = await arg("Email");
-      console.log("received email", email);
-      const phone = await arg("Phone");
-      console.log("received phone", phone);
-      preview(`
-        <div style="background-color: red">New contact created: ${name}, ${email}, ${phone}</div>
-      `)
-      location.hash = `#${[name, email, phone]}`;
-      //close();
-    }
-  },
-]
-
-const remote = async (query) => {
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(remoteActions);
-    }, 250 * Math.random());
-  });
-}
-
-const source3 = async (query) => {
-  const res = await fetch("https://31dgeh4x4m.execute-api.eu-west-1.amazonaws.com/hello?query=" + query)
-
-  if(res.ok) {
-    const { message } = await res.json();
-    return message.hits.map(hit => ({
-      title: "" + new Date().getTime() + hit.id,
-      trigger: "/"
-    }));
-  } else {
-    return [];
-  }
-}
-
-const sources = [source, source3, remote];
 
 type SearchState = {
   query: string;
@@ -156,7 +95,7 @@ type SearchState = {
 export function createSearch() {
   let searchStore = {
     query: "",
-    sources,
+    sources: [],
     results: [],
     index: -1,
     action: null,
@@ -183,7 +122,6 @@ export function createSearch() {
           respond(source, query, cached);
         } else {
           try {
-            console.log(searchStore.sources[source])
             let actions = await searchStore.sources[source](query);
             respond(source, query, actions);
           } catch (e) {
@@ -282,7 +220,10 @@ export function createSearch() {
   }
 
   const clear = () => {
-    searchStore = initialState;
+    searchStore = {
+      ...initialState,
+      sources: searchStore.sources
+    };
     set(searchStore);
   };
 
@@ -359,15 +300,22 @@ export function createSearch() {
     }
   }
 
+  const setSources = (sources) => {
+    searchStore.sources = sources;
+    set(searchStore);
+  }
+
   return {
     subscribe,
-    search,
     choose,
     perform,
-    clear,
     set,
+    escape,
+
+    search,
+    clear,
     close,
-    escape
+    setSources
   };
 }
 

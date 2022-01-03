@@ -1,22 +1,26 @@
 
 <script lang="ts">
-import { search } from "../store";
+  import { fade } from 'svelte/transition';
+  import { search } from "../store";
 </script>
 
 <svelte:options tag="hotlight-loading" />
 
-<div class="loading-indicator" class:loading={$search.loading}><span>.</span></div>
+{#if $search.loading}
+  <div
+    data-testid="loading-indicator"
+    transition:fade="{{ duration: 500 }}"
+    class="loading-indicator"
+  >
+    <span>.</span>
+  </div>
+{/if}
 
 <style>
   .loading-indicator {
     flex-grow: 1;
     font-size: 24px;
-    transition: opacity 1s;
     color: #777;
-    opacity: 0;
-  }
-  .loading-indicator.loading {
-    opacity: 1;
   }
   .loading-indicator span {
     animation: flickerAnimation 1s infinite;

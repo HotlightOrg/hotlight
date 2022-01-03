@@ -128,7 +128,7 @@
 
 .u {
   text-decoration: var(--hl-underscore-decoration, none);
-  font-weight: var(--hl-underscore-font-weight, bold);
+  font-weight: var(--hl-underscore-font-weight, normal);
   color: var(--hl-underscore-color, rgba(255, 255, 255, 90%));
 }
 </style>

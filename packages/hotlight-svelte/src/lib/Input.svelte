@@ -10,13 +10,12 @@ import { each } from "svelte/internal";
   let rest = "";
   $: {
     if($search.chosenAction) {
-      const _rest = $search.chosenAction.title?.replace(new RegExp(`^${$search.query}$`, "i"), "");
+      const _rest = $search.chosenAction.title?.replace(new RegExp(`^${$search.query}`, "i"), "");
       if(_rest.length + $search.query.length !== $search.chosenAction.title.length) {
         rest = ` - ${_rest}`;
       } else {
         rest = _rest;
       }
-      console.log(rest)
     } else {
       rest = "";
     }
@@ -152,6 +151,7 @@ import { each } from "svelte/internal";
   }
   .mirror {
     opacity: 0;
+    white-space: pre;
   }
   .rest {
     white-space: pre;

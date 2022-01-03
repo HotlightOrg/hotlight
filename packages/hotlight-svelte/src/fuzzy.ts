@@ -163,13 +163,9 @@ export const F = (actions: Obj[], keys: string[]) => {
     }
 
     const found = results
-      .sort((a, b) => {
-        const s = a.score - b.score;
-        return s
-      })
+      .sort((a, b) => a.score < b.score ? 1 : -1)
       .map(result => result.item);
 
-      console.log(found);
     return found;
   }
 

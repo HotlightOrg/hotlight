@@ -10,17 +10,20 @@
 
   // enables the component to have attributes that can be used to set config
   export let hidden: boolean;
+  /*
   export let debug: boolean;
   export let transitions: boolean;
   export let theme: string;
   export let placeholder: string;
-  export let sources: [];
+  */
 
   export const query = (query: string) => {
     search.search(query);
   }
 
-  export const configure = (x) => console.log(x)
+  export const sources = (_sources) => {
+    search.setSources(_sources);
+  }
 
   $: {
     if(typeof hidden !== "undefined") {

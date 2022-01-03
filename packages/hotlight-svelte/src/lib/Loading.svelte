@@ -20,7 +20,7 @@
   .loading-indicator {
     flex-grow: 1;
     font-size: 24px;
-    color: #777;
+    color: var(--hl-loading-color, #777);
   }
   .loading-indicator span {
     animation: flickerAnimation 1s infinite;

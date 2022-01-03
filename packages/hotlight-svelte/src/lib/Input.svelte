@@ -22,7 +22,7 @@ import { each } from "svelte/internal";
   }
 
   const skip = (e: KeyboardEvent) => {
-    const doNothing = ["Meta", "Tab", "Shift", "ArrowLeft", "ArrowRight", "Escape"];
+    const doNothing = ["Meta", "Tab", "Shift", "ArrowLeft", "ArrowRight", "Escape", "Control"];
     if(doNothing.includes(e.key)) {
       return
     }
@@ -125,14 +125,14 @@ import { each } from "svelte/internal";
   input {
     flex-grow: 1;
     font-size: 16px;
-    color: var(--hl-text-color, rgba(255, 255, 255, 80%));
+    color: var(--hl-text-color, rgba(0, 0, 0, 80%));
     padding: 10px;
     border: none;
     background: transparent;
     white-space: pre;
   }
   input:placeholder {
-    color: var(--hl-input-placeholder-color, white);
+    color: var(--hl-input-placeholder-color, black);
   }
   input:focus {
     outline: none;

@@ -33,7 +33,7 @@ type Config = {
   debug: boolean;
   configure: boolean;
   transitions: boolean;
-  theme: "light" | "dark" | "auto";
+  mode: "light" | "dark" | "auto";
   backdrop: boolean;
   maxHits: number;
 }
@@ -46,11 +46,11 @@ function createConfig() {
     configure: false,
     transitions: true,
     backdrop: false,
-    theme: "auto",
+    mode: "auto",
     maxHits: 20
   };
 
-  const { subscribe, update, set } = writable<Config>(configState);
+  const { subscribe, set } = writable<Config>(configState);
 
   const close = () => {
     configState.hidden = true;

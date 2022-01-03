@@ -6,6 +6,7 @@
   import Input from "./Input.svelte";
   import Debugger from "./Debugger.svelte";
   import Results from "./Results.svelte";
+  import Mode from "./Mode.svelte";
   import Configurator from "./Configurator.svelte";
 
   // enables the component to have attributes that can be used to set config
@@ -61,13 +62,14 @@
     }
   }
 
+
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 <svelte:options tag="hotlight-modal" />
 
 {#if !$config.hidden}
-  <div class="hotlight">
+  <div class="hotlight" class:dark={$config.mode === "dark"}>
     <div
       class="container"
       on:click={closeByClick}
@@ -103,14 +105,16 @@
   </div>
 {/if}
 
-  {#if $config.debug}
-    <hotlight-debugger />
-    <!--<Debugger />-->
-  {/if}
-  {#if $config.configure}
-    <hotlight-configurator />
-    <!--<Configurator />-->
-  {/if}
+<hotlight-mode />
+
+{#if $config.debug}
+  <hotlight-debugger />
+  <!--<Debugger />-->
+{/if}
+{#if $config.configure}
+  <hotlight-configurator />
+  <!--<Configurator />-->
+{/if}
 
 <style>
   :host, .hotlight {
@@ -119,7 +123,7 @@
 
   .backdrop {
     opacity: var(--hl-backdrop-opacity, 0.8);
-    background: var(--hl-backdrop-background, black);
+    background: var(--hl-backdrop-background, white);
     position: fixed;
     top: 0;
     left: 0;
@@ -144,10 +148,12 @@
     flex-direction: column;
     margin: 10% auto;
     width: 100%;
+
     max-width: var(--hl-modal-max-width, 576px);
     border-radius: var(--hl-modal-radius, 5px);
-    color: var(--hl-text-color, white);
-    background: var(--hl-modal-background, black);
+    border: var(--hl-modal-border, 1px solid rgba(0, 0, 0, 10%));
+    color: var(--hl-text-color, black);
+    background: var(--hl-modal-background, white);
     min-height: 66px; /* because input field is not rendered at all times */
 
     box-shadow: var(--hl-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));
@@ -170,5 +176,19 @@
     font-size: 12px;
     text-decoration: none;
     color: white;
+  }
+
+  .dark {
+    --hl-backdrop-opacity: var(--hl-dark-backdrop-opacity, 0.8);
+    --hl-backdrop-background: var(--hl-dark-backdrop-background, black);
+    --hl-input-placeholder-color: var(--hl-dark-input-placeholder-color, white);
+    --hl-modal-shadow: var(--hl-dark-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));
+    --hl-modal-background: var(--hl-dark-modal-background, black);
+    --hl-modal-border: var(--hl-dark-modal-border, none);
+    --hl-hit-active-background: var(--hl-dark-active-hit-background, rgba(255, 255, 255, 10%));
+    --hl-hit-active-color: var(--hl-dark-hit-active-color, white);
+    --hl-hit-color: var(--hl-dark-hit-color, gray);
+    --hl-text-color: var(--hl-dark-text-color, rgba(255, 255, 255, 80%));
+    --hl-loading-color: var(--hl-dark-loading-color, #777);
   }
 </style>

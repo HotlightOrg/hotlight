@@ -1,5 +1,7 @@
 export * from './lib/Modal.svelte'
 
+export { defaultConfig } from "./store";
+
 /*
 import App from './App.svelte'
 

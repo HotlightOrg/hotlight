@@ -7,7 +7,7 @@ import typescript from '@rollup/plugin-typescript';
 
 const devConfig = {
   input: "dev/index.ts",
-  output: [config.output.filter(o => o.format === "cjs")[0]],
+  output: config[0].output,
   plugins: [
     commonjs(),
     typescript(),

@@ -26,6 +26,9 @@
     search.setSources(_sources);
   }
 
+  export const open = () => config.open();
+  export const close = () => search.close();
+
   $: {
     if(typeof hidden !== "undefined") {
       if(hidden) {

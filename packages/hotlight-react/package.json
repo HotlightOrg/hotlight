@@ -1,7 +1,7 @@
 {
   "name": "hotlight-react",
   "description": "A command palette, hotkeys and search.",
-  "version": "0.4.0-beta.0",
+  "version": "0.4.1-beta.0",
   "homepage": "https://hotlight.dev",
   "bugs": "https://github.com/arnklint/hotlight/issues",
   "main": "dist/hotlight-react.cjs.js",

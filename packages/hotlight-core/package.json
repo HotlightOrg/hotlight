@@ -1,6 +1,6 @@
 {
   "name": "hotlight-core",
-  "version": "0.3.0-beta.0",
+  "version": "0.4.0-beta.0",
   "description": "Web app hot keys and search.",
   "license": "MIT",
   "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",

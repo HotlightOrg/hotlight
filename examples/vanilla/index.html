@@ -3,8 +3,7 @@
     <title>Hotlight Vanilla example</title>
   </head>
   <body>
-    <hotlight-modal id="hotlight"></hotlight-modal>
-    <script type="module" src="index.js"></script>
+    <hotlight-modal></hotlight-modal>
 
     <h1>Available actions</h1>
     <p><pre>cmd + k</pre> on Mac or <pre>ctrl + k</pre> on Windows to launch <strong>Hotlight</strong>. </p>
@@ -17,7 +16,9 @@
       }
     </style>
 
-    <script>
+    <script type="module">
+      import "hotlight-core";
+
       const actions = [
         { title: "Go to a website2", trigger: () => "https://jonas.arnklint.com" },
         { title: "Reload Window", trigger: () => location.reload() },
@@ -33,7 +34,7 @@
 
       //configure Hotlight
       window.customElements.whenDefined('hotlight-modal').then(() => {
-        const hl = document.getElementById("hotlight");
+        const hl = document.querySelector("hotlight");
 
         hl.sources = [source]
 

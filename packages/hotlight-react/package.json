@@ -18,7 +18,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
-    "buildold": "rimraf ./dist && rollup -c",
+    "build": "rimraf ./dist && rollup -c",
     "build2": "rimraf ./dist && tsc -p ./tsconfig.cjs.json && tsc -p ./tsconfig.esm.json && rollup -c",
     "test": "jest"
   },
@@ -30,9 +30,7 @@
     "directory": "packages/hotlight-react"
   },
   "dependencies": {
-    "hotlight-core": "^0.3.0-beta.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "hotlight-core": "^0.3.0-beta.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -60,7 +58,6 @@
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^17.0.2"
   }
 }

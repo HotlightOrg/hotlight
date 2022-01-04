@@ -5,27 +5,31 @@ import typescript from '@rollup/plugin-typescript';
 
 export const plugins = [
   peerDepsExternal(),
-  typescript(),
   resolve(),
   commonjs(),
 ]
 
-const config = (x) => {
-  input: "src/index.ts",
-  plugins,
-  output: [
-    {
+const config = [
+  {
+    input: "src/index.ts",
+    plugins: plugins.concat(typescript()),
+    output: {
       //file: "dist/hotlight-react.cjs.js",
       dir: "dist/cjs",
       format: "cjs",
       sourcemap: true
     },
-    {
+  },
+  {
+    input: "src/index.ts",
+    plugins: plugins.concat(typescript({ declarationDir: "dist/esm" })),
+    output: {
       //file: "dist/hotlight-react.esm.js",
       dir: "dist/esm",
       format: "esm",
       sourcemap: true,
     },
+  }
     /*
     {
       //file: "dist/hotlight-react.umd.js",
@@ -42,8 +46,7 @@ const config = (x) => {
       name: "HotlightReact"
     }
     */
-  ]
-};
+]
 
 export default config;
 

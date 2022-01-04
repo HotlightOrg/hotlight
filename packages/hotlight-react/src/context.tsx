@@ -16,7 +16,6 @@ export const HotlightProvider = ({ children, providedConfig }) => {
     //setConfig(values);
     if(modal.current) {
       modal.current.configure(values);
-      console.log(modal.current, "configure this");
     }
   };
 
@@ -32,7 +31,6 @@ export const HotlightProvider = ({ children, providedConfig }) => {
   }, []);
 
   useEffect(() => {
-    console.log(modal?.current?.configure, "exists");
     //React.lazy(() => import('hotlight-core'));
 
     if(typeof window !== "undefined") {
@@ -41,7 +39,6 @@ export const HotlightProvider = ({ children, providedConfig }) => {
         .customElements
         .whenDefined('hotlight-core')
         .then(() => {
-          console.log(modal.current, "defined");
           //const hl = document.querySelector("hotlight-core");
 
           /*

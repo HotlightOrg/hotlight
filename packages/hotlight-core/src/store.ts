@@ -38,17 +38,19 @@ type Config = {
   maxHits: number;
 }
 
+export const defaultConfig: Config = {
+  placeholder: "What are you looking for?",
+  hidden: true,
+  debug: true,
+  configure: false,
+  transitions: true,
+  backdrop: false,
+  mode: "auto",
+  maxHits: 20
+};
+
 function createConfig() {
-  let configState: Config = {
-    placeholder: "What are you looking for?",
-    hidden: true,
-    debug: true,
-    configure: false,
-    transitions: true,
-    backdrop: false,
-    mode: "auto",
-    maxHits: 20
-  };
+  let configState = defaultConfig;
 
   const { subscribe, set } = writable<Config>(configState);
 

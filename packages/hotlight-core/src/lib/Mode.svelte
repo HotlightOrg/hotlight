@@ -10,7 +10,7 @@
   onMount(() => {
     darkMode = window.matchMedia("(prefers-color-scheme: dark)");
     if(darkMode.matches && $config.mode === "auto") {
-      $config.mode = "dark";
+      config.setEntry("mode", "dark");
     }
     darkMode.addEventListener("change", setMode);
   });

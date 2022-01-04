@@ -1,4 +1,4 @@
-import HotlightContext from "./context";
+import { HotlightContext } from "./context";
 import { useContext } from "react";
 
 export const useHotlight = (initialState = false) => {

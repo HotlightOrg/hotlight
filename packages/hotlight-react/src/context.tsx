@@ -1,9 +1,15 @@
+import type { ReactNode } from "react";
 import React from "react";
 import { createContext, useEffect, useState, useRef } from "react";
 
-const HotlightContext = createContext(null);
+export const HotlightContext = createContext(null);
 
-export const HotlightProvider = ({ children, providedConfig }) => {
+type Props = {
+  children: ReactNode;
+  providedConfig?: any;
+};
+
+export const HotlightProvider = ({ children, providedConfig }: Props) => {
   const defaultConfig = {
     hidden: false
   }
@@ -93,4 +99,4 @@ export const HotlightProvider = ({ children, providedConfig }) => {
 
 export const HotlightConsumer = HotlightContext.Consumer;
 
-export default HotlightContext;
+export default HotlightProvider;

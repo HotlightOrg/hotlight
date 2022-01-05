@@ -4,6 +4,8 @@ import { createContext, useEffect, useState, useRef } from "react";
 
 export const HotlightContext = createContext(null);
 
+const customElement = "hotlight-modal";
+
 type Props = {
   children: ReactNode;
   providedConfig?: any;
@@ -18,12 +20,6 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
     providedConfig || {}
   );
 
-  const configure = (values) => {
-    //setConfig(values);
-    if(modal.current) {
-      modal.current.configure(values);
-    }
-  };
 
   const modal = useRef(null);
   useEffect(() => {
@@ -57,26 +53,39 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
     }
   }, [modal]);
 
+  /* API */
+  const configure = (values) => {
+    ensure(() => modal?.current.configure(values));
+  };
+
   const query = (query: string) => {
-    if(modal?.current) {
-      modal.current.query(query);
-    }
+    ensure(() => modal.current.query(query));
+  }
+
+  const sources = (_sources: []) => {
+    ensure(() => modal.current?.sources(_sources));
   }
 
   const open = () => {
-    modal.current?.open();
+    ensure(() => modal.current?.open());
   }
 
   const close = () => {
-    modal.current?.close();
+    ensure(() => modal.current?.close());
   }
 
   const ensure = (cb) => {
     if(typeof window !== "undefined") {
-      window
-        .customElements
-        .whenDefined('hotlight-core')
-        .then(cb);
+      if(customElements.get(customElement)) {
+        cb();
+      } else {
+        window
+          .customElements
+          .whenDefined(customElement)
+          .then(() => {
+            cb()
+          });
+      }
     }
   }
 
@@ -86,6 +95,7 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
       value={{
         config: currentConfig,
         configure,
+        sources,
         query,
         open,
         close

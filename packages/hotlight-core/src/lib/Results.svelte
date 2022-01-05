@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
   import { search, config } from "../store";
   import { underscore } from "../utils";
 
@@ -48,7 +46,7 @@
     {/each}
 
     {#if $search.index > -1 && $search.results.length > 0}
-      <div id="active-hit" style="{style}" transition:fade="{{ duration: $config.transitions ? 150 : 0 }}"></div>
+      <div id="active-hit" style="{style}"></div>
     {/if}
 
   </div>

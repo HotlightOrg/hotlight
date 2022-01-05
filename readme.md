@@ -27,6 +27,15 @@ Add the custom element.
 
 Add the module and configure a source with local actions in it.
 
+If you've installed `hotlight-core` through npm or yarn then `import "hotlight-core"` as shown below. Otherwise you can import it directly from the `unpkg` cdn:
+
+```
+<script src="https://unpkg.com/hotlight-core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
+<script>
+...
+</script>
+```
+
 ```js
 <script type="module">
 import "hotlight-core";

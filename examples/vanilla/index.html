@@ -16,8 +16,9 @@
       }
     </style>
 
+    <script src="https://unpkg.com/hotlight-core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
     <script type="module">
-      import "hotlight-core";
+      //import "hotlight-core";
 
       const actions = [
         { title: "Go to a website2", trigger: () => "https://jonas.arnklint.com" },
@@ -34,14 +35,9 @@
 
       //configure Hotlight
       window.customElements.whenDefined('hotlight-modal').then(() => {
-        const hl = document.querySelector("hotlight");
+        const hl = document.querySelector("hotlight-modal");
 
-        hl.sources = [source]
-
-        setTimeout(() => {
-          hl.sources = [];
-          console.log("refresh");
-        }, 5000);
+        hl.sources([source]);
       });
 
       // list available triggers for demo purposes

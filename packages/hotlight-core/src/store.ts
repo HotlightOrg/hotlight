@@ -41,7 +41,7 @@ type Config = {
 export const defaultConfig: Config = {
   placeholder: "What are you looking for?",
   hidden: true,
-  debug: true,
+  debug: false,
   configure: false,
   transitions: true,
   backdrop: false,

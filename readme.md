@@ -12,7 +12,7 @@ npm install hotlight-react
 
 Add the `HotlightProvider` at the app level, or where you normally add providers:
 
-```
+```js
 import { HotlightProvider } from "hotlight-react";
 
 const MyApp = () => {
@@ -25,6 +25,26 @@ const MyApp = () => {
 ```
 
 `HotlightProvider` enables you to use the `useHotlight` hook which exposes the Hotlight API anywhere in your application.
+
+```js
+import { useHotlight } from "hotlight-react";
+
+const MyComponent = () => {
+  const { sources, open } = useHotlight();
+  
+  useEffect(() => {
+    sources([() => [
+      { title: "My action", trigger: "https://hotlight.dev" }
+    ]])
+  }, []);
+  
+  return (
+    <button onClick={open}>Open Hotlight</button>
+  )
+}
+```
+
+The `useHotlight` hook returns an object containing the [API](#api).
 
 ### Vanilla JavaScript Web Component
 
@@ -45,7 +65,7 @@ Add the module and configure a source with local actions in it.
 
 If you've installed `hotlight-core` through npm or yarn then `import "hotlight-core"` as shown below. Otherwise you can import it directly from the `unpkg` cdn:
 
-```
+```html
 <script src="https://unpkg.com/hotlight-core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
 <script>
 ...
@@ -144,7 +164,7 @@ const contextAwareSource = (query) => {
 
 Making the source `async` enables fetching remote actions.
 
-```
+```js
 // asynchronous source
 const remoteSource = async (query) => {
   const res = await fetch(`https://my-domain.com/search?query=${query}`);

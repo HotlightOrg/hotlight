@@ -13,7 +13,7 @@ npm install hotlight-react
 Add the `HotlightProvider` at the app level, or where you normally add providers:
 
 ```js
-import { HotlightProvider } from "hotlight-react";
+import HotlightProvider from "hotlight-react";
 
 const MyApp = () => {
   return (

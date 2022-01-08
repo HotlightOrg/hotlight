@@ -7,13 +7,13 @@ Hotlight is based on web components, loaded lazily on the _client_ and available
 Install it through `npm`:
 
 ```bash
-npm install hotlight-react
+npm install @hotlight/react
 ```
 
 or `yarn`:
 
 ```bash
-yarn install hotlight-react
+yarn install @hotlight/react
 ```
 
 ## Develop

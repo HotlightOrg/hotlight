@@ -1,14 +1,14 @@
 {
-  "name": "hotlight-core",
-  "version": "0.4.5-beta.0",
+  "name": "@hotlight/core",
+  "version": "0.4.7-beta.0",
   "description": "Web app hot keys and search.",
   "license": "MIT",
   "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
   "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/arnklint/hotlight/issues",
+  "bugs": "https://github.com/begreet/hotlight/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arnklint/hotlight.git",
+    "url": "https://github.com/begreet/hotlight.git",
     "directory": "packages/hotlight-core"
   },
   "keywords": [
@@ -58,5 +58,6 @@
     "tslib": "^2.3.1",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
-  }
+  },
+  "gitHead": "626894b674a1c5d566f9f4da9d4d3182ec9a228c"
 }

@@ -1,9 +1,9 @@
 {
-  "name": "hotlight-react",
+  "name": "@hotlight/react",
   "description": "A command palette, hotkeys and search.",
-  "version": "0.4.5-beta.0",
+  "version": "0.4.7-beta.0",
   "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/arnklint/hotlight/issues",
+  "bugs": "https://github.com/begreet/hotlight/issues",
   "main": "dist/hotlight-react.cjs.js",
   "module": "dist/hotlight-react.esm.js",
   "exports": {
@@ -26,11 +26,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arnklint/hotlight.git",
+    "url": "https://github.com/begreet/hotlight.git",
     "directory": "packages/hotlight-react"
   },
   "dependencies": {
-    "hotlight-core": "^0.4.5-beta.0"
+    "@hotlight/core": "^0.4.7-beta.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -61,5 +61,6 @@
   },
   "peerDependencies": {
     "react": "^17.0.2"
-  }
+  },
+  "gitHead": "626894b674a1c5d566f9f4da9d4d3182ec9a228c"
 }

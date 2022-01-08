@@ -7,41 +7,33 @@ Spotlight / Albert / Quicksilver but for your website or app. In five minutes.
 ### React
 
 ```bash
-npm install hotlight-react
+npm install @hotlight/react
 ```
 
 Add the `HotlightProvider` at the app level, or where you normally add providers:
 
 ```js
-import HotlightProvider from "hotlight-react";
+import HotlightProvider from "@hotlight/react";
 
 const MyApp = () => {
-  return (
-    <HotlightProvider>
-      ...
-    </HotlightProvider>
-  )
-}
+  return <HotlightProvider>...</HotlightProvider>;
+};
 ```
 
 `HotlightProvider` enables you to use the `useHotlight` hook which exposes the Hotlight API anywhere in your application.
 
 ```js
-import { useHotlight } from "hotlight-react";
+import { useHotlight } from "@hotlight/react";
 
 const MyComponent = () => {
   const { sources, open } = useHotlight();
-  
+
   useEffect(() => {
-    sources([() => [
-      { title: "My action", trigger: "https://hotlight.dev" }
-    ]])
+    sources([() => [{ title: "My action", trigger: "https://hotlight.dev" }]]);
   }, []);
-  
-  return (
-    <button onClick={open}>Open Hotlight</button>
-  )
-}
+
+  return <button onClick={open}>Open Hotlight</button>;
+};
 ```
 
 The `useHotlight` hook returns an object containing the [API](#api).
@@ -49,7 +41,7 @@ The `useHotlight` hook returns an object containing the [API](#api).
 ### Vanilla JavaScript Web Component
 
 ```bash
-npm install hotlight-core
+npm install @hotlight/core
 ```
 
 Add the custom element.
@@ -63,18 +55,18 @@ Add the custom element.
 
 Add the module and configure a source with local actions in it.
 
-If you've installed `hotlight-core` through npm or yarn then `import "hotlight-core"` as shown below. Otherwise you can import it directly from the `unpkg` cdn:
+If you've installed `@hotlight/core` through npm or yarn then `import "@hotlight/core"` as shown below. Otherwise you can import it directly from the `unpkg` cdn:
 
 ```html
-<script src="https://unpkg.com/hotlight-core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
+<script src="https://unpkg.com/@hotlight/core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
 <script>
-...
+  ...
 </script>
 ```
 
 ```js
 <script type="module">
-import "hotlight-core";
+import "@hotlight/core";
 
 const actions = [
   { title: "Go to a website2", trigger: () => "https://jonas.arnklint.com" },

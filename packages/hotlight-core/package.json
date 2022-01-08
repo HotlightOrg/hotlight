@@ -1,5 +1,5 @@
 {
-  "name": "hotlight-core",
+  "name": "@hotlight/core",
   "version": "0.4.5-beta.0",
   "description": "Web app hot keys and search.",
   "license": "MIT",

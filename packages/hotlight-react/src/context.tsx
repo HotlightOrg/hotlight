@@ -25,33 +25,12 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
   useEffect(() => {
     const load = async () => {
       if(typeof window !== "undefined") {
-        await import("hotlight-core");
+        await import("@hotlight/core");
       }
     }
 
     load();
   }, []);
-
-  useEffect(() => {
-    //React.lazy(() => import('hotlight-core'));
-
-    if(typeof window !== "undefined") {
-      //configure Hotlight
-      window
-        .customElements
-        .whenDefined('hotlight-core')
-        .then(() => {
-          //const hl = document.querySelector("hotlight-core");
-
-          /*
-          if(hl) {
-            hl.configure(config);
-            hl.sources([]);
-          }
-           */
-        });
-    }
-  }, [modal]);
 
   /* API */
   const configure = (values) => {

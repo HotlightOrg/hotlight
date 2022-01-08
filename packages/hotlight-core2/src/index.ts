@@ -25,7 +25,7 @@ declare global {
 }
 
 /*
-declare module "hotlight-core" {
+declare module "@hotlight/core" {
   export namespace JSX {
     interface IntrinsicElements {
       "hotlight-modal": LocalJSX.HotlightModal;// & JSXBase.HTMLAttributes<HTMLHotlightModalElement>;

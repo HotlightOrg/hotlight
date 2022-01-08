@@ -10,6 +10,6 @@
     "rollup-plugin-serve": "^1.1.0"
   },
   "dependencies": {
-    "hotlight-core": "latest"
+    "@hotlight/core": "latest"
   }
 }

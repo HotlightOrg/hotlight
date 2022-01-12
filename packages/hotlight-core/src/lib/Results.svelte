@@ -113,7 +113,7 @@
   transition: transform 0.05s ease, color 0.1s ease;
 
   color: var(--hl-hit-active-color, black);
-  background: var(--hl-hit-active-background, rgba(0, 0, 0, 10%));
+  background: var(--hl-hit-active-background, rgba(0, 0, 0, 5%));
   border-radius: var(--hl-hit-active-radius, 3px);
 
   height: 32px;

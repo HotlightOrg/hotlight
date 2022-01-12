@@ -179,7 +179,7 @@
   .hotlight-logo {
     font-size: 12px;
     text-decoration: none;
-    color: white;
+    color: var(--hl-text-color, black);
   }
 
   .dark {

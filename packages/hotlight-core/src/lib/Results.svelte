@@ -128,6 +128,6 @@
 .u {
   text-decoration: var(--hl-underscore-decoration, none);
   font-weight: var(--hl-underscore-font-weight, normal);
-  color: var(--hl-underscore-color, rgba(255, 255, 255, 90%));
+  color: var(--hl-underscore-color, rgba(0, 0, 0, 90%));
 }
 </style>

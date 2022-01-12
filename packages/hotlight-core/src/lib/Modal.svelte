@@ -183,6 +183,9 @@
   }
 
   .dark {
+    --hl-color-typeahead: var(--hl-dark-color-typeahead, rgba(255, 255, 255, 50%));
+    --hl-clear-color: var(--hl-dark-clear-color, rgba(255, 255, 255, 60%));
+    --hl-underscore-color: var(--hl-dark-underscore-color, rgba(255, 255, 255, 90%));
     --hl-backdrop-opacity: var(--hl-dark-backdrop-opacity, 0.8);
     --hl-backdrop-background: var(--hl-dark-backdrop-background, black);
     --hl-input-placeholder-color: var(--hl-dark-input-placeholder-color, white);

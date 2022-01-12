@@ -126,11 +126,12 @@
     margin: 0;
   }
   .input-wrapper {
+    width: 100%;
     position: relative;
     flex-direction: row;
   }
   svg {
-    margin: 10px 5px 10px 10px;
+    margin: 8px 5px 10px 10px;
   }
   input {
     flex-grow: 1;
@@ -178,9 +179,9 @@
     font-size: 16px;
     margin-left: auto;
     cursor: pointer;
-    padding: 0;
+    padding: 0 0 0 10px;
     background: transparent;
     border: none;
-    color: var(--hl-clear-color, rgba(255, 255, 255, 60%));
+    color: var(--hl-clear-color, rgba(0, 0, 0, 60%));
   }
 </style>

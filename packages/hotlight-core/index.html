@@ -10,12 +10,57 @@
 
 <body>
   <hotlight-modal id="hotlight"></hotlight-modal>
+
+  <h2>Hotkeys</h2>
+  <p>Hit <kbd style="background: rgba(0,0,0,10%); color: black; padding: 2px; border-radius: 4px;">f</kbd> to view keyboard short cuts.</p>
+  <h3>Button</h3>
+  <hotlight-action hotkey="b">
+    <button onclick="alert('button')">alert('button')</button>
+  </hotlight-action>
+
+  <h3>Input</h3>
+  <hotlight-action hotkey="s">
+    <input type="search" placeholder="Search..." />
+  </hotlight-action>
+
+  <h3>Textarea</h3>
+  <hotlight-action hotkey="t">
+    <textarea placeholder="Write message..."></textarea>
+  </hotlight-action>
+
+  <h3>Link</h3>
+  <hotlight-action hotkey="a">
+    <a
+      href="https://jonas.arnklint.com"
+      target="_blank"
+    >
+      My website
+    </a>
+  </hotlight-action>
+
+  <h3>Content editable</h3>
+  <hotlight-action hotkey="c">
+    <div contenteditable="true">this is editable</div>
+  </hotlight-action>
+
+  <h3>Auto mode - enabling <i>input</i>, <i>textarea</i>, <i>button</i>, <i>a</i> automatically</h3>
+  <hotlight-actions mode="auto">
+    <button onclick="alert('button')">button</button>
+    <input type="search" placeholder="Search..." />
+    <a href="https://jonas.arnklint.com" target="_blank">My website</a>
+    <textarea></textarea>
+  </hotlight-actions>
+
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>
   <script>
     const actions = [
       { title: "Home", trigger: "/" },
       { title: "Homer", trigger: "/" },
+      { title: "Homer bart", trigger: "/" },
+      { title: "Homer bart lisa", trigger: "/" },
+      { title: "Homer bart lisa maggie", trigger: "/" },
+      { title: "Homer bart lisa maggie simpson", trigger: "/" },
       { title: "About", trigger: () => "/about" }
     ]
     const source = () => {

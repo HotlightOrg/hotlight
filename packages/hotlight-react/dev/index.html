@@ -3,13 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>Hotlight React Dev</title>
+
+    <style>
+      kbd {
+        background: rgba(0,0,0,5%);
+        border-radius: 4px;
+        padding: 3px 4px;
+        font-size: 16px;
+      }
+      span {
+        margin: 0 1rem;
+        padding: 3px;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script src="./esm/index.js"></script>
     <pre>
-      <code>
+      <code style="display: flex; flex-direction: row;">
+        <span>Press</span>
         <kbd>⌘ + K</kbd>
+        <span>or</span>
+        <kbd>f</kbd>
       </code>
     </pre>
   </body>

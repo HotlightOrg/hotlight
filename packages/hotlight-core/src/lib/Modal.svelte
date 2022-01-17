@@ -80,7 +80,7 @@
     >
       <div
         class="modal"
-        transition:fade="{{ duration: $config.transitions ? 150 : 0 }}"
+        transition:fade="{{ duration: $config.transitions ? 50 : 0 }}"
       >
         <hotlight-input />
         <!--<Input />-->

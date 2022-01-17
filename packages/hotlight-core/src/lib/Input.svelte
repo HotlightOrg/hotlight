@@ -124,6 +124,7 @@
   form {
     display: flex;
     margin: 0;
+    border-bottom: var(--hl-input-border-bottom, 1px solid rgba(0, 0, 0, 10%));
   }
   .input-wrapper {
     width: 100%;
@@ -131,7 +132,7 @@
     flex-direction: row;
   }
   svg {
-    margin: 8px 5px 10px 10px;
+    margin: 8px 5px 6px 10px;
   }
   input {
     flex-grow: 1;

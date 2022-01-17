@@ -1,7 +1,7 @@
 {
   "name": "@hotlight/react",
   "description": "A command palette, hotkeys and search.",
-  "version": "0.4.7-beta.2",
+  "version": "0.4.7-beta.3",
   "homepage": "https://hotlight.dev",
   "bugs": "https://github.com/begreet/hotlight/issues",
   "main": "dist/hotlight-react.cjs.js",
@@ -30,7 +30,7 @@
     "directory": "packages/hotlight-react"
   },
   "dependencies": {
-    "@hotlight/core": "^0.4.7-beta.2"
+    "@hotlight/core": "^0.4.7-beta.3"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",

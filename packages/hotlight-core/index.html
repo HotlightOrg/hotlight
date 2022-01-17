@@ -14,42 +14,42 @@
   <h2>Hotkeys</h2>
   <p>Hit <kbd style="background: rgba(0,0,0,10%); color: black; padding: 2px; border-radius: 4px;">f</kbd> to view keyboard short cuts.</p>
   <h3>Button</h3>
-  <hotlight-action hotkey="b">
+  <hotlight-hotkey key="b">
     <button onclick="alert('button')">alert('button')</button>
-  </hotlight-action>
+  </hotlight-hotkey>
 
   <h3>Input</h3>
-  <hotlight-action hotkey="s">
+  <hotlight-hotkey key="s">
     <input type="search" placeholder="Search..." />
-  </hotlight-action>
+  </hotlight-hotkey>
 
   <h3>Textarea</h3>
-  <hotlight-action hotkey="t">
+  <hotlight-hotkey key="t">
     <textarea placeholder="Write message..."></textarea>
-  </hotlight-action>
+  </hotlight-hotkey>
 
   <h3>Link</h3>
-  <hotlight-action hotkey="a">
+  <hotlight-hotkey key="a">
     <a
       href="https://jonas.arnklint.com"
       target="_blank"
     >
       My website
     </a>
-  </hotlight-action>
+  </hotlight-hotkey>
 
   <h3>Content editable</h3>
-  <hotlight-action hotkey="c">
+  <hotlight-hotkey key="c">
     <div contenteditable="true">this is editable</div>
-  </hotlight-action>
+  </hotlight-hotkey>
 
   <h3>Auto mode - enabling <i>input</i>, <i>textarea</i>, <i>button</i>, <i>a</i> automatically</h3>
-  <hotlight-actions mode="auto">
+  <hotlight-hotkeys mode="auto">
     <button onclick="alert('button')">button</button>
     <input type="search" placeholder="Search..." />
     <a href="https://jonas.arnklint.com" target="_blank">My website</a>
     <textarea></textarea>
-  </hotlight-actions>
+  </hotlight-hotkeys>
 
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>

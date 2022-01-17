@@ -24,7 +24,11 @@ template.innerHTML = `
   </style>
 `;
 
-export class Action extends HTMLElement {
+const ATTRIBUTE = "key";
+const STORE_NODE = document.body;
+const STORE_DATA_KEY = "hotlightHotkeys";
+
+export class Hotkey extends HTMLElement {
   private active = false;
   private root: ShadowRoot;
   private visualKey: HTMLElement;
@@ -50,7 +54,7 @@ export class Action extends HTMLElement {
     const auto = this.getAttribute("auto");
     this.auto = !!auto;
 
-    const key = this.getAttribute("hotkey");
+    const key = this.getAttribute(ATTRIBUTE) || this.dataset[ATTRIBUTE];
     if(key) this.key = key.toLowerCase();
 
     this.render();
@@ -67,14 +71,12 @@ export class Action extends HTMLElement {
     this.register();
   }
 
-  attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
-    if(name === "hotkey") {
-      this.key = newValue.toLowerCase();
-      this.render();
-    }
+  attributeChangedCallback(_name: string, _oldValue: string, newValue: string) {
+    this.key = newValue.toLowerCase();
+    this.render();
   }
 
-  static get observedAttributes() { return ["hotkey"]; }
+  static get observedAttributes() { return [ATTRIBUTE, `data-${ATTRIBUTE}`]; }
 
   disconnectedCallback() {
     document.removeEventListener("keydown", this.listener);
@@ -83,19 +85,26 @@ export class Action extends HTMLElement {
   }
 
   register() {
-    const storeNode = document.body;
-    const storeDataKey = "hotlightHotkeys";
-    const present = storeNode.dataset[storeDataKey];
+    const present = STORE_NODE.dataset[STORE_DATA_KEY];
 
     if(!present) {
-      storeNode.dataset[storeDataKey] = [this.key].join(",");
+      STORE_NODE.dataset[STORE_DATA_KEY] = [this.key].join(",");
     } else if(this.key) {
-      storeNode.dataset[storeDataKey] = [present.split(","), this.key].join(",");
+      const presentKeys = present.split(",")
+      if(presentKeys.includes(this.key)) {
+        console.warn(`Hotkey: ${this.key} is already in view`);
+      } else {
+        STORE_NODE.dataset[STORE_DATA_KEY] = [presentKeys, this.key].join(",");
+      }
     }
   }
 
   deregister() {
-    //console.log("deregister", this.key);
+    const present = STORE_NODE.dataset[STORE_DATA_KEY];
+    STORE_NODE.dataset[STORE_DATA_KEY] = present
+      .split(",")
+      .filter(key => key !== this.key)
+      .join(",");
   }
 
   deactivate() {
@@ -169,7 +178,7 @@ export class Action extends HTMLElement {
   }
 }
 
-customElements.define("hotlight-action", Action);
+customElements.define("hotlight-hotkey", Hotkey);
 
 /*
 const actionsTemplate = document.createElement('template');

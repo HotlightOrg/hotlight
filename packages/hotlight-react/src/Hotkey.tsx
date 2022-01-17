@@ -7,8 +7,8 @@ type Props = {
 }
 
 export const Hotkey = ({ hotkey, children }: Props) => (
-  <hotlight-action hotkey={hotkey}>
+  <hotlight-hotkey data-key={hotkey}>
     {children}
-  </hotlight-action>
+  </hotlight-hotkey>
 );
 

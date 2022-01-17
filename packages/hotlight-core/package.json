@@ -37,7 +37,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e:run": "start-server-and-test dev http-get://localhost:3000 cy:run",
-    "test:e2e:dev": "start-server-and-test dev http-get://localhost:3000 cy:open"
+    "test:e2e:dev": "start-server-and-test dev http-get://localhost:3000 cy:open",
+    "extract-custom-properties": "node ./scripts/extract-custom-properties.js"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^2.2.2",
@@ -58,6 +59,5 @@
     "tslib": "^2.3.1",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
-  },
-  "gitHead": "626894b674a1c5d566f9f4da9d4d3182ec9a228c"
+  }
 }

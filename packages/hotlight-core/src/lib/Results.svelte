@@ -16,8 +16,23 @@
   $: {
     if(resultsRef && resultsRef.children) {
       const child = resultsRef.children[$search.index];
-      let h = $search.index > -1 && child ? window.getComputedStyle(child).height : "0";
-      style = `height: ${h}; transform: translateY(${parseInt(h)*$search.index}px)`;
+      if(child) {
+        let h = $search.index > -1 && child ? window.getComputedStyle(child).height : "0";
+        const hInt = parseInt(h);
+
+        style = `height: ${h}; transform: translateY(${hInt * $search.index}px)`;
+
+        const offsetTop = child.offsetTop;
+        const height = resultsRef.offsetHeight;
+        const diffY = child.offsetTop - height;
+
+        if(offsetTop >= height + resultsRef.scrollTop || offsetTop < resultsRef.scrollTop) {
+          resultsRef.scrollTo({
+            top: diffY + hInt,
+            behaviour: "smooth"
+          });
+        }
+      }
     }
   }
 </script>
@@ -64,6 +79,7 @@
 <style>
 #list {
   position: relative;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
 }
@@ -113,7 +129,7 @@
   transition: transform 0.05s ease, color 0.1s ease;
 
   color: var(--hl-hit-active-color, black);
-  background: var(--hl-hit-active-background, rgba(0, 0, 0, 10%));
+  background: var(--hl-hit-active-background, rgba(0, 0, 0, 5%));
   border-radius: var(--hl-hit-active-radius, 3px);
 
   height: 32px;
@@ -128,6 +144,6 @@
 .u {
   text-decoration: var(--hl-underscore-decoration, none);
   font-weight: var(--hl-underscore-font-weight, normal);
-  color: var(--hl-underscore-color, rgba(255, 255, 255, 90%));
+  color: var(--hl-underscore-color, rgba(0, 0, 0, 90%));
 }
 </style>

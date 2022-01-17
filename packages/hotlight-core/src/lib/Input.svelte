@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-import { each } from "svelte/internal";
   import { search } from "../store";
 
   onMount(() => input.focus());
@@ -77,38 +76,44 @@ import { each } from "svelte/internal";
   novalidate
   autocomplete="off"
 >
-  <input
-    data-testid="hotlight-input"
-    on:keydown={skip}
-    on:keyup={performSearch}
-    bind:this={input}
-    bind:value={$search.query}
-    id="input"
-    type="text"
-    class="text-input"
-    autocomplete="off"
-    autocapitalize="none"
-    autocorrect="off"
-    spellcheck="false"
-    placeholder={$search.placeholder}
-  />
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 32 32">
+    <path stroke="#535358" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M28 27l-7.5-7.5"/>
+    <circle r="9" stroke="#535358" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="matrix(-1 0 0 1 14 13)"/>
+  </svg>
 
-  <div class="typeahead">
-    <span class="mirror">{$search.query}</span>
-    {#if $search.args.length === 0}
-      <span class="rest">{rest}</span>
-    {/if}
+  <div class="input-wrapper">
+    <input
+      data-testid="hotlight-input"
+      on:keydown={skip}
+      on:keyup={performSearch}
+      bind:this={input}
+      bind:value={$search.query}
+      id="input"
+      type="text"
+      class="text-input"
+      autocomplete="off"
+      autocapitalize="none"
+      autocorrect="off"
+      spellcheck="false"
+      placeholder={$search.placeholder}
+    />
 
-    {#if $search.query !== ""}
-      <button 
-        class="clear"
-        type="button"
-        on:click|preventDefault={clear}
-      >
-        Clear (Esc)
-      </button>
-    {/if}
+    <div class="typeahead">
+      <span class="mirror">{$search.query}</span>
+      {#if $search.args.length === 0}
+        <span class="rest">{rest}</span>
+      {/if}
 
+      {#if $search.query !== ""}
+        <button 
+          class="clear"
+          type="button"
+          on:click|preventDefault={clear}
+        >
+          Clear (Esc)
+        </button>
+      {/if}
+    </div>
   </div>
 </form>
 
@@ -117,16 +122,23 @@ import { each } from "svelte/internal";
     box-sizing: border-box;
   }
   form {
-    position: relative;
     display: flex;
-    flex-direction: row;
     margin: 0;
+    border-bottom: var(--hl-input-border-bottom, 1px solid rgba(0, 0, 0, 10%));
+  }
+  .input-wrapper {
+    width: 100%;
+    position: relative;
+    flex-direction: row;
+  }
+  svg {
+    margin: 8px 5px 6px 10px;
   }
   input {
     flex-grow: 1;
     font-size: 16px;
     color: var(--hl-text-color, rgba(0, 0, 0, 80%));
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     border: none;
     background: transparent;
     white-space: pre;
@@ -140,7 +152,7 @@ import { each } from "svelte/internal";
 
   .typeahead {
     position: absolute;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     font-size: 16px;
     z-index: 0;
     left: 0;
@@ -156,7 +168,7 @@ import { each } from "svelte/internal";
   }
   .rest {
     white-space: pre;
-    color: var(--hl-color-typeahead, rgba(255, 255, 255, 50%));
+    color: var(--hl-color-typeahead, rgba(0, 0, 0, 50%));
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -168,9 +180,9 @@ import { each } from "svelte/internal";
     font-size: 16px;
     margin-left: auto;
     cursor: pointer;
-    padding: 0;
+    padding: 0 0 0 10px;
     background: transparent;
     border: none;
-    color: var(--hl-clear-color, rgba(255, 255, 255, 60%));
+    color: var(--hl-clear-color, rgba(0, 0, 0, 60%));
   }
 </style>

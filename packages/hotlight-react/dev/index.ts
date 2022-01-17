@@ -1,7 +1,7 @@
-import React, { createElement, useEffect } from 'react';
+import React, { createElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
-import HotlightProvider, { useHotlight } from '../src/index';
+import HotlightProvider, { useHotlight, Hotkey } from '../src/index';
 
 const actions = [
   { title: "Hotlight", trigger: "/" },
@@ -39,7 +39,22 @@ const Component = () => {
     }, 1000);
   }, []);
 
-  return null;
+  const onClick = () => {
+    alert("Toggling hidden elements...");
+    setShow(!show);
+  }
+
+  const [show, setShow] = useState(false);
+
+  return createElement("div", {}, [
+    createElement(Hotkey, { key: "i", hotkey: "i" }, createElement("input")),
+    createElement(Hotkey, { key: "b", hotkey: "b" }, createElement("button", { onClick }, show ? "Hide link" : "Show link")),
+    createElement(Hotkey, { key: "c", hotkey: "t" }, createElement("textarea", { placeholder: "Textarea..." })),
+    createElement(Hotkey, { key: "d", hotkey: "a" }, createElement("a", { href: "#" }, "hey")),
+    createElement("div", {}, show ? [
+      createElement(Hotkey, { key: "e", hotkey: "v" }, createElement("a", { href: "#hidden-link" }, "hidden link")),
+    ] : null)
+  ]);
 }
 
 render(createElement(HotlightProvider, null, [

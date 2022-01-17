@@ -80,7 +80,7 @@
     >
       <div
         class="modal"
-        transition:fade="{{ duration: $config.transitions ? 150 : 0 }}"
+        transition:fade="{{ duration: $config.transitions ? 50 : 0 }}"
       >
         <hotlight-input />
         <!--<Input />-->
@@ -159,7 +159,8 @@
     background: var(--hl-modal-background, white);
     min-height: 66px; /* because input field is not rendered at all times */
 
-    box-shadow: var(--hl-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));
+    /*box-shadow: var(--hl-modal-shadow, 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11), 0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11));*/
+    box-shadow: var(--hl-modal-shadow, none);
 
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 
@@ -178,10 +179,13 @@
   .hotlight-logo {
     font-size: 12px;
     text-decoration: none;
-    color: white;
+    color: var(--hl-text-color, black);
   }
 
   .dark {
+    --hl-color-typeahead: var(--hl-dark-color-typeahead, rgba(255, 255, 255, 50%));
+    --hl-clear-color: var(--hl-dark-clear-color, rgba(255, 255, 255, 60%));
+    --hl-underscore-color: var(--hl-dark-underscore-color, rgba(255, 255, 255, 90%));
     --hl-backdrop-opacity: var(--hl-dark-backdrop-opacity, 0.8);
     --hl-backdrop-background: var(--hl-dark-backdrop-background, black);
     --hl-input-placeholder-color: var(--hl-dark-input-placeholder-color, white);

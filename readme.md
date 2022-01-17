@@ -38,6 +38,36 @@ const MyComponent = () => {
 
 The `useHotlight` hook returns an object containing the [API](#api).
 
+#### Hotkeys
+
+Hotkeys finds the first `<button>`, `<input>`, `<textarea>`, `[contenteditable]` or `<a>` currently in view and simulates a click on it.
+
+Pressing the `f` key when the page has focus will display all hotkeys on an overlay.
+
+This enables fast keyboard navigation with little to no effort.
+
+```js
+import { Hotkey } from "@hotlight/react";
+
+const MyComponent = () => {
+  const showOptions = () => {
+    //...
+  };
+
+  return (
+    <>
+      <Hotkey key="o">
+        <button onClick={showOptions}>...</button>
+      </Hotkey>
+
+      <Hotkey key="h">
+        <a href="/">Home</a>
+      </Hotkey>
+    </>
+  );
+};
+```
+
 ### Vanilla JavaScript Web Component
 
 ```bash

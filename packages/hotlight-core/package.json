@@ -17,6 +17,7 @@
     "keyboard shortcuts"
   ],
   "type": "module",
+  "types": "./dist/main.d.ts",
   "main": "./dist/hotlight-core.umd.js",
   "module": "./dist/hotlight-core.es.js",
   "files": [
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && tsc --declaration --emitDeclarationOnly",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "jest",

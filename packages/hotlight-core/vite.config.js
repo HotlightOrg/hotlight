@@ -8,24 +8,11 @@ export default defineConfig({
       entry: './src/main.ts',
       name: 'Hotlight',
       fileName: (format) => `hotlight-core.${format}.js`
-    }
+    },
   },
   plugins: [svelte({
     compilerOptions: {
       customElement: true
     }
   })]
- /*
-  plugins: [
-    svelte({
-      exclude: ['./src/lib/App.svelte', './src/lib/Input.svelte', './src/lib/Loading.svelte', './src/lib/Debugger.svelte'],
-      compilerOptions: {
-        customElement: true,
-      },
-    }),
-    svelte({
-      exclude: ['./src/lib/Modal.svelte'],
-    })
-  ]
-  */
 })

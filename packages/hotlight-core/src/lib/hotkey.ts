@@ -120,7 +120,7 @@ export class Hotkey extends HTMLElement {
     const enabled = !["input", "textarea"].includes(tagName) && !contentEditable && !tagName.includes("-") // custom elements
     if(!enabled) return;
 
-    if(key === this.key) {
+    if(key === this.key && !e.metaKey) {
       this.triggerTarget(e);
     }
 

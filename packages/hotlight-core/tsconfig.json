@@ -3,6 +3,8 @@
   "compilerOptions": {
     "target": "esnext",
     "useDefineForClassFields": true,
+    "declaration": true,
+    "declarationDir": "./dist",
     "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",

@@ -6,13 +6,276 @@
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Svelte + TS + Vite App</title>
+
+  <style>
+    .zone {
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 5%);
+      padding: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    hotlight-keyzone2 {
+      border: 1px solid red;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    body {
+      font-family: Arial;
+    }
+
+  </style>
 </head>
 
 <body>
   <hotlight-modal id="hotlight"></hotlight-modal>
 
+  <ul>
+    <li>Performant</li>
+    <li>Short hotkeys</li>
+    <li>Unobtrusive, not impacting the ui negatively in any way (avoid wrapping elements or injected elements all over the place)</li>
+  </ul>
+
+  <hotlight-hints>
+    <hotlight-keyzone2>
+      <a href="#" onclick="alert('hej')">Hej</a>
+      <button>Hej</button>
+      <div style="display: flex; flex-direction: column;">
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <input type="search" />
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <textarea></textarea>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <div contenteditable="true">Content editable</div>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+        <a href="#" onclick="alert('hej')">Hej</a>
+      <a href="#" onclick="alert('hej')">Hej</a>
+      </div>
+    </hotlight-keyzone2>
+
+    <hotlight-keyzone2>
+      <a data-hotlight-key="a" href="#" onclick="alert('då')">Då</a>
+      <button data-hotlight-key="b">Hej</button>
+    </hotlight-keyzone2>
+  </hotlight-hints>
+
   <h2>Hotkeys</h2>
   <p>Hit <kbd style="background: rgba(0,0,0,10%); color: black; padding: 2px; border-radius: 4px;">f</kbd> to view keyboard short cuts.</p>
+
+  <hotlight-keyzone>
+    <div class="zone">
+      <a href="#yo" data-hotkey="x">Yo</a> <button>Button</button> <input data-hotkey="d" type="text" /> <input type="checkbox">
+      <div contenteditable="true" data-hotkey="c">this is editable</div>
+    </div>
+  </hotlight-keyzone>
+
+  <hotlight-keyzone>
+    <div class="zone">
+      <a href="#bo">Bo</a> <button data-hotkey="a">Button</button> <input type="text" /> <input type="checkbox">
+      <div contenteditable="true">this is editable</div>
+
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+
+    </div>
+  </hotlight-keyzone>
+  
+
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+
+  <hotlight-keyzone targetTypes="interactive|inputs|">
+    <div class="zone">
+      <a href="#bo">Bo</a> <button data-hotkey="a">Button</button> <input type="text" /> <input type="checkbox">
+      <div contenteditable="true">this is editable</div>
+    </div>
+
+    <div style="display:flex; flex-direction: column;">
+      <input type="checkbox" />
+      <span><input type="checkbox" data-hotkey-disabled />disabled </span>
+      <span><input type="checkbox" data-hotkey-disabled /> disabled</span>
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
+    </div>
+  </hotlight-keyzone>
+
   <h3>Button</h3>
   <hotlight-hotkey key="b">
     <button onclick="alert('button')">alert('button')</button>

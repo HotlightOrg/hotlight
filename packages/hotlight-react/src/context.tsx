@@ -1,8 +1,19 @@
 import type { ReactNode } from "react";
+import type { Sources } from "@hotlight/core";
+
 import React from "react";
+
 import { createContext, useEffect, useState, useRef } from "react";
 
-export const HotlightContext = createContext(null);
+type ContextProps = {
+  sources: (source: Sources) => void;
+  open: () => void;
+  close: () => void;
+  configure: (values: any) => void;
+  query: (query: string) => void;
+}
+
+export const HotlightContext = createContext<Partial<ContextProps>|null>(null);
 
 const customElement = "hotlight-modal";
 
@@ -53,7 +64,7 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
     ensure(() => modal.current?.close());
   }
 
-  const ensure = (cb) => {
+  const ensure = (cb: () => void): void => {
     if(typeof window !== "undefined") {
       if(customElements.get(customElement)) {
         cb();
@@ -68,11 +79,9 @@ export const HotlightProvider = ({ children, providedConfig }: Props) => {
     }
   }
 
-  //<Hotlight config={currentConfig} />
   return (
     <HotlightContext.Provider
       value={{
-        config: currentConfig,
         configure,
         sources,
         query,

@@ -1,4 +1,4 @@
-import { getHintCharacters, availableCharacters, depthNeeded } from "./hotkey-utils";
+import { getHintCharacters, depthNeeded } from "./hotkey-utils";
 
 describe("indexToHint", () => {
   it("returns a hint based on index", () => {
@@ -11,21 +11,6 @@ describe("indexToHint", () => {
     expect(getHintCharacters(52, 2, hintCharacters)).toEqual("rf");
   });
 
-});
-
-describe("availableCharacters", () => {
-  it("returns minimum 8 characters", () => {
-    const taken = ["a", "b", "c", "d"];
-    const chars = "abcd";
-    expect(availableCharacters(chars, taken).length).toEqual(8);
-  });
-
-  it("does not append characters when there's more than 7 available from start", () => {
-    const taken = [];
-    const chars = "abcdefthijklmnopqrs";
-    const available = availableCharacters(chars, taken);
-    expect(available).toEqual(chars);
-  });
 });
 
 describe("depthNeeded", () => {

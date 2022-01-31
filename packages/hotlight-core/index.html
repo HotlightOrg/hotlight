@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Svelte + TS + Vite App</title>
+  <title>Hotlight Playground</title>
 
   <style>
     .zone {
@@ -18,8 +18,10 @@
       margin-bottom: 1rem;
     }
 
-    hotlight-keyzone2 {
-      border: 1px solid red;
+    hotlight-keyzone {
+      background-color: #f2f2f2;
+      padding: 2rem;
+      border-radius: 5px;
       display: block;
       margin-bottom: 1rem;
     }
@@ -32,7 +34,10 @@
 </head>
 
 <body>
-  <hotlight-modal id="hotlight"></hotlight-modal>
+  <hotlight-modal></hotlight-modal>
+
+  <h2>Hotkeys</h2>
+  <p>Hit <kbd style="background: rgba(0,0,0,10%); color: black; padding: 2px; border-radius: 4px;">f</kbd> to view keyboard short cuts.</p>
 
   <ul>
     <li>Performant</li>
@@ -41,278 +46,80 @@
   </ul>
 
   <hotlight-hints>
-    <hotlight-keyzone2>
-      <a href="#" onclick="alert('hej')">Hej</a>
-      <button>Hej</button>
-      <div style="display: flex; flex-direction: column;">
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <input type="search" />
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <textarea></textarea>
-        <a href="#" onclick="alert('hej')">Hej</a>
+    <hotlight-keyzone>
+      <h3>Link</h3>
+      <a href="#" onclick="alert('hi')">Alert hi</a>
+
+      <h3>Button</h3>
+      <button>Button</button>
+
+      <div style="display: flex; flex-direction: column; height: 500px;">
+        <h3>Input</h3>
+        <p>
+          <input type="search" />
+        </p>
+        <p>
+          <input type="checkbox" />
+        </p>
+        <p>
+          <input type="checkbox" data-hint-disabled> Disabled
+        </p>
+
+        <h3>Textarea</h3>
+        <textarea placeholder="My textarea"></textarea>
+
+        <h3>Content editable</h3>
         <div contenteditable="true">Content editable</div>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-        <a href="#" onclick="alert('hej')">Hej</a>
-      <a href="#" onclick="alert('hej')">Hej</a>
       </div>
-    </hotlight-keyzone2>
+    </hotlight-keyzone>
 
-    <hotlight-keyzone2>
-      <a data-hotlight-key="a" href="#" onclick="alert('då')">Då</a>
-      <button data-hotlight-key="b">Hej</button>
-    </hotlight-keyzone2>
+    <h3>Outside zone</h3>
+    <input type="text" />
+
+    <hotlight-keyzone>
+      <h3>Second zone</h3>
+      <a href="#" onclick="alert('Second zone')">Alert Second zone</a>
+      <button onclick="alert('button')">Alert button</button>
+    </hotlight-keyzone>
+
+    <hotlight-keyzone>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lobortis elit libero, non bibendum ipsum bibendum sed. Praesent tincidunt sagittis dolor nec iaculis. Fusce et convallis magna. Phasellus faucibus vulputate molestie. Suspendisse potenti. Suspendisse et pretium urna, sit amet sagittis augue. Ut nec lorem at lacus sollicitudin tristique ut vitae diam. Mauris urna tellus, sodales vitae eros at, porta faucibus massa. Morbi eget maximus turpis.
+      </p>
+      <p>
+      Sed pulvinar magna vel magna imperdiet, <a href="#">elementum</a> sollicitudin nulla faucibus. In rutrum felis lectus, sed pharetra lectus molestie sed. Vestibulum malesuada hendrerit risus sit amet fermentum. Praesent quis tellus sit amet ex tempus hendrerit auctor ut nulla. Sed feugiat enim eu metus commodo volutpat. Duis pretium purus augue, sit amet feugiat dolor congue vel. Duis odio lacus, scelerisque ac elementum non, convallis et ipsum. Pellentesque ornare eleifend sem sed sagittis. Suspendisse ac orci nec mauris porttitor efficitur.
+      </p>
+      <p>
+      Donec vehicula nisi gravida augue tincidunt, et viverra nibh pulvinar. Cras vel <a href="#">accumsan</a> sem, eu condimentum quam. Donec sed lobortis mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vitae rutrum risus, ut tincidunt erat. Fusce eget sollicitudin ante. Aliquam ullamcorper mattis pellentesque. Sed enim est, maximus porttitor ultrices a, convallis nec ante. Aliquam non nulla faucibus, porttitor magna ut, mattis est.
+      </p>
+      <p>
+        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. <a href="#">Vestibulum</a> molestie elit aliquam, congue diam ac, cursus purus. Vestibulum vitae ipsum nec est vehicula scelerisque feugiat a velit. Nullam et velit consequat, tempus ante vel, tincidunt dolor. Donec non magna risus. Praesent ultricies nisl ante, sed porttitor lorem congue sed. Praesent elementum est at tortor convallis dictum. Sed a ipsum maximus, imperdiet massa sed, molestie metus. Nulla a blandit diam. Phasellus venenatis leo at ipsum efficitur, et commodo mauris hendrerit. Nunc eu orci eros. Vestibulum in semper nibh, eget blandit eros.
+      </p>
+      <p>
+        Pellentesque quis sollicitudin leo. Donec feugiat ligula nec lectus semper, id porttitor urna molestie. Praesent dignissim maximus commodo. Vivamus ac justo ac velit bibendum facilisis. Duis vitae gravida magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla cursus dictum vulputate.
+      </p>
+      <p>
+      <a href="#">Mauris</a> ac nisi nec purus volutpat porttitor. In <a href="#">mattis</a> condimentum diam, a tempus odio elementum nec. Praesent egestas et turpis vel aliquet. Duis sit amet lectus et ipsum tincidunt dapibus. Quisque vitae turpis mauris. In hac habitasse platea dictumst. Donec et nibh lacinia, ullamcorper nunc id, ultricies urna. Suspendisse viverra dolor est, sed maximus ipsum feugiat vitae. Mauris accumsan erat in congue placerat. Sed sed malesuada augue, vitae congue purus. Ut eget elementum mi.
+      </p>
+      <p>
+        Maecenas ante justo, lacinia eu augue a, finibus vestibulum eros. Maecenas et cursus velit. Nunc vel est sed augue vulputate pharetra vitae ut eros. In neque purus, facilisis eu consectetur vel, rutrum ac orci. Nunc eget dolor et lectus bibendum porttitor. Curabitur id felis ut neque lacinia ultrices. Sed dignissim velit ac quam dignissim lacinia. Nunc eleifend sollicitudin ex, et fringilla ex. Proin in interdum quam. Quisque tristique condimentum metus a elementum. Aliquam erat volutpat. Sed augue neque, scelerisque non scelerisque sed, fringilla vel neque. Etiam accumsan, magna non ornare ultrices, massa odio fermentum velit, sed tempor libero quam a felis. Aliquam vel consequat nibh. Proin dictum tempus erat, id interdum mi suscipit quis. Fusce vitae neque eget lectus elementum faucibus sed ac urna.
+      </p>
+      <p>
+      Nam posuere <a href="#">efficitur</a> orci ac tempus. Integer malesuada dignissim arcu, et mattis lorem maximus vel. Cras congue augue neque. Donec sagittis orci eu nisi ornare cursus. Aliquam ut metus sed dui tempus ornare et sed diam. Nullam sed lectus in nisl commodo volutpat. Integer vehicula ex euismod, rutrum odio nec, lacinia ipsum. Morbi at metus in nunc ultrices aliquet. Cras interdum ipsum id libero pharetra, quis ultrices quam laoreet. Cras varius, turpis volutpat tristique tincidunt, massa erat scelerisque ipsum, id imperdiet nunc turpis eget lacus. Sed luctus dui arcu. Integer auctor fringilla ullamcorper.
+      </p>
+      <p>
+      Praesent sed neque eros. Vestibulum rutrum elementum sollicitudin. Lorem ipsum dolor sit amet, <a href="#">consectetur</a> adipiscing elit. Pellentesque auctor, velit vel posuere tristique, orci justo molestie erat, sit amet blandit tellus risus nec augue. Morbi porta porta ex vitae luctus. Aliquam erat volutpat. Donec ullamcorper felis sit amet tellus sagittis ornare. Ut sed nibh egestas lectus efficitur molestie.
+      </p>
+      <p>
+      Nunc vitae maximus nulla. Etiam libero ipsum, aliquam sit amet magna lacinia, convallis facilisis sem. In <a href="#">fermentum</a> eleifend tellus, non semper leo egestas a. Vivamus sed risus quis augue consequat iaculis id ac arcu. In magna velit, sagittis id lacinia vitae, lobortis a nisl. Mauris egestas eros nisl, condimentum molestie nunc lacinia non. Morbi id neque ut quam condimentum ullamcorper nec vitae neque. Phasellus blandit odio vel mauris sollicitudin lacinia. Etiam dignissim tristique elementum.
+      </p>
+      <p>
+      Nulla est est, varius porta tincidunt quis, auctor ac tellus. Donec <a href="#">euismod</a> mi in velit bibendum faucibus et id urna. Morbi quis egestas metus, at maximus diam. Donec sed purus lorem. Fusce consequat dolor nec tincidunt aliquam. Nunc fermentum consectetur varius. Fusce posuere, lectus eget vulputate pharetra, felis risus facilisis enim, nec congue erat enim sed urna. Quisque scelerisque lacus leo, porta tempor nibh pharetra eget. Aliquam ut ultrices quam, ut cursus velit. Donec tincidunt justo sit amet rhoncus mollis. Nam eu laoreet est. Maecenas tempor cursus metus quis faucibus. Curabitur in tristique velit.
+      </p>
+
+    </hotlight-keyzone>
+    
   </hotlight-hints>
-
-  <h2>Hotkeys</h2>
-  <p>Hit <kbd style="background: rgba(0,0,0,10%); color: black; padding: 2px; border-radius: 4px;">f</kbd> to view keyboard short cuts.</p>
-
-  <hotlight-keyzone>
-    <div class="zone">
-      <a href="#yo" data-hotkey="x">Yo</a> <button>Button</button> <input data-hotkey="d" type="text" /> <input type="checkbox">
-      <div contenteditable="true" data-hotkey="c">this is editable</div>
-    </div>
-  </hotlight-keyzone>
-
-  <hotlight-keyzone>
-    <div class="zone">
-      <a href="#bo">Bo</a> <button data-hotkey="a">Button</button> <input type="text" /> <input type="checkbox">
-      <div contenteditable="true">this is editable</div>
-
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-
-    </div>
-  </hotlight-keyzone>
-  
-
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-
-  <hotlight-keyzone targetTypes="interactive|inputs|">
-    <div class="zone">
-      <a href="#bo">Bo</a> <button data-hotkey="a">Button</button> <input type="text" /> <input type="checkbox">
-      <div contenteditable="true">this is editable</div>
-    </div>
-
-    <div style="display:flex; flex-direction: column;">
-      <input type="checkbox" />
-      <span><input type="checkbox" data-hotkey-disabled />disabled </span>
-      <span><input type="checkbox" data-hotkey-disabled /> disabled</span>
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-      <input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" /><input type="checkbox" />
-    </div>
-  </hotlight-keyzone>
-
-  <h3>Button</h3>
-  <hotlight-hotkey key="b">
-    <button onclick="alert('button')">alert('button')</button>
-  </hotlight-hotkey>
-
-  <h3>Input</h3>
-  <hotlight-hotkey key="s">
-    <input type="search" placeholder="Search..." />
-  </hotlight-hotkey>
-
-  <h3>Textarea</h3>
-  <hotlight-hotkey key="t">
-    <textarea placeholder="Write message..."></textarea>
-  </hotlight-hotkey>
-
-  <h3>Link</h3>
-  <hotlight-hotkey key="a">
-    <a
-      href="https://jonas.arnklint.com"
-      target="_blank"
-    >
-      My website
-    </a>
-  </hotlight-hotkey>
-
-  <h3>Content editable</h3>
-  <hotlight-hotkey key="c">
-    <div contenteditable="true">this is editable</div>
-  </hotlight-hotkey>
-
-  <h3>Auto mode - enabling <i>input</i>, <i>textarea</i>, <i>button</i>, <i>a</i> automatically</h3>
-  <hotlight-hotkeys mode="auto">
-    <button onclick="alert('button')">button</button>
-    <input type="search" placeholder="Search..." />
-    <a href="https://jonas.arnklint.com" target="_blank">My website</a>
-    <textarea></textarea>
-  </hotlight-hotkeys>
 
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>
@@ -373,6 +180,9 @@
 
       if (res.ok) {
         const { message } = await res.json();
+
+        if (!message) return [];
+
         return message.hits.map(hit => ({
           title: "" + new Date().getTime() + hit.id,
           trigger: "/"
@@ -384,8 +194,8 @@
 
     const sources = [source, source3, remote];
 
-    window.customElements.whenDefined('hotlight-modal').then(() => {
-      const hl = document.getElementById("hotlight");
+    window.customElements.whenDefined("hotlight-modal").then(() => {
+      const hl = document.querySelector("hotlight-modal");
       hl.sources(sources);
       //hl.hidden = false;
       //hl.query("contact");
@@ -403,15 +213,6 @@
       */
     });
   </script>
-
-  <!--
-      <p>
-        This is my blue stuff
-      </p>
-      <div style="height: 200vh; background-color: blue;">
-        This is my blue stuff
-      </div>
-    -->
 </body>
 
 </html>

@@ -1,19 +1,3 @@
-
-const SECONDARY = "abcdefghijklmnopqrstuvxyz";
-
-export const availableCharacters = (preferred: string, taken: string[]): string => {
-  let available = preferred.split("").filter(c => !taken.includes(c));
-  let availableSecondary = SECONDARY.split("").filter(c => !taken.includes(c) && !preferred.includes(c))
-
-  if(available.length >= 8) return available.join("");
-
-  do {
-    available.push(availableSecondary.shift());
-  } while (available.length < 8);
-  
-  return available.join("");
-}
-
 export const depthNeeded = (available: string, foundCount: number): number => {
   return Math.ceil(Math.log(foundCount) / Math.log(available.length));
 }

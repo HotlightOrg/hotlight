@@ -122,7 +122,7 @@ export const isMatch = (item: string, query: string) => {
   if (Array.isArray(indexes) && indexes.length > 1) {
     return 2 + (indexes[indexes.length - 1] - indexes[0]);
   }
-
+  
   // Match closest to the start of the string should be first.
   return 2 + indexes[0];
 }
@@ -163,7 +163,7 @@ export const F = (actions: Obj[], keys: string[]) => {
     }
 
     const found = results
-      .sort((a, b) => a.score < b.score ? 1 : -1)
+      .sort((a, b) => a.score < b.score ? -1 : 1)
       .map(result => result.item);
 
     return found;

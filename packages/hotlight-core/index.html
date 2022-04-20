@@ -18,7 +18,7 @@
       margin-bottom: 1rem;
     }
 
-    hotlight-keyzone {
+    hotlight-hintszone {
       background-color: #f2f2f2;
       padding: 2rem;
       border-radius: 5px;
@@ -46,7 +46,7 @@
   </ul>
 
   <hotlight-hints>
-    <hotlight-keyzone>
+    <hotlight-hintszone>
       <h3>Link</h3>
       <a href="#" onclick="alert('hi')">Alert hi</a>
 
@@ -71,18 +71,18 @@
         <h3>Content editable</h3>
         <div contenteditable="true">Content editable</div>
       </div>
-    </hotlight-keyzone>
+    </hotlight-hintszone>
 
     <h3>Outside zone</h3>
     <input type="text" />
 
-    <hotlight-keyzone>
+    <hotlight-hintszone>
       <h3>Second zone</h3>
       <a href="#" onclick="alert('Second zone')">Alert Second zone</a>
       <button onclick="alert('button')">Alert button</button>
-    </hotlight-keyzone>
+    </hotlight-hintszone>
 
-    <hotlight-keyzone>
+    <hotlight-hintszone>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lobortis elit libero, non bibendum ipsum bibendum sed. Praesent tincidunt sagittis dolor nec iaculis. Fusce et convallis magna. Phasellus faucibus vulputate molestie. Suspendisse potenti. Suspendisse et pretium urna, sit amet sagittis augue. Ut nec lorem at lacus sollicitudin tristique ut vitae diam. Mauris urna tellus, sodales vitae eros at, porta faucibus massa. Morbi eget maximus turpis.
       </p>
@@ -117,7 +117,7 @@
       Nulla est est, varius porta tincidunt quis, auctor ac tellus. Donec <a href="#">euismod</a> mi in velit bibendum faucibus et id urna. Morbi quis egestas metus, at maximus diam. Donec sed purus lorem. Fusce consequat dolor nec tincidunt aliquam. Nunc fermentum consectetur varius. Fusce posuere, lectus eget vulputate pharetra, felis risus facilisis enim, nec congue erat enim sed urna. Quisque scelerisque lacus leo, porta tempor nibh pharetra eget. Aliquam ut ultrices quam, ut cursus velit. Donec tincidunt justo sit amet rhoncus mollis. Nam eu laoreet est. Maecenas tempor cursus metus quis faucibus. Curabitur in tristique velit.
       </p>
 
-    </hotlight-keyzone>
+    </hotlight-hintszone>
     
   </hotlight-hints>
 
@@ -126,6 +126,8 @@
   <script>
     const actions = [
       { title: "Home", trigger: "/" },
+      { title: "Kommentarer", trigger: "/" },
+      { title: "Kategorier", trigger: "/" },
       { title: "Homer", trigger: "/" },
       { title: "Homer bart", trigger: "/" },
       { title: "Homer bart lisa", trigger: "/" },
@@ -137,7 +139,7 @@
       return actions;
     }
     const remoteActions = [
-      { title: "Installing Hotlight", trigger: "/" },
+      { title: "Installing Hotlight", trigger: "/", aliases: ["Setup", "Npm"] },
       { title: "Getting started", trigger: () => "/" },
       { title: "Hotlight React", trigger: () => "/" },
       { title: "Hotlight Svelte", trigger: () => "/" },
@@ -150,7 +152,7 @@
       { title: "Clear Hotlight", trigger: ({ clear }) => clear() },
       {
         title: "New Contact",
-        alias: "Add Contact",// "Create Contact"],
+        aliases: ["Add Contact", "Create Contact"],
         trigger: async ({ arg, preview, close }) => {
           const name = await arg("Name");
           console.log("received name", name);

@@ -38,16 +38,16 @@ const MyComponent = () => {
 
 The `useHotlight` hook returns an object containing the [API](#api).
 
-#### Hotkeys
+#### Hints
 
-Hotkeys finds the first `<button>`, `<input>`, `<textarea>`, `[contenteditable]` or `<a>` currently in view and simulates a click on it.
-
-Pressing the `f` key when the page has focus will display all hotkeys on an overlay.
+Enable keyboard navigation on any page through `hints`. The user simply presses `f` and hints containing keys (like [kj]) appear on each and every element that you can either `focus` or `click` on. Then the user presses [kj] in this case to click on the link that the hint is displayed on.
 
 This enables fast keyboard navigation with little to no effort.
 
-```js
-import { Hotkey } from "@hotlight/react";
+When matched, hints find the first `<button>`, `<input>`, `<textarea>`, `[contenteditable]` or `<a>` currently in view and simulates a click on it.
+
+```jsx
+import { Hints, HintsZone } from "@hotlight/react";
 
 const MyComponent = () => {
   const showOptions = () => {
@@ -55,17 +55,38 @@ const MyComponent = () => {
   };
 
   return (
-    <>
-      <Hotkey key="o">
+    <Hints>
+      <HintsZone>
         <button onClick={showOptions}>...</button>
-      </Hotkey>
-
-      <Hotkey key="h">
         <a href="/">Home</a>
-      </Hotkey>
-    </>
+      </HintsZone>
+
+      <a href="/">Link without hint</a>
+
+      <HintsZone>
+        <a href="/">Another link with hint</a>
+      </HintsZone>
+    </Hints>
   );
 };
+```
+
+The vanilla way:
+
+```html
+<html>
+  <head>
+    <script src="https://unpkg.com/@hotlight/core@0.4.3-beta.0/dist/hotlight-core.umd.js"></script>
+  </head>
+  ...
+  <body>
+    <hotlight-hints>
+      <hotlight-hintszone>
+        <a href="/">Hinted link</a>
+      </hotlight-hintszone>
+    </hotlight-hints>
+  </body>
+</html>
 ```
 
 ### Vanilla JavaScript Web Component

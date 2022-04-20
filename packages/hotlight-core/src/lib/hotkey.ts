@@ -1,6 +1,6 @@
-import { getHintCharacters, depthNeeded } from "../hotkey-utils";
+import { getHintCharacters, depthNeeded } from "../hotkey-utils";
 
-const hintsTemplate = document.createElement('template');
+const hintsTemplate = document.createElement("template");
 hintsTemplate.innerHTML = `
 <slot></slot>
 <div class="container">
@@ -49,10 +49,9 @@ class HotlightHints extends HTMLElement {
   constructor() {
     super();
 
-    this.root = this
-      .attachShadow({
-        mode: "open"
-      });
+    this.root = this.attachShadow({
+      mode: "open",
+    });
 
     this.root.appendChild(hintsTemplate.content.cloneNode(true));
 
@@ -76,7 +75,7 @@ class HotlightHints extends HTMLElement {
     };
 
     this.keyDownListener = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || e.ctrlKey || e.metaKey || e.key === "Tab") {
+      if (e.key === "Escape" || e.ctrlKey || e.metaKey || e.key === "Tab") {
         this.hide();
         return;
       }
@@ -88,7 +87,7 @@ class HotlightHints extends HTMLElement {
 
       if (this.isActive()) {
         const hits = this.search(e.key);
-        if(hits && hits.length === 1) {
+        if (hits && hits.length === 1) {
           this.execute(hits[0], e);
           this.hide();
         } else {
@@ -147,7 +146,7 @@ class HotlightHints extends HTMLElement {
       return;
     }
 
-    switch(target.tagName.toLowerCase()) {
+    switch (target.tagName.toLowerCase()) {
       case "button":
       case "a":
         (target as HTMLElement).click();
@@ -163,53 +162,74 @@ class HotlightHints extends HTMLElement {
   search(key: string) {
     this.query += key.toLowerCase();
     const re = new RegExp(`^${this.query}`);
-    const hits = Object.keys(this.currentHintableElements).filter(hint => hint.match(re));
+    const hits = Object.keys(this.currentHintableElements).filter((hint) =>
+      hint.match(re)
+    );
     this.hits = hits;
     return hits;
   }
 
   positionHints() {
-    const all = this.querySelectorAll("hotlight-hintszone a, hotlight-hintszone button, hotlight-hintszone input, hotlight-hintszone textarea, hotlight-hintszone [contenteditable]");
-    const onlyInViewAndEnabled = [...all].filter(el => this.inView(el) && typeof (el as HTMLElement).dataset["hintDisabled"] === "undefined");
+    const all = this.querySelectorAll(
+      "hotlight-hintszone a, hotlight-hintszone button, hotlight-hintszone input, hotlight-hintszone textarea, hotlight-hintszone [contenteditable]"
+    );
+    const onlyInViewAndEnabled = [...all].filter(
+      (el) =>
+        this.inView(el) &&
+        typeof (el as HTMLElement).dataset["hintDisabled"] === "undefined"
+    );
+    console.log(all);
 
     const available = "asdghjklqweruio";
     const charsNeeded = depthNeeded(available, onlyInViewAndEnabled.length);
 
     this.me.innerHTML = "";
 
-    const fragment = new DocumentFragment()
+    const fragment = new DocumentFragment();
 
-    this.currentHintableElements = onlyInViewAndEnabled.reduce((prev, curr, index) => {
-      const key = getHintCharacters(index, charsNeeded, available);
+    this.currentHintableElements = onlyInViewAndEnabled.reduce(
+      (prev, curr, index) => {
+        const key = getHintCharacters(index, charsNeeded, available);
 
-      const { x, y } = curr.getBoundingClientRect();
+        const { x, y } = curr.getBoundingClientRect();
 
-      if ((this.hits.length > 0 && this.hits.includes(key)) || this.hits.length === 0) {
-        const highlight = this.hits.length !== 0 ? `<span class="h">${this.query}</span>` : "";
+        if (
+          (this.hits.length > 0 && this.hits.includes(key)) ||
+          this.hits.length === 0
+        ) {
+          const highlight =
+            this.hits.length !== 0
+              ? `<span class="h">${this.query}</span>`
+              : "";
 
-        const hint = document.createElement("div");
-        hint.className = "hint";
-        hint.innerHTML = highlight + key.replace(this.query, "");
-        hint.style.top = y + "px";
-        hint.style.left = x + "px";
-        fragment.appendChild(hint);
-      }
+          const hint = document.createElement("div");
+          hint.className = "hint";
+          hint.innerHTML = highlight + key.replace(this.query, "");
+          hint.style.top = y + "px";
+          hint.style.left = x + "px";
+          fragment.appendChild(hint);
+        }
 
-      return {
-        ...prev,
-        [key]: curr
-      }
-    }, {});
+        return {
+          ...prev,
+          [key]: curr,
+        };
+      },
+      {}
+    );
 
-    this.me.appendChild(fragment)
+    this.me.appendChild(fragment);
   }
 
   keepFocus(el) {
     const input = el.tagName === "INPUT";
     const triggerable = ["checkbox", "radio", "submit", "reset"];
 
-    if (input && (el.type && !triggerable.includes(el.type.toLowerCase()) || !el.type)) {
-      return true;      
+    if (
+      input &&
+      ((el.type && !triggerable.includes(el.type.toLowerCase())) || !el.type)
+    ) {
+      return true;
     }
 
     if (!!el.getAttribute("contentEditable")) return true;
@@ -225,22 +245,23 @@ class HotlightHints extends HTMLElement {
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
 
   scroll(e) {
     const scrollBy = {
-      "d": 400,
-      "u": -400,
-      "j": 100,
-      "k": -100
-    }
+      d: 400,
+      u: -400,
+      j: 100,
+      k: -100,
+    };
     if (Object.keys(scrollBy).includes(e.key)) {
       window.scrollBy({
         top: scrollBy[e.key],
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }
@@ -248,7 +269,7 @@ class HotlightHints extends HTMLElement {
 
 customElements.define("hotlight-hints", HotlightHints);
 
-const zoneTemplate = document.createElement('template');
+const zoneTemplate = document.createElement("template");
 zoneTemplate.innerHTML = `<slot></slot>`;
 
 class HotlightHintszone extends HTMLElement {
@@ -256,10 +277,9 @@ class HotlightHintszone extends HTMLElement {
 
   constructor() {
     super();
-    this.root = this
-      .attachShadow({
-        mode: "open"
-      });
+    this.root = this.attachShadow({
+      mode: "open",
+    });
 
     this.root.appendChild(hintsTemplate.content.cloneNode(true));
   }

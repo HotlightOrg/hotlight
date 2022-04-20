@@ -39,6 +39,11 @@
     }
   }
 
+  // Exposed properties need to be reflected back when config is changed
+  $: {
+    hidden = $config.hidden;
+  }
+
   $: if (document) document.body.style.overflowY = $config.hidden ? "auto" : "hidden";
 
   const toggle = () => {

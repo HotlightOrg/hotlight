@@ -10,7 +10,7 @@
   import Configurator from "./Configurator.svelte";
 
   // enables the component to have attributes that can be used to set config
-  export let hidden: boolean;
+  export let hidden: boolean = true;
   /*
   export let debug: boolean;
   export let transitions: boolean;
@@ -37,6 +37,11 @@
         config.open();
       }
     }
+  }
+
+  // Exposed properties need to be reflected back when config is changed
+  $: {
+    hidden = $config.hidden;
   }
 
   $: if (document) document.body.style.overflowY = $config.hidden ? "auto" : "hidden";
@@ -197,5 +202,6 @@
     --hl-hit-color: var(--hl-dark-hit-color, gray);
     --hl-text-color: var(--hl-dark-text-color, rgba(255, 255, 255, 80%));
     --hl-loading-color: var(--hl-dark-loading-color, #777);
+    --hl-input-border-bottom: var(--hl-dark-input-border-bottom, 1px solid rgba(255, 255, 255, 10%));
   }
 </style>

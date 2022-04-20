@@ -1,7 +1,7 @@
 import React, { createElement, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
-import HotlightProvider, { useHotlight, Hotkey } from '../src/index';
+import HotlightProvider, { useHotlight, Hints, HintsZone } from '../src/index';
 
 const actions = [
   { title: "Hotlight", trigger: "/" },
@@ -40,20 +40,28 @@ const Component = () => {
   }, []);
 
   const onClick = () => {
-    alert("Toggling hidden elements...");
     setShow(!show);
   }
 
   const [show, setShow] = useState(false);
 
   return createElement("div", {}, [
-    createElement(Hotkey, { key: "i", hotkey: "i" }, createElement("input")),
-    createElement(Hotkey, { key: "b", hotkey: "b" }, createElement("button", { onClick }, show ? "Hide link" : "Show link")),
-    createElement(Hotkey, { key: "c", hotkey: "t" }, createElement("textarea", { placeholder: "Textarea..." })),
-    createElement(Hotkey, { key: "d", hotkey: "a" }, createElement("a", { href: "#" }, "hey")),
-    createElement("div", {}, show ? [
-      createElement(Hotkey, { key: "e", hotkey: "v" }, createElement("a", { href: "#hidden-link" }, "hidden link")),
-    ] : null)
+    createElement(Hints, { key: "hint" }, [
+      createElement(HintsZone, { key: "i" }, [
+        createElement("input", { key: 1 }),
+        createElement("button", { onClick, key: 2 }, show ? "Hide link" : "Show link"),
+        createElement("textarea", { key: 3, placeholder: "Textarea..." }),
+        createElement("a", { href: "#", key: 4 }, "hey"),
+        createElement("a", { href: "#hidden-link", key: 5 }, "hidden link"),
+        show ? createElement("div", { key: 12, style: { height: "1000px"} }, [
+          createElement("a", { key: "a", href: "https://jonas.arnklint.com", target: "_blank" }, "My Link"),
+          createElement("button", { key: "b", onClick: (e) => {
+            console.log(e.target, e);
+            alert("hidden button");
+          }}, "My Link")
+        ]) : null
+      ]),
+    ])
   ]);
 }
 

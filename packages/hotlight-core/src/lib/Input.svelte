@@ -41,6 +41,8 @@
       e.preventDefault();
       return
     }
+
+    e.stopPropagation();
   }
 
   const performSearch = (e: KeyboardEvent) => {
@@ -132,13 +134,14 @@
     flex-direction: row;
   }
   svg {
-    margin: 8px 5px 6px 10px;
+    margin: 9px 5px 6px 10px;
   }
   input {
     flex-grow: 1;
     font-size: 16px;
     color: var(--hl-text-color, rgba(0, 0, 0, 80%));
     padding: 10px 10px 10px 0;
+    margin: 2px;
     border: none;
     background: transparent;
     white-space: pre;
@@ -153,6 +156,7 @@
   .typeahead {
     position: absolute;
     padding: 10px 10px 10px 0;
+    margin: 2px;
     font-size: 16px;
     z-index: 0;
     left: 0;

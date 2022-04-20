@@ -1,211 +1,287 @@
-const template = document.createElement('template');
-template.innerHTML = `
-  <span class="hl-hotkey-wrapper">
-    <span class="hl-hotkey-key"></span>
-  </span>
-  <slot></slot>
-  <style>
-    .hl-hotkey-wrapper {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      position: relative;
-      width: 0;
-      height: 0;
-    }
-    .hl-hotkey-key {
-      position: absolute;
-      top: 0;
-      left: 0;
-      font-size: var(--hl-hotkey-font-size, 12px);
-      background: var(--hl-hotkey-bg, rgba(0, 0, 0, 90%));
-      color: var(--hl-hotkey-color, rgba(255, 255, 255, 100%));
-      padding: var(--hl-hotkey-padding, 2px 5px);
-      border-radius: var(--hl-hotkey-radius, 3px);
-    }
-  </style>
+import { getHintCharacters, depthNeeded } from "../hotkey-utils";
+
+const hintsTemplate = document.createElement("template");
+hintsTemplate.innerHTML = `
+<slot></slot>
+<div class="container">
+</div>
+<style>
+.container {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.hint {
+  position: absolute;
+  text-transform: var(--hl-hotkey-text-transform, uppercase);
+  font-size: var(--hl-hotkey-font-size, 14px);
+  background: var(--hl-hotkey-bg, rgba(0, 0, 0, 90%));
+  color: var(--hl-hotkey-color, rgba(255, 255, 255, 100%));
+  padding: var(--hl-hotkey-padding, 2px 5px);
+  border-radius: var(--hl-hotkey-radius, 3px);
+}
+.hint .h {
+  font-weight: var(--hl-hint-highlight-font-weight, bold);
+  text-decoration: var(--hl-hint-highlight-text-decoration, underline);
+}
+</style>
 `;
 
-const ATTRIBUTE = "key";
-const STORE_NODE = document.body;
-const STORE_DATA_KEY = "hotlightHotkeys";
-
-export class Hotkey extends HTMLElement {
-  private active = false;
+/*
+ * Holds all hints, its injected top level, also the main component holding event handlers etc
+ */
+class HotlightHints extends HTMLElement {
   private root: ShadowRoot;
-  private visualKey: HTMLElement;
+  private me: HTMLElement;
+  private query: string;
+  private hits: string[] = [];
+  private currentHintableElements: {
+    [hint: string]: Element;
+  } = {};
 
-  // to remove same listener instance with removeEventListener
-  private listener: any;
-  private deactivateListener: any;
-
-  private key: string;
-  private auto: boolean;
+  private scrollListener: EventListener;
+  private mouseDownListener: EventListener;
+  private keyDownListener: EventListener;
 
   constructor() {
     super();
 
-    this.root = this
-      .attachShadow({
-        mode: "open"
-      });
+    this.root = this.attachShadow({
+      mode: "open",
+    });
 
-    this.root.appendChild(template.content.cloneNode(true));
-    this.visualKey = this.root.querySelector(".hl-hotkey-key");
+    this.root.appendChild(hintsTemplate.content.cloneNode(true));
 
-    const auto = this.getAttribute("auto");
-    this.auto = !!auto;
+    this.me = this.root.querySelector(".container");
+    this.hide();
 
-    const key = this.getAttribute(ATTRIBUTE) || this.dataset[ATTRIBUTE];
-    if(key) this.key = key.toLowerCase();
+    let ticking = false;
+    this.scrollListener = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          this.positionHints();
+          ticking = false;
+        });
 
-    this.render();
-    this.toggle();
+        ticking = true;
+      }
+    };
 
-    this.listener = this.listen.bind(this);
-    this.deactivateListener = this.deactivate.bind(this);
+    this.mouseDownListener = () => {
+      this.hide();
+    };
+
+    this.keyDownListener = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.ctrlKey || e.metaKey || e.key === "Tab") {
+        this.hide();
+        return;
+      }
+
+      if (e.key === "f" && !this.keepFocus(e.target)) {
+        this.toggle();
+        return;
+      }
+
+      if (this.isActive()) {
+        const hits = this.search(e.key);
+        if (hits && hits.length === 1) {
+          this.execute(hits[0], e);
+          this.hide();
+        } else {
+          this.query = ""; // reset if no match
+        }
+      } else if (!this.keepFocus(e.target)) {
+        this.scroll(e);
+      }
+
+      this.positionHints();
+    };
   }
 
   connectedCallback() {
-    document.addEventListener("keydown", this.listener);
-    document.addEventListener("click", this.deactivateListener);
-
-    this.register();
+    window.addEventListener("scroll", this.scrollListener);
+    window.addEventListener("mousedown", this.mouseDownListener);
+    window.addEventListener("keydown", this.keyDownListener);
   }
 
-  attributeChangedCallback(_name: string, _oldValue: string, newValue: string) {
-    this.key = newValue.toLowerCase();
-    this.render();
+  detachedCallback() {
+    window.removeEventListener("scroll", this.scrollListener);
+    window.removeEventListener("mousedown", this.mouseDownListener);
+    window.removeEventListener("keydown", this.keyDownListener);
   }
 
-  static get observedAttributes() { return [ATTRIBUTE, `data-${ATTRIBUTE}`]; }
-
-  disconnectedCallback() {
-    document.removeEventListener("keydown", this.listener);
-    document.removeEventListener("click", this.deactivateListener);
-    this.deregister();
+  hide() {
+    this.me.style.display = "none";
+    this.query = "";
+    this.hits = [];
   }
 
-  register() {
-    const present = STORE_NODE.dataset[STORE_DATA_KEY];
-
-    if(!present) {
-      STORE_NODE.dataset[STORE_DATA_KEY] = [this.key].join(",");
-    } else if(this.key) {
-      const presentKeys = present.split(",")
-      if(presentKeys.includes(this.key)) {
-        console.warn(`Hotkey: ${this.key} is already in view`);
-      } else {
-        STORE_NODE.dataset[STORE_DATA_KEY] = [presentKeys, this.key].join(",");
-      }
-    }
+  show() {
+    this.me.style.display = "initial";
+    this.positionHints();
   }
 
-  deregister() {
-    const present = STORE_NODE.dataset[STORE_DATA_KEY];
-    STORE_NODE.dataset[STORE_DATA_KEY] = present
-      .split(",")
-      .filter(key => key !== this.key)
-      .join(",");
-  }
-
-  deactivate() {
-    this.active = false;
-    this.toggle();
-  }
-
-  listen(e) {
-    const tagName = e.target ? e.target.tagName.toLowerCase() : "";
-    const key = e.key.toLowerCase();
-
-    const contentEditable = e.target.getAttribute("contenteditable");
-    const enabled = !["input", "textarea"].includes(tagName) && !contentEditable && !tagName.includes("-") // custom elements
-    if(!enabled) return;
-
-    if(key === this.key && !e.metaKey) {
-      this.triggerTarget(e);
-    }
-
-    if(
-      key === "f" &&
-      !this.active
-    ) {
-      this.active = true;
-    } else {
-      this.active = false;
-    }
-    this.toggle();
+  isActive() {
+    return this.me.style.display !== "none";
   }
 
   toggle() {
-    if(this.active) {
-      this.visualKey.style.display = "inline";
+    if (this.isActive()) {
+      this.hide();
     } else {
-      this.visualKey.style.display = "none";
+      this.show();
     }
   }
 
-  render() {
-    if(this.key && !this.auto) {
-      this.visualKey.innerHTML = this.key;
-    }
-  }
+  execute(el, e) {
+    const target = this.currentHintableElements[el];
 
-  // first input, button or link
-  triggerTarget(e) {
-    const explicit = this.querySelector("[data-hotkey-target]");
-    const vague = this.querySelector("input, button, a, textarea, [contenteditable]");
-
-    const found = explicit || vague;
-    if (!found) return;
-
-    const contentEditable = found.getAttribute("contenteditable");
+    const contentEditable = target.getAttribute("contentEditable");
     if (!!contentEditable) {
-      (found as HTMLElement).focus();
+      (target as HTMLElement).focus();
       e.preventDefault();
       return;
     }
 
-    switch(found.tagName.toLowerCase()) {
+    switch (target.tagName.toLowerCase()) {
       case "button":
       case "a":
-        (found as HTMLElement).click();
+        (target as HTMLElement).click();
         break;
       case "input":
       case "textarea":
-        (found as HTMLElement).focus();
+        (target as HTMLElement).focus();
         e.preventDefault();
         break;
     }
   }
+
+  search(key: string) {
+    this.query += key.toLowerCase();
+    const re = new RegExp(`^${this.query}`);
+    const hits = Object.keys(this.currentHintableElements).filter((hint) =>
+      hint.match(re)
+    );
+    this.hits = hits;
+    return hits;
+  }
+
+  positionHints() {
+    const all = this.querySelectorAll(
+      "hotlight-hintszone a, hotlight-hintszone button, hotlight-hintszone input, hotlight-hintszone textarea, hotlight-hintszone [contenteditable]"
+    );
+    const onlyInViewAndEnabled = [...all].filter(
+      (el) =>
+        this.inView(el) &&
+        typeof (el as HTMLElement).dataset["hintDisabled"] === "undefined"
+    );
+
+    const available = "asdghjklqweruio";
+    const charsNeeded = depthNeeded(available, onlyInViewAndEnabled.length);
+
+    this.me.innerHTML = "";
+
+    const fragment = new DocumentFragment();
+
+    this.currentHintableElements = onlyInViewAndEnabled.reduce(
+      (prev, curr, index) => {
+        const key = getHintCharacters(index, charsNeeded, available);
+
+        const { x, y } = curr.getBoundingClientRect();
+
+        if (
+          (this.hits.length > 0 && this.hits.includes(key)) ||
+          this.hits.length === 0
+        ) {
+          const highlight =
+            this.hits.length !== 0
+              ? `<span class="h">${this.query}</span>`
+              : "";
+
+          const hint = document.createElement("div");
+          hint.className = "hint";
+          hint.innerHTML = highlight + key.replace(this.query, "");
+          hint.style.top = y + "px";
+          hint.style.left = x + "px";
+          fragment.appendChild(hint);
+        }
+
+        return {
+          ...prev,
+          [key]: curr,
+        };
+      },
+      {}
+    );
+
+    this.me.appendChild(fragment);
+  }
+
+  keepFocus(el) {
+    const input = el.tagName === "INPUT";
+    const triggerable = ["checkbox", "radio", "submit", "reset"];
+
+    if (
+      input &&
+      ((el.type && !triggerable.includes(el.type.toLowerCase())) || !el.type)
+    ) {
+      return true;
+    }
+
+    if (!!el.getAttribute("contentEditable")) return true;
+
+    if (el.tagName === "TEXTAREA") return true;
+
+    return false;
+  }
+
+  inView(el) {
+    const rect = el.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  scroll(e) {
+    const scrollBy = {
+      d: 400,
+      u: -400,
+      j: 100,
+      k: -100,
+    };
+    if (Object.keys(scrollBy).includes(e.key)) {
+      window.scrollBy({
+        top: scrollBy[e.key],
+        behavior: "smooth",
+      });
+    }
+  }
 }
 
-customElements.define("hotlight-hotkey", Hotkey);
+customElements.define("hotlight-hints", HotlightHints);
 
-/*
-const actionsTemplate = document.createElement('template');
-actionsTemplate.innerHTML = `
-  <slot></slot>
-`;
+const zoneTemplate = document.createElement("template");
+zoneTemplate.innerHTML = `<slot></slot>`;
 
-export class Actions extends HTMLElement {
+class HotlightHintszone extends HTMLElement {
   private root: ShadowRoot;
 
   constructor() {
     super();
+    this.root = this.attachShadow({
+      mode: "open",
+    });
 
-    this.root = this
-      .attachShadow({
-        mode: "open"
-      });
-
-    this.root.appendChild(actionsTemplate.content.cloneNode(true));
-  }
-
-  connectedCallback() {
-  }
-
-  disconnectedCallback() {
+    this.root.appendChild(hintsTemplate.content.cloneNode(true));
   }
 }
-customElements.define("hotlight-actions", Actions);
 
-*/
+customElements.define("hotlight-hintszone", HotlightHintszone);

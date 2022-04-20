@@ -5,7 +5,7 @@ import { F, score } from "./fuzzy";
 
 interface ActionBase {
   title: string;
-  alias?: string;
+  aliases?: string;
   description?: string;
   trigger: Trigger;
   [key: string]: any;
@@ -145,14 +145,14 @@ export function createSearch() {
       writeCache(source, query, actions);
     }
 
-    const fuzzy = F(currentResults, ['title', 'alias', 'description']);
+    const fuzzy = F(currentResults, ["title", "aliases", "description"]);
     const found = fuzzy.search(query);
 
     if(found.length > 0 && query !== "") {
-      const hits = score(found, query);
+      const hits = found;
       const transformed = hits.slice(0, get(config).maxHits ?? 20).map(hit => ({
         ...hit,
-        alias: hit.alias || ""
+        aliases: hit.aliases || ""
       }));
       receiveActions(transformed);
     }

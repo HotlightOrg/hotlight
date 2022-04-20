@@ -10,9 +10,11 @@ export default defineConfig({
       fileName: (format) => `hotlight-core.${format}.js`
     },
   },
-  plugins: [svelte({
-    compilerOptions: {
-      customElement: true
-    }
-  })]
+  plugins: [
+    svelte({
+      compilerOptions: {
+        customElement: true
+      }
+    })
+  ]
 })

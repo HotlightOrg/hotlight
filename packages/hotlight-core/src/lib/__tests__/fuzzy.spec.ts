@@ -1,4 +1,4 @@
-import { isMatch, nestedProp, firstLetterIndexes, nearestIndexesFor } from "../../fuzzy";
+import { F, isMatch, nestedProp, firstLetterIndexes, nearestIndexesFor } from "../../fuzzy";
 
 describe('nestedProp', () => {
   it('finds nested prop', () => {
@@ -28,6 +28,9 @@ describe("isMatch", () => {
   it("weights close letters low", () => {
     expect(isMatch("title", "tle")).toEqual(4);
     expect(isMatch("title", "ttl")).toEqual(5);
+
+    expect(isMatch("Kategorier", "ko")).toEqual(7);
+    expect(isMatch("Kommentarer", "ko")).toEqual(3);
   });
 
   it("weights same number of close matches the same", () => {
@@ -60,5 +63,19 @@ describe("nearestIndexesFor", () => {
     expect(nearestIndexesFor("test this", "s")).toEqual([2]);
     expect(nearestIndexesFor("test this", "ts")).toEqual([0, 2]);
     expect(nearestIndexesFor("test", "se")).toEqual(false);
+  });
+});
+
+describe.only("F", () => {
+  it("scores hits sensibly", () => {
+    const s = F([
+      { title: "kategorier" },
+      { title: "kommentarer" }
+    ], ["title", "aliases"]);
+
+    expect(s.search("ko")).toEqual([
+      { title: "kommentarer" },
+      { title: "kategorier" }
+    ]);
   });
 });

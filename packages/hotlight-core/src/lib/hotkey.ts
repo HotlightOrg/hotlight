@@ -178,7 +178,6 @@ class HotlightHints extends HTMLElement {
         this.inView(el) &&
         typeof (el as HTMLElement).dataset["hintDisabled"] === "undefined"
     );
-    console.log(all);
 
     const available = "asdghjklqweruio";
     const charsNeeded = depthNeeded(available, onlyInViewAndEnabled.length);

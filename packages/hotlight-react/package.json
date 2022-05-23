@@ -3,7 +3,7 @@
   "description": "A command palette, hotkeys and search.",
   "version": "0.4.8-beta.0",
   "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/begreet/hotlight/issues",
+  "bugs": "https://github.com/HotlightOrg/hotlight/issues",
   "main": "dist/hotlight-react.cjs.js",
   "module": "dist/hotlight-react.esm.js",
   "exports": {
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/begreet/hotlight.git",
+    "url": "https://github.com/HotlightOrg/hotlight.git",
     "directory": "packages/hotlight-react"
   },
   "dependencies": {

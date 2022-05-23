@@ -5,10 +5,10 @@
   "license": "MIT",
   "author": "Jonas Arnklint <jonas@arnklint.com> (https://jonas.arnklint.com)",
   "homepage": "https://hotlight.dev",
-  "bugs": "https://github.com/begreet/hotlight/issues",
+  "bugs": "https://github.com/HotlightOrg/hotlight/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/begreet/hotlight.git",
+    "url": "https://github.com/HotlightOrg/hotlight.git",
     "directory": "packages/hotlight-core"
   },
   "keywords": [
